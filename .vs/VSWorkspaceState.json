@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ScriptsBaseDeDatos",
+    "\\ToDoList"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\ToDoList\\Handlers",
   "PreviewInSolutionExplorer": false
 }
