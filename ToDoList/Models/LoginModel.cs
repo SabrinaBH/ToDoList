@@ -1,21 +1,17 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Permissions;
 
 namespace ToDoList.Models
 {
     public class LoginModel
     {
         [Key]
-        public int id {get; set;}
+        public int Id {get; set;}
         [Required]
         [DataType(DataType.EmailAddress)]
-        [DisplayName(Name = "Email")]
-        public string Email { get; set;}
+        public string? Email { get; set;}
 
         [Required]
         [DataType(DataType.Password)]
-        [DisplayName(Name = "Password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }
