@@ -1,0 +1,93 @@
+﻿@page "/"
+
+
+<header>
+  <div class="header-content">
+    <div class="header-user">
+      <img src="../Images/user.png" alt="Foto de usuario">
+      <h4>Juan Perez</h4>
+    </div>
+    <div class="header-logo">
+      <img src="Logo.png" alt="Logo de la empresa">
+    </div>
+    <div class="header-logout">
+      <a href="#">Cerrar sesión</a>
+    </div>
+  </div>
+</header>
+
+<body>
+  <div class="row">
+    <div class="columna">
+      <h2>Pendientes</h2>
+      <ul class="list-group">
+        @foreach (var tarea in ViewBag.Tareas)
+        {
+          if (tarea.Estado == 1)
+          {
+            <li class="col-item" data-tarea="@tarea.Id">
+              <div class="row">
+                <div class="col-item-pendiente">
+                  <h5 class="list-group-item-heading">@tarea.Titulo</h5>
+                  <p class="list-group-item-text">
+                    @tarea.Categoria |
+                    @tarea.Prioridad |
+                    @tarea.Dificultad
+                  </p>
+                </div>
+              </div>
+            </li>
+          }
+        }
+      </ul>
+    </div>
+    <div class="columna">
+      <h2>En proceso</h2>
+      <ul class="list-group">
+        @foreach (var tarea in ViewBag.Tareas)
+        {
+          if (tarea.Estado == 2)
+          {
+            <li class="col-item" data-tarea="@tarea.Id">
+              <div class="row">
+                <div class="col-item-proceso">
+                  <h5 class="list-group-item-heading">@tarea.Titulo</h5>
+                  <p class="list-group-item-text">
+                    @tarea.Categoria |
+                    @tarea.Prioridad |
+                    @tarea.Dificultad
+                  </p>
+                </div>
+              </div>
+            </li>
+          }
+        }
+      </ul>
+    </div>
+    <div class="columna">
+      <h2>Terminados</h2>
+      <ul class="list-group">
+        @foreach (var tarea in ViewBag.Tareas)
+        {
+          if (tarea.Estado == 3)
+          {
+            <li class="col-item" data-tarea="@tarea.Id">
+              <div class="row">
+                <div class="col-item-terminado">
+                  <h5 class="list-group-item-heading">@tarea.Titulo</h5>
+                  <p class="list-group-item-text">
+                    @tarea.Categoria |
+                    @tarea.Prioridad |
+                    @tarea.Dificultad
+                  </p>
+                </div>
+              </div>
+            </li>
+          }
+        }
+      </ul>
+    </div>
+  </div>
+</body>
+
+
