@@ -6,33 +6,40 @@
         @Html.AntiForgeryToken()
 
     <div class="container">
+        <div class="row justify-content-center">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-2 d-none d-lg-block "></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Crear una cuenta!</h1>
-                            </div>
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <form class="p-2">
-                                <div class="form-group p-1">
-                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-user", placeholder = "Nombre", required = "required" } })
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-3 d-none d-lg-block "></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Crear una cuenta!</h1>
+                                    </div>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <form class="py-2">
+                                        <div class="form-group py-1">
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-user", placeholder = "Nombre", required = "required" } })
+                                        </div>
+                                        <div class="form-group py-1">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", required = "required" } })
+                                        </div>
+                                        <div class="form-group py-1">
+                                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Contraseña", required = "required" } })
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary p-2">Registrarse</button>
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        @Html.ActionLink("Ya tiene cuenta? Inicie sesión!", "Login")
+                                    </div>
                                 </div>
-                                <div class="form-group p-1">
-                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", required = "required" } })
-                                </div>
-                                <div class="form-group p-1">
-                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Contraseña", required = "required" } })
-                                </div>
-                                <input type="submit" value="Registrarse" class="btn btn-primary" />
-                            </form>
-                            <hr>
-                            <div class="text-center">
-                                @Html.ActionLink("Ya tiene cuenta? Inicie sesión!", "Login")
                             </div>
                         </div>
                     </div>
