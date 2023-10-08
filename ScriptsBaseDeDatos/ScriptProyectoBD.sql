@@ -58,3 +58,11 @@ Values ('0', 'Pendientes', '1'), ('1', 'En Curso', '1'), ('2', 'Completadas', '1
 
 INSERT INTO Categoria
 Values ('0', 'Entretenimiento', '1'), ('1', 'Alimentación', '1'), ('2', 'Trabajo', '1'), ('3', 'Estudios', '1')
+
+INSERT INTO Usuario
+VALUES ('Sabrina', 'Brenes', 'Hernandez', 'EvenTinierTurtle', 'sabry.brenes@outlook.es'), 
+		('Diego', 'Quesada', 'Barrantes', 'TinyTurtle', 'dqb25@gmail.com')
+
+INSERT INTO Tarea
+VALUES ('Proyecto Bases Avanzadas', 'Investigacion de base de datos Scylla', '2023-10-05', '2023-10-12', '5', '3', '2', '3', '1'),
+		('Laboratorio Bases Avanzadas', 'Lab de ETL', '2023-10-06', '2023-10-09', '3', '3', '2', '3', '1')
