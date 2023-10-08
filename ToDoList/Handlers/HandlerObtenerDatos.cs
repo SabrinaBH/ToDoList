@@ -7,40 +7,77 @@ namespace ToDoList.Handlers
     public class HandlerObtenerDatos : HandlerBase
     {
 
-        public HandlerObtenerDatos() { }   
+        public HandlerObtenerDatos() { }
 
-        public List<Estado> ObtenerEstadosDefault()
+        public Usuario ObtenerUsuario(int identificadorUsuario)
+        {
+            Usuario usuario = new Usuario();
+
+            string consultaBaseDatos = "SELECT * FROM dbo.ObtenerUsuario('" + (identificadorUsuario - 48) + "')";
+
+            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            {
+
+                if (conexion.State != System.Data.ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    usuario = ObtenerUsuarioDesdeReader(reader);
+                }
+
+                conexion.Close();
+            }
+            return usuario;
+        }
+
+        public List<Estado> ObtenerEstadosUsuario(int identificadorUsuario)
         {
             List<Estado> estados = new List<Estado>();
 
-            string consultaBaseDeDatos = "SELECT * FROM Estado WHERE IdentificadorUsuarioCreador = '1';";
-            DataTable tablaDeEstados = CrearTablaConsulta(consultaBaseDeDatos);
-            foreach(DataRow columna in tablaDeEstados.Rows)
+            string consultaBaseDatos = "SELECT * FROM dbo.ObtenerEstados('" + (identificadorUsuario - 48) + "')";
+
+            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
             {
-                estados.Add(new Estado
+
+                if (conexion.State != System.Data.ConnectionState.Open)
                 {
-                    Id = Convert.ToInt32(columna["IdentificadorEstado"]),
-                    Nombre = Convert.ToString(columna["NombreEstado"]),
-                    UsuarioCreador = Convert.ToInt32(columna["IdentificadorUsuarioCreador"])
-                });
+                    conexion.Open();
+                }
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    estados = ObtenerEstadosDesdeReader(reader);
+                }
+
+                conexion.Close();
             }
             return estados;
         }
 
-        public List<Categoria> ObtenerCategorias() {
-
+        public List<Categoria> ObtenerCategoriasUsuario(int identificadorUsuario)
+        {
             List<Categoria> categorias = new List<Categoria>();
 
-            string consultaBaseDeDatos = "SELECT * FROM Categoria WHERE IdentificadorUsuarioCreador = '1';";
-            DataTable tablaDeCategorias = CrearTablaConsulta(consultaBaseDeDatos);
-            foreach (DataRow columna in tablaDeCategorias.Rows)
+            string consultaBaseDatos = "SELECT * FROM dbo.ObtenerCategorias('" + (identificadorUsuario -48) + "')";
+
+            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
             {
-                categorias.Add(new Categoria
+
+                if (conexion.State != System.Data.ConnectionState.Open)
                 {
-                    Id = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                    Nombre = Convert.ToString(columna["NombreCategoria"]),
-                    UsuarioCreador = Convert.ToInt32(columna["IdentificadorUsuarioCreador"])
-                });
+                    conexion.Open();
+                }
+                    
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    categorias = ObtenerCategoriasDesdeReader(reader);
+                }
+                conexion.Close();
+
+               
             }
             return categorias;
         }
@@ -49,26 +86,94 @@ namespace ToDoList.Handlers
         {
             List<Tarea> tareas = new List<Tarea>();
 
-            string consultaBaseDatos = "SELECT * FROM dbo.ObtenerTareasUsuario(" + identificadorUsuario+ ")";
-            DataTable tablaDeTareas = CrearTablaConsulta(consultaBaseDatos);
-            foreach (DataRow columna in tablaDeTareas.Rows)
-            {
-                tareas.Add(new Tarea
-                {
-                    Id = Convert.ToInt32(columna["IdentificadorTarea"]),
-                    Titulo = Convert.ToString(columna["Titulo"]),
-                    Descripcion = Convert.ToString(columna["Descripcion"]),
-                    FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-                    FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-                    Dificultad = Convert.ToInt32(columna["Dificultad"]),
-                    Prioridad = Convert.ToInt32(columna["Prioridad"]),
-                    UsuarioCreador = Convert.ToInt32(columna["IdentificadorUsuarioCreador"]),
-                    Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                    Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-                }) ;
-            }   
+            string consultaBaseDatos = "SELECT * FROM dbo.ObtenerTareasUsuario('"+(identificadorUsuario-48)+"')";
 
+            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            {
+
+
+                if (conexion.State != System.Data.ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+
+                using (SqlDataReader reader = command.ExecuteReader()) 
+                {
+                    tareas = ObtenerTareasDesdeReader(reader);
+                }
+
+                conexion.Close();
+            }
+                return tareas;
+        }
+
+        private Usuario ObtenerUsuarioDesdeReader(SqlDataReader reader)
+        {
+            Usuario usuario = new Usuario();
+            while (reader.Read())
+            {
+                usuario.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuario"));
+                usuario.Nombre = reader.GetString(reader.GetOrdinal("Nombre"));
+                usuario.PrimerApellido = reader.GetString(reader.GetOrdinal("PrimerApellido"));
+                usuario.SegundoApellido = reader.GetString(reader.GetOrdinal("SegundoApellido"));
+                usuario.Nickname = reader.GetString(reader.GetOrdinal("Nickname"));
+                usuario.Email = reader.GetString(reader.GetOrdinal("Email"));
+
+            }
+            return usuario;
+        }
+
+        private List<Tarea> ObtenerTareasDesdeReader (SqlDataReader reader)
+        {
+            List<Tarea> tareas = new List<Tarea> ();
+            while (reader.Read())
+            {
+                Tarea tarea = new Tarea();
+                tarea.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorTarea"));
+                tarea.Titulo = reader.GetString(reader.GetOrdinal("Titulo"));
+                tarea.Descripcion = reader.GetString(reader.GetOrdinal("Descripcion"));
+                tarea.FechaInicial = Convert.ToDateTime(reader.GetDateTime(reader.GetOrdinal("FechaInicial")));
+                tarea.FechaFinal = Convert.ToDateTime(reader.GetDateTime(reader.GetOrdinal("FechaFinal")));
+                tarea.Dificultad = reader.GetInt16(reader.GetOrdinal("Dificultad"));
+                tarea.Prioridad = reader.GetInt16(reader.GetOrdinal("Prioridad"));
+                tarea.UsuarioCreador = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuarioCreador"));
+                tarea.Categoria = reader.GetInt32(reader.GetOrdinal("IdentificadorCategoria"));
+                tarea.Estado = reader.GetInt32(reader.GetOrdinal("IdentificadorEstado"));
+
+                tareas.Add (tarea);
+            }
             return tareas;
+        }
+
+        private List<Categoria> ObtenerCategoriasDesdeReader(SqlDataReader reader)
+        {
+            List<Categoria> categorias = new List<Categoria>();
+            while (reader.Read())
+            {
+                Categoria categoria = new Categoria();
+                categoria.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorCategoria"));
+                categoria.Nombre = reader.GetString(reader.GetOrdinal("NombreCategoria"));
+                categoria.UsuarioCreador = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuarioCreador"));
+
+                categorias.Add(categoria);
+            }
+            return categorias;
+        }
+
+
+        private List<Estado> ObtenerEstadosDesdeReader(SqlDataReader reader)
+        {
+            List<Estado> estados = new List<Estado>();
+            while (reader.Read())
+            {
+                Estado estado = new Estado();
+                estado.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorEstado"));
+                estado.Nombre = reader.GetString(reader.GetOrdinal("NombreEstado"));
+                estado.UsuarioCreador = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuarioCreador"));
+
+                estados.Add(estado);
+            }
+            return estados;
         }
 
     }
