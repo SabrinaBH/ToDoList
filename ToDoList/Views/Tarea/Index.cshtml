@@ -1,17 +1,24 @@
 ﻿@page "/"
 
+@{
+  string uno = "Alta";
+  string dos = "Media";
+  string tres = "Baja";
+}
+
+<html>
 <head>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <header>
   <div class="header-content">
     <div class="header-user">
-      <img src="../Images/user.png" alt="Foto de usuario">
+      <img src="/Images/user.png" alt="Foto de usuario" class="user-img">
       <h4>Juan Perez</h4>
     </div>
     <div class="header-logo">
-      <img src="Logo.png" alt="Logo de la empresa">
+      <img src="/Images/Logo.png" alt="Logo de la empresa" class="logo-img">
     </div>
     <div class="header-logout">
       <a href="/Account/Login" class="btn btn-close">Cerrar sesión</a>
@@ -21,7 +28,7 @@
 
 <body>
   <div class="buscar-contenedor">
-      <a href="/Tarea/AddTask" class="btn-agregar">Nueva Tarea</a>
+    <a href="/Tarea/AddTask" class="btn-agregar">Nueva Tarea</a>
     <div class="barra-buscar">
       <input type="text" class="form-control" id="buscar" placeholder="Buscar">
     </div>
@@ -49,12 +56,44 @@
               <li class="col-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-pendiente">
-                    <h5 class="list-group-item-heading">@tarea.Titulo</h5>
-                    <p class="list-group-item-text">
-                      @tarea.Categoria |
-                      @tarea.Prioridad |
-                      @tarea.Dificultad
-                    </p>
+                    <div class="header-task">
+                      <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
+                      <p class="list-group-item-text category-task">
+                        @foreach (var categoria in ViewBag.Categorias)
+                        {
+                          if (tarea.Categoria == categoria.Id)
+                          {
+                            @categoria.Nombre
+                            ;
+                          }
+                        }
+                      </p>
+                    </div>
+                    <div class="task-details">
+                      <p class="list-group-item-text dificultad">
+                        @for (int i = 0; i < tarea.Dificultad; ++i)
+                        {
+                          <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
+                        }
+                      </p>
+                        <p class="list-group-item-text prioridad">
+                            @if (tarea.Prioridad == 1)
+                            {
+                              @uno;
+                            }
+                            else
+                            {
+                              if (tarea.Prioridad == 2)
+                              {
+                                @dos;
+                              }
+                              else
+                              {
+                                @tres;
+                              }
+                            }
+                        </p>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -84,12 +123,43 @@
               <li class="col-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-proceso">
-                    <h5 class="list-group-item-heading">@tarea.Titulo</h5>
-                    <p class="list-group-item-text">
-                      @tarea.Categoria |
-                      @tarea.Prioridad |
-                      @tarea.Dificultad
-                    </p>
+                    <div class="header-task">
+                      <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
+                      <p class="list-group-item-text category-task">
+                        @foreach (var categoria in ViewBag.Categorias)
+                        {
+                          if (tarea.Categoria == categoria.Id)
+                          {
+                            @categoria.Nombre;
+                          }
+                        }
+                      </p>
+                    </div>
+                    <div class="task-details">
+                      <p class="list-group-item-text dificultad">
+                        @for (int i = 0; i < tarea.Dificultad; ++i)
+                        {
+                          <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
+                        }
+                      </p>
+                      <p class="list-group-item-text prioridad">
+                        @if (tarea.Prioridad == 1)
+                        {
+                          @uno;
+                        }
+                        else
+                        {
+                          if (tarea.Prioridad == 2)
+                          {
+                            @dos;
+                          }
+                          else
+                          {
+                            @tres;
+                          }
+                        }
+                      </p>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -119,12 +189,43 @@
               <li class="col-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-terminado">
-                    <h5 class="list-group-item-heading">@tarea.Titulo</h5>
-                    <p class="list-group-item-text">
-                      @tarea.Categoria |
-                      @tarea.Prioridad |
-                      @tarea.Dificultad
-                    </p>
+                    <div class="header-task">
+                      <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
+                      <p class="list-group-item-text category-task">
+                        @foreach (var categoria in ViewBag.Categorias)
+                        {
+                          if (tarea.Categoria == categoria.Id)
+                          {
+                            @categoria.Nombre;
+                          }
+                        }
+                      </p>
+                    </div>
+                    <div class="task-details">
+                      <p class="list-group-item-text dificultad">
+                        @for (int i = 0; i < tarea.Dificultad; ++i)
+                        {
+                          <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
+                        }
+                      </p>
+                      <p class="list-group-item-text prioridad">
+                        @if (tarea.Prioridad == 1)
+                        {
+                          @uno;
+                        }
+                        else
+                        {
+                          if (tarea.Prioridad == 2)
+                          {
+                            @dos;
+                          }
+                          else
+                          {
+                            @tres;
+                          }
+                        }
+                      </p>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -135,5 +236,6 @@
     </div>
   </div>
 </body>
+</html>
 
 

@@ -1,6 +1,5 @@
 ﻿using ToDoList.Models;
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
 
 namespace Diseno.Controllers
 {
@@ -16,7 +15,7 @@ namespace Diseno.Controllers
                 FechaFinal = DateTime.Now.AddDays(5),
                 Estado = 1,
                 Categoria = 2,
-                Prioridad = 3,
+                Prioridad = 1,
                 Dificultad = 3,
             },
             new Tarea
@@ -27,7 +26,7 @@ namespace Diseno.Controllers
                 FechaFinal = DateTime.Now.AddDays(3),
                 Estado = 2,
                 Categoria = 1,
-                Prioridad = 4,
+                Prioridad = 1,
                 Dificultad = 4,
             },
             new Tarea
@@ -38,7 +37,7 @@ namespace Diseno.Controllers
                 FechaFinal = DateTime.Now.AddDays(2),
                 Estado = 2,
                 Categoria = 4,
-                Prioridad = 4,
+                Prioridad = 2,
                 Dificultad = 1,
             },
             new Tarea
@@ -49,8 +48,36 @@ namespace Diseno.Controllers
                 FechaFinal = DateTime.Now.AddDays(2),
                 Estado = 1,
                 Categoria = 4,
-                Prioridad = 4,
+                Prioridad = 3,
                 Dificultad = 1,
+            },
+        };
+
+        Categoria[] categorias = new Categoria[]
+        {
+            new Categoria
+            {
+                Id = 1,
+                Nombre = "Alimentacion",
+                UsuarioCreador = 1,
+            },
+            new Categoria
+            {
+                Id = 2,
+                Nombre = "Estudio",
+                UsuarioCreador = 1,
+            },
+            new Categoria
+            {
+                Id = 3,
+                Nombre = "Trabajo",
+                UsuarioCreador = 1,
+            },
+            new Categoria
+            {
+                Id = 4,
+                Nombre = "Entretenimiento",
+                UsuarioCreador = 1,
             },
         };
 
@@ -78,6 +105,7 @@ namespace Diseno.Controllers
             ViewBag.Pendientes = contadorPendientes;
             ViewBag.Procesos = contadorProceso;
             ViewBag.Terminados = contadorTerminado;
+            ViewBag.Categorias = categorias;
             return View();
         }
 
