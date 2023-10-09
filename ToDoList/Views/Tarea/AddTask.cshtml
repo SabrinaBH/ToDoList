@@ -1,0 +1,113 @@
+﻿@model ToDoList.Models.Tarea
+@{
+  List<SelectListItem> categorias = new List<SelectListItem>();
+  List<SelectListItem> prioridades = new List<SelectListItem>();
+  List<SelectListItem> dificultad = new List<SelectListItem>();
+  categorias.Add(new SelectListItem { Text = "Alimentacion", Value="1" });
+  categorias.Add(new SelectListItem { Text = "Entretenimiento", Value="2" });
+  categorias.Add(new SelectListItem { Text = "Estudio", Value = "3" });
+  categorias.Add(new SelectListItem { Text = "Trabajo", Value = "4" });
+
+  prioridades.Add(new SelectListItem { Text = "Baja", Value = "1" });
+  prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
+  prioridades.Add(new SelectListItem { Text = "Alta", Value = "3" });
+
+  dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
+  dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
+  dificultad.Add(new SelectListItem { Text = "3", Value = "3" });
+  dificultad.Add(new SelectListItem { Text = "4", Value = "4" });
+  dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
+}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </head>
+    <body class="bg-gradient-primary">
+  @using (Html.BeginForm("nuevaTarea", "Tarea", FormMethod.Post, new { enctype = "multipart/form-data" }))
+  {
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row row-own">
+                            <div class="col-lg-6-1">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-black mb-4">Nueva Tarea</h1>
+                                    </div>
+                                    @Html.ValidationSummary(true, "text", new {@class="text-danger"})
+                                    <form class="py-2">
+                                        @Html.HiddenFor(model => model.Id)
+                                        <div class="contenedor-form">
+                                            @Html.LabelFor(model => model.Titulo, new {@class="formLabel"})
+                                            @Html.TextBoxFor(model => Model.Titulo, new {@class="form-control"})
+                                            @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
+                                        </div>
+
+                                        <div class="contenedor-form">
+                                            @Html.LabelFor(model => model.Descripcion, new {@class="formLabel"})
+                                            @Html.TextAreaFor(model => Model.Descripcion, new {@class="form-control area"})
+                                            @Html.ValidationMessageFor(model => model.Descripcion, "", new {@class = "text-danger"})
+                                        </div>
+
+                                        <div class="contenedor-fechas contenedor-form">
+                                            <div class="fechas">
+                                                @Html.LabelFor(model => model.FechaInicial, new {@class="formLabel"})
+                                                @Html.TextBoxFor(model => Model.FechaInicial, new {@type="date"})
+                                                @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
+                                            </div>
+
+                                            <div class="fechas">
+                                                @Html.LabelFor(model => model.FechaFinal, new {@class="formLabel"})
+                                                @Html.TextBoxFor(model => Model.FechaFinal, new {@type="date"})
+                                                @Html.ValidationMessageFor(model => model.FechaFinal, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contenedor-listas contenedor-form">
+                                            <div class="">
+                                                @Html.LabelFor(model => model.Categoria, new {@class="formLabel"})
+                                                @Html.DropDownListFor(model => model.Categoria, categorias, "-Sin seleccion-", new {@class="form-control textCategoria"})
+                                                @Html.ValidationMessageFor(model => model.Categoria, "", new {@class="text-danger"})
+                                            </div>
+
+                                            <div class="">
+                                                @Html.LabelFor(model => model.Prioridad, new {@class="formLabel"})
+                                                @Html.DropDownListFor(model => model.Prioridad, prioridades, "-Sin seleccion-", new {@class="form-control textPrioridad"})
+                                                @Html.ValidationMessageFor(model => model.Prioridad, "", new {@class="text-danger"})
+                                            </div>
+
+                                            <div class="">
+                                                @Html.LabelFor(model => model.Dificultad, new {@class="formLabel"})
+                                                @Html.DropDownListFor(model => model.Dificultad, dificultad, "-Sin seleccion-", new {@class="form-control textDificultad"})
+                                                @Html.ValidationMessageFor(model => model.Dificultad, "", new {@class="text-danger"})
+                                            </div>
+                                        </div>
+                                        
+
+                                        @Html.HiddenFor(model => model.UsuarioCreador)
+                                        @Html.HiddenFor(model => model.Estado)
+
+                                        <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                            <a href="/Tarea/Index" class="btn-agregar" style="width: 60%; text-align:center;">Agregar Tarea</a>
+                                            @*<a href="~/../Views/Tarea/Index.cshtml" style="display: flex; justify-content: center;">
+                                                <input type="submit" class="btn-agregar"
+                                                       style="margin-top: 20px; width: 60%; text-align:center; align-self:center;"
+                                                       value="Agregar Tarea" />
+                                            </a>*@
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  }
+    </body>
+</html>

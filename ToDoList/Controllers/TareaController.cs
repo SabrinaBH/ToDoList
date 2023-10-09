@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ToDoList.Models;
+using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
 
-namespace ToDoList.Controllers
+namespace Diseno.Controllers
 {
     public class TareaController : Controller
     {
@@ -35,7 +36,7 @@ namespace ToDoList.Controllers
                 Descripcion = "Completar las horas semanales",
                 FechaInicial = DateTime.Now,
                 FechaFinal = DateTime.Now.AddDays(2),
-                Estado = 1,
+                Estado = 2,
                 Categoria = 4,
                 Prioridad = 4,
                 Dificultad = 1,
@@ -46,7 +47,7 @@ namespace ToDoList.Controllers
                 Descripcion = "Completar las horas semanales",
                 FechaInicial = DateTime.Now,
                 FechaFinal = DateTime.Now.AddDays(2),
-                Estado = 3,
+                Estado = 1,
                 Categoria = 4,
                 Prioridad = 4,
                 Dificultad = 1,
@@ -55,8 +56,53 @@ namespace ToDoList.Controllers
 
         public IActionResult Index()
         {
+            int contadorPendientes = 0;
+            int contadorProceso = 0;
+            int contadorTerminado = 0;
             ViewBag.Tareas = tareas;
+            foreach (Tarea tarea in tareas)
+            {
+                if (tarea.Estado == 1)
+                {
+                    contadorPendientes += 1;
+                }
+                if (tarea.Estado == 2)
+                {
+                    contadorProceso += 1;
+                }
+                if (tarea.Estado == 3)
+                {
+                    contadorTerminado += 1;
+                }
+            }
+            ViewBag.Pendientes = contadorPendientes;
+            ViewBag.Procesos = contadorProceso;
+            ViewBag.Terminados = contadorTerminado;
             return View();
+        }
+
+        public IActionResult AddTask()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddTask(Tarea tarea)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ViewBag.Message = "Se agrego la tarea!";
+                    ModelState.Clear();
+                }
+
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salio mal y no fue posible crear la tarea!";
+            }
+            return RedirectToAction("Index", "Tarea");
         }
     }
 }

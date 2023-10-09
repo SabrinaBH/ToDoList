@@ -1,5 +1,8 @@
 ﻿@page "/"
 
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
 
 <header>
   <div class="header-content">
@@ -11,78 +14,121 @@
       <img src="Logo.png" alt="Logo de la empresa">
     </div>
     <div class="header-logout">
-      <a href="#">Cerrar sesión</a>
+      <a href="/Account/Login" class="btn btn-close">Cerrar sesión</a>
     </div>
   </div>
 </header>
 
 <body>
+  <div class="buscar-contenedor">
+      <a href="/Tarea/AddTask" class="btn-agregar">Nueva Tarea</a>
+    <div class="barra-buscar">
+      <input type="text" class="form-control" id="buscar" placeholder="Buscar">
+    </div>
+  </div>
+
   <div class="row">
     <div class="columna">
-      <h2>Pendientes</h2>
+      <div class="encabezado">
+        <h2>Pendientes</h2>
+        <h4>@ViewBag.Pendientes</h4>
+      </div>
       <ul class="list-group">
-        @foreach (var tarea in ViewBag.Tareas)
+        @if (ViewBag.Pendientes == 0)
         {
-          if (tarea.Estado == 1)
+          <div class="sin-tareas">
+            <h5>No hay tareas pendientes</h5>
+          </div>
+        }
+        else
+        {
+          @foreach (var tarea in ViewBag.Tareas)
           {
-            <li class="col-item" data-tarea="@tarea.Id">
-              <div class="row">
-                <div class="col-item-pendiente">
-                  <h5 class="list-group-item-heading">@tarea.Titulo</h5>
-                  <p class="list-group-item-text">
-                    @tarea.Categoria |
-                    @tarea.Prioridad |
-                    @tarea.Dificultad
-                  </p>
+            if (tarea.Estado == 1)
+            {
+              <li class="col-item" data-tarea="@tarea.Id">
+                <div class="row">
+                  <div class="col-item-pendiente">
+                    <h5 class="list-group-item-heading">@tarea.Titulo</h5>
+                    <p class="list-group-item-text">
+                      @tarea.Categoria |
+                      @tarea.Prioridad |
+                      @tarea.Dificultad
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
+            }
           }
         }
       </ul>
     </div>
     <div class="columna">
-      <h2>En proceso</h2>
+      <div class="encabezado">
+        <h2>En Proceso</h2>
+        <h4>@ViewBag.Procesos</h4>
+      </div>
       <ul class="list-group">
-        @foreach (var tarea in ViewBag.Tareas)
+        @if (ViewBag.Procesos == 0)
         {
-          if (tarea.Estado == 2)
+          <div class="sin-tareas">
+            <h5>No hay tareas en proceso</h5>
+          </div>
+        }
+        else
+        {
+          @foreach (var tarea in ViewBag.Tareas)
           {
-            <li class="col-item" data-tarea="@tarea.Id">
-              <div class="row">
-                <div class="col-item-proceso">
-                  <h5 class="list-group-item-heading">@tarea.Titulo</h5>
-                  <p class="list-group-item-text">
-                    @tarea.Categoria |
-                    @tarea.Prioridad |
-                    @tarea.Dificultad
-                  </p>
+            if (tarea.Estado == 2)
+            {
+              <li class="col-item" data-tarea="@tarea.Id">
+                <div class="row">
+                  <div class="col-item-proceso">
+                    <h5 class="list-group-item-heading">@tarea.Titulo</h5>
+                    <p class="list-group-item-text">
+                      @tarea.Categoria |
+                      @tarea.Prioridad |
+                      @tarea.Dificultad
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
+            }
           }
         }
       </ul>
     </div>
     <div class="columna">
-      <h2>Terminados</h2>
+      <div class="encabezado">
+        <h2>Terminados</h2>
+        <h4>@ViewBag.Terminados</h4>
+      </div>
       <ul class="list-group">
-        @foreach (var tarea in ViewBag.Tareas)
+        @if (ViewBag.Terminados == 0)
         {
-          if (tarea.Estado == 3)
+          <div class="sin-tareas">
+            <h5>No hay tareas terminadas</h5>
+          </div>
+        }
+        else
+        {
+          @foreach (var tarea in ViewBag.Tareas)
           {
-            <li class="col-item" data-tarea="@tarea.Id">
-              <div class="row">
-                <div class="col-item-terminado">
-                  <h5 class="list-group-item-heading">@tarea.Titulo</h5>
-                  <p class="list-group-item-text">
-                    @tarea.Categoria |
-                    @tarea.Prioridad |
-                    @tarea.Dificultad
-                  </p>
+            if (tarea.Estado == 3)
+            {
+              <li class="col-item" data-tarea="@tarea.Id">
+                <div class="row">
+                  <div class="col-item-terminado">
+                    <h5 class="list-group-item-heading">@tarea.Titulo</h5>
+                    <p class="list-group-item-text">
+                      @tarea.Categoria |
+                      @tarea.Prioridad |
+                      @tarea.Dificultad
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
+            }
           }
         }
       </ul>
