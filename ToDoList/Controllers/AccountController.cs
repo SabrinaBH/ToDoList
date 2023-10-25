@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
 using Firebase.Auth;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Host.SystemWeb;
-using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity.Owin;
-using System.Web;
+using Newtonsoft.Json;
 
 namespace ToDoList.Controllers
 {
@@ -16,139 +10,93 @@ namespace ToDoList.Controllers
         private static string apiKEY = "AIzaSyAhfcu4Po8oWj-5IvUGivpeXsRpA0P_2fI";
         // GET: CuentaLogin
 
-        public ActionResult SignUp()
+        FirebaseAuthProvider auth;
+
+        public AccountController()
+        {
+            auth = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult SignUp()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> SignUp(RegisterModel model)
+        public async Task<IActionResult> SignUp(RegisterModel model)
         {
             try
             {
-                var autho = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
-
-                var a = await autho.CreateUserWithEmailAndPasswordAsync(model.Email, model.Password, model.Name, true);
-                ModelState.AddModelError(string.Empty, "Please Verify your email");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, ex.Message);
-            }
-
-            return View();
-        }
-        // GET: CuentaLogin/Edit/5
-
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Login(string returnURL)
-        {
-           /* try
-            {
-                if (Request.IsAuthenticated)
+                //create the user
+                await auth.CreateUserWithEmailAndPasswordAsync(model.Email, model.Password);
+                //log in the new user
+                var fbAuthLink = await auth
+                                .SignInWithEmailAndPasswordAsync(model.Email, model.Password);
+                string token = fbAuthLink.FirebaseToken;
+                //saving the token in a session variable
+                if (token != null)
                 {
-                    return RedirectToRoute(returnURL);
+                    HttpContext.Session.SetString("_UserToken", token);
+
+                    return RedirectToAction("Index", "Tarea");
                 }
-                return RedirectToRoute(returnURL);
             }
-            catch (Exception ex)
+            catch (FirebaseAuthException ex)
             {
-                Console.Write(ex.Message);
-            }*/
+                var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
+                ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+                return View(model);
+            }
+
+            return View();
+
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
             return View();
         }
 
-        [AllowAnonymous]
         [HttpPost]
-
-        public async Task<ActionResult> Login(LoginModel model, string returnURL)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             try
             {
-                if (ModelState.IsValid)
+                // login an existing user
+                var fbAuthLink = await auth
+                                .SignInWithEmailAndPasswordAsync(model.Email, model.Password);
+                string token = fbAuthLink.FirebaseToken;
+                // save the token to a session variable
+                if (token != null)
                 {
-                    var auth = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
-                    var a = await auth.SignInWithEmailAndPasswordAsync(model.Email, model.Password);
-                    string token = a.FirebaseToken;
-                    var user = a.User;
-                    if (token != "")
-                    {
-                        SignInUser(user.Email, token, false);
-                        return RedirectToLocal(returnURL);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Error username or password.");
-                    }
+                    HttpContext.Session.SetString("_UserToken", token);
+
+                    return RedirectToAction("Index", "Tarea");
                 }
 
             }
-            catch (Exception ex)
+            catch (FirebaseAuthException ex)
             {
-                Console.Write(ex.Message);
+                var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
+                ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+                return View(model);
             }
 
             return View();
         }
-        // POST: CuentaLogin/Edit/5
-        private void SignInUser(string email, string token, bool isPersistent)
-        {
-            // Initialization.
-            var claims = new List<Claim>();
-
-            try
-            {
-                // Setting
-                claims.Add(new Claim(ClaimTypes.Email, email));
-                claims.Add(new Claim(ClaimTypes.Authentication, token));
-                var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-                //var ctx = Request.GetOwinContext();
-                //var authenticationManager = ctx.Authentication;
-                // Sign In.
-                //authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
-            }
-            catch (Exception ex)
-            {
-                // Info
-                throw ex;
-            }
-        }
-
-
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            try
-            {
-                // Verification.
-                if (Url.IsLocalUrl(returnUrl))
-                {
-                    // Info.
-                    return Redirect(returnUrl);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Info
-                throw ex;
-            }
-
-            // Info.
-            return this.RedirectToAction("Index", "Home");
-        }
-
-        [AllowAnonymous]
+        
         [HttpGet]
-        public ActionResult LogOff()
+        public IActionResult LogOff()
         {
-            //var ctx = Request.GetOwinContext();
-            //var authenticationManager = ctx.Authentication;
-            //authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Login", "CuentaLogin");
+            HttpContext.Session.Remove("_UserToken");
+            return RedirectToAction("Login", "Account");
         }
-
-        // POST: CuentaLogin/Delete/5
 
     }
 }

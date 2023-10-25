@@ -18,7 +18,15 @@ namespace ToDoList.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var userToken = HttpContext.Session.GetString("_UserToken");
+            if (userToken == null)
+            { // Si no hay un token de usuario
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()
