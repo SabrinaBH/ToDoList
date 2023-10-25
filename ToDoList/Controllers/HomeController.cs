@@ -7,7 +7,7 @@ namespace ToDoList.Controllers
 {
     public class HomeController : Controller
     {
-        HandlerObtenerDatos handlerObtenerDatos = new HandlerObtenerDatos();
+        HandlerObtenerDatos handlerObtenerDatos = new();
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -30,16 +30,6 @@ namespace ToDoList.Controllers
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult SignIn()
-        {
-            return View();
-        }
-
-        public IActionResult SignUp()
         {
             return View();
         }

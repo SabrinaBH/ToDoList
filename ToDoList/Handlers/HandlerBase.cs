@@ -20,11 +20,10 @@ namespace ToDoList.Handlers
         protected DataTable CrearTablaConsulta(string consulta)
         {
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta,
+            SqlCommand comandoParaConsulta = new(consulta,
             conexion);
-            SqlDataAdapter adaptadorParaTabla = new
-            SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
+            SqlDataAdapter adaptadorParaTabla = new(comandoParaConsulta);
+            DataTable consultaFormatoTabla = new();
             conexion.Open();
             adaptadorParaTabla.Fill(consultaFormatoTabla);
             conexion.Close();

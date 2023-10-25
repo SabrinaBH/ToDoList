@@ -7,7 +7,7 @@ namespace ToDoList.Controllers
 {
     public class AccountController : Controller
     {
-        private static string apiKEY = "AIzaSyAhfcu4Po8oWj-5IvUGivpeXsRpA0P_2fI";
+        private static readonly string apiKEY = "AIzaSyAhfcu4Po8oWj-5IvUGivpeXsRpA0P_2fI";
         // GET: CuentaLogin
 
         FirebaseAuthProvider auth;
@@ -49,7 +49,7 @@ namespace ToDoList.Controllers
             catch (FirebaseAuthException ex)
             {
                 var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
-                ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+                ModelState.AddModelError(String.Empty, firebaseEx.error.Message);
                 return View(model);
             }
 
@@ -84,7 +84,7 @@ namespace ToDoList.Controllers
             catch (FirebaseAuthException ex)
             {
                 var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
-                ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+                ModelState.AddModelError(String.Empty, firebaseEx.error.Message);
                 return View(model);
             }
 

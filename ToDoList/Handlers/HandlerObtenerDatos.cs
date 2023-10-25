@@ -11,11 +11,11 @@ namespace ToDoList.Handlers
 
         public Usuario ObtenerUsuario(int identificadorUsuario)
         {
-            Usuario usuario = new Usuario();
+            Usuario usuario = new();
 
             string consultaBaseDatos = "SELECT * FROM dbo.ObtenerUsuario('" + (identificadorUsuario - 48) + "')";
 
-            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            using (SqlCommand command = new(consultaBaseDatos, conexion))
             {
 
                 if (conexion.State != System.Data.ConnectionState.Open)
@@ -35,11 +35,11 @@ namespace ToDoList.Handlers
 
         public List<Estado> ObtenerEstadosUsuario(int identificadorUsuario)
         {
-            List<Estado> estados = new List<Estado>();
+            List<Estado> estados = new();
 
             string consultaBaseDatos = "SELECT * FROM dbo.ObtenerEstados('" + (identificadorUsuario - 48) + "')";
 
-            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            using (SqlCommand command = new(consultaBaseDatos, conexion))
             {
 
                 if (conexion.State != System.Data.ConnectionState.Open)
@@ -59,11 +59,11 @@ namespace ToDoList.Handlers
 
         public List<Categoria> ObtenerCategoriasUsuario(int identificadorUsuario)
         {
-            List<Categoria> categorias = new List<Categoria>();
+            List<Categoria> categorias = new();
 
             string consultaBaseDatos = "SELECT * FROM dbo.ObtenerCategorias('" + (identificadorUsuario -48) + "')";
 
-            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            using (SqlCommand command = new(consultaBaseDatos, conexion))
             {
 
                 if (conexion.State != System.Data.ConnectionState.Open)
@@ -84,11 +84,11 @@ namespace ToDoList.Handlers
 
         public List<Tarea> ObtenerTareasUsuario(int identificadorUsuario)
         {
-            List<Tarea> tareas = new List<Tarea>();
+            List<Tarea> tareas = new();
 
             string consultaBaseDatos = "SELECT * FROM dbo.ObtenerTareasUsuario('"+(identificadorUsuario-48)+"')";
 
-            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            using (SqlCommand command = new(consultaBaseDatos, conexion))
             {
 
 
@@ -109,7 +109,7 @@ namespace ToDoList.Handlers
 
         private Usuario ObtenerUsuarioDesdeReader(SqlDataReader reader)
         {
-            Usuario usuario = new Usuario();
+            Usuario usuario = new();
             while (reader.Read())
             {
                 usuario.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuario"));
@@ -125,10 +125,10 @@ namespace ToDoList.Handlers
 
         private List<Tarea> ObtenerTareasDesdeReader (SqlDataReader reader)
         {
-            List<Tarea> tareas = new List<Tarea> ();
+            List<Tarea> tareas = new();
             while (reader.Read())
             {
-                Tarea tarea = new Tarea();
+                Tarea tarea = new();
                 tarea.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorTarea"));
                 tarea.Titulo = reader.GetString(reader.GetOrdinal("Titulo"));
                 tarea.Descripcion = reader.GetString(reader.GetOrdinal("Descripcion"));
@@ -147,10 +147,10 @@ namespace ToDoList.Handlers
 
         private List<Categoria> ObtenerCategoriasDesdeReader(SqlDataReader reader)
         {
-            List<Categoria> categorias = new List<Categoria>();
+            List<Categoria> categorias = new();
             while (reader.Read())
             {
-                Categoria categoria = new Categoria();
+                Categoria categoria = new();
                 categoria.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorCategoria"));
                 categoria.Nombre = reader.GetString(reader.GetOrdinal("NombreCategoria"));
                 categoria.UsuarioCreador = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuarioCreador"));
@@ -163,10 +163,10 @@ namespace ToDoList.Handlers
 
         private List<Estado> ObtenerEstadosDesdeReader(SqlDataReader reader)
         {
-            List<Estado> estados = new List<Estado>();
+            List<Estado> estados = new();
             while (reader.Read())
             {
-                Estado estado = new Estado();
+                Estado estado = new();
                 estado.Id = reader.GetInt32(reader.GetOrdinal("IdentificadorEstado"));
                 estado.Nombre = reader.GetString(reader.GetOrdinal("NombreEstado"));
                 estado.UsuarioCreador = reader.GetInt32(reader.GetOrdinal("IdentificadorUsuarioCreador"));
