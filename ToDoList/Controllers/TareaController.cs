@@ -89,6 +89,7 @@ namespace Diseno.Controllers
             }
             else
             {
+                ViewData["token"] = userToken;
                 int contadorPendientes = 0;
                 int contadorProceso = 0;
                 int contadorTerminado = 0;
@@ -118,6 +119,7 @@ namespace Diseno.Controllers
 
         public IActionResult AddTask()
         {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken"); // The view needs the token
             return View();
         }
 

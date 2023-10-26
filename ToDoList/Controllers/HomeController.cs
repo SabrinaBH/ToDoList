@@ -25,12 +25,14 @@ namespace ToDoList.Controllers
             }
             else
             {
+                ViewData["token"] = userToken;
                 return View();
             }
         }
 
         public IActionResult Privacy()
         {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken");
             return View();
         }
 

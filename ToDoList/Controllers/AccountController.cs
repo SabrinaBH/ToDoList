@@ -24,6 +24,7 @@ namespace ToDoList.Controllers
         [HttpGet]
         public IActionResult SignUp()
         {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken");
             return View();
         }
 
@@ -60,6 +61,7 @@ namespace ToDoList.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken");
             return View();
         }
 
@@ -92,7 +94,7 @@ namespace ToDoList.Controllers
         }
         
         [HttpGet]
-        public IActionResult LogOff()
+        public IActionResult Logout()
         {
             HttpContext.Session.Remove("_UserToken");
             return RedirectToAction("Login", "Account");

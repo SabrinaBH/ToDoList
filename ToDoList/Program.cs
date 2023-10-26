@@ -5,7 +5,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromSeconds(60); // Tiempo inactivo para cerrar sesión
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
