@@ -11,7 +11,62 @@ namespace ToDoList.Handlers
 
         public HandlerObtenerDatos() { }
 
-        public List<Usuario> ObtenerUsuario(int identificadorUsuario)
+        public String ObtenerIDUsuarioAdmin()
+        {
+            string consulta = "ObtenerIDUsuarioAdmin";
+            string resultado = " ";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+            SqlParameter id = new SqlParameter("@IDAdmin", SqlDbType.UniqueIdentifier);
+            id.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(id);
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (id.Value != null){
+                resultado = id.Value.ToString();
+            }
+
+            return resultado;
+        }
+
+        public String ObtenerIDUsuario(String email)
+        {
+            string consulta = "ObtenerIDUsuario";
+            string resultado = " ";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@EmailUsuario", email);
+            SqlParameter id = new SqlParameter("@IDUsuario", SqlDbType.UniqueIdentifier);
+            id.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(id);
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if(id.Value != null) {
+                resultado = id.Value.ToString();
+            }
+
+            return resultado;
+        }
+
+        public List<Usuario> ObtenerUsuario(String identificadorUsuario)
         {
             List<Usuario> usuario = new List<Usuario>();
 
@@ -23,18 +78,19 @@ namespace ToDoList.Handlers
                 usuario.Add(
                 new Usuario
                 {
-                    Id = Convert.ToInt32(columna["IdentificadorUsuario"]),
+                    Id = Convert.ToString(columna["IdentificadorUsuario"]),
                     Nombre = Convert.ToString(columna["Nombre"]),
                     PrimerApellido = Convert.ToString(columna["PrimerApellido"]),
                     SegundoApellido = Convert.ToString(columna["SegundoApellido"]),
-                    Nickname = Convert.ToString(columna["Nickname"]),
-                    Email = Convert.ToString(columna["Email"])
+                    Email = Convert.ToString(columna["Email"]),
+                    EsUsuarioDeJuego = Convert.ToBoolean(columna["EsUsuarioDeJuego"])
                 });
             }
             return usuario;
         }
 
-        public List<Estado> ObtenerEstadosUsuario(int identificadorUsuario)
+
+        public List<Estado> ObtenerEstadosUsuario(String identificadorUsuario)
         {
             List<Estado> estados = new List<Estado>();
 
@@ -46,15 +102,15 @@ namespace ToDoList.Handlers
                 estados.Add(
                 new Estado
                 {
-                    Id = Convert.ToInt32(columna["IdentificadorCategoria"]),
+                    Id = Convert.ToInt32(columna["IdentificadorEstado"]),
                     Nombre = Convert.ToString(columna["NombreEstado"]),
-                    UsuarioCreador = Convert.ToInt32(columna["IdentificadorUsuarioCreador"])
+                    UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"])
                 });
             }
             return estados;
         }
 
-        public List<Categoria> ObtenerCategoriasUsuario(int identificadorUsuario)
+        public List<Categoria> ObtenerCategoriasUsuario(String identificadorUsuario)
         {
             List<Categoria> categorias = new List<Categoria>();
 
@@ -68,13 +124,13 @@ namespace ToDoList.Handlers
                 {
                     Id = Convert.ToInt32(columna["IdentificadorCategoria"]),
                     Nombre = Convert.ToString(columna["NombreCategoria"]),
-                    UsuarioCreador = Convert.ToInt32(columna["IdentificadorUsuarioCreador"])
+                    UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"])
                 });
             }
             return categorias;
         }
 
-        public List<Tarea> ObtenerTareasUsuario(int identificadorUsuario)
+        public List<Tarea> ObtenerTareasUsuario(String identificadorUsuario)
         {
             List<Tarea> tareas = new List<Tarea>();
 
@@ -90,14 +146,14 @@ namespace ToDoList.Handlers
                     tareas.Add(
                     new Tarea
                     {
-                        Id = Convert.ToInt32(columna["IdentificadorTarea"]),
+                        Id = Convert.ToString(columna["IdentificadorTarea"]),
                         Titulo = Convert.ToString(columna["Titulo"]),
                         Descripcion = Convert.ToString(columna["Descripcion"]),
                         FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
                         FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
                         Dificultad = Convert.ToInt16(columna["Dificultad"]),
                         Prioridad = Convert.ToInt16(columna["Prioridad"]),
-                        UsuarioCreador = Convert.ToInt32(columna["IdentificadorUsuarioCreador"]),
+                        UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
                         Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
                         Estado = Convert.ToInt32(columna["IdentificadorEstado"])
                     });
