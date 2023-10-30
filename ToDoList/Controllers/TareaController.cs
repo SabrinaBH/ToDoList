@@ -59,25 +59,25 @@ namespace Diseno.Controllers
             {
                 Id = 1,
                 Nombre = "Alimentacion",
-                UsuarioCreador = 1,
+                UsuarioCreador = "",
             },
             new Categoria
             {
                 Id = 2,
                 Nombre = "Estudio",
-                UsuarioCreador = 1,
+                UsuarioCreador = "",
             },
             new Categoria
             {
                 Id = 3,
                 Nombre = "Trabajo",
-                UsuarioCreador = 1,
+                UsuarioCreador = "",
             },
             new Categoria
             {
                 Id = 4,
                 Nombre = "Entretenimiento",
-                UsuarioCreador = 1,
+                UsuarioCreador = "",
             },
         };
 

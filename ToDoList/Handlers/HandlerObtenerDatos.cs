@@ -78,6 +78,7 @@ namespace ToDoList.Handlers
                 usuario.Add(
                 new Usuario
                 {
+                    // Id = Guid.Parse((string)columna["IdentificadorUsuario"]),
                     Id = Convert.ToString(columna["IdentificadorUsuario"]),
                     Nombre = Convert.ToString(columna["Nombre"]),
                     PrimerApellido = Convert.ToString(columna["PrimerApellido"]),
