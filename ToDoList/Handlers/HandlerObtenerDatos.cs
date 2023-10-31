@@ -94,19 +94,22 @@ namespace ToDoList.Handlers
         public List<Estado> ObtenerEstadosUsuario(String identificadorUsuario)
         {
             List<Estado> estados = new List<Estado>();
-
-            string consultaBaseDatos = "SELECT * FROM Estado WHERE Estado.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
-
-            DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-            foreach (DataRow columna in tablaDeDesglose.Rows)
+            if (identificadorUsuario != "" && identificadorUsuario != null)
             {
-                estados.Add(
-                new Estado
+
+                string consultaBaseDatos = "SELECT * FROM Estado WHERE Estado.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+
+                DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
+                foreach (DataRow columna in tablaDeDesglose.Rows)
                 {
-                    Id = Convert.ToInt32(columna["IdentificadorEstado"]),
-                    Nombre = Convert.ToString(columna["NombreEstado"]),
-                    UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"])
-                });
+                    estados.Add(
+                    new Estado
+                    {
+                        Id = Convert.ToInt32(columna["IdentificadorEstado"]),
+                        Nombre = Convert.ToString(columna["NombreEstado"]),
+                        UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"])
+                    });
+                }
             }
             return estados;
         }
@@ -114,19 +117,21 @@ namespace ToDoList.Handlers
         public List<Categoria> ObtenerCategoriasUsuario(String identificadorUsuario)
         {
             List<Categoria> categorias = new List<Categoria>();
-
-            string consultaBaseDatos = "SELECT * FROM Categoria WHERE Categoria.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
-
-            DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-            foreach (DataRow columna in tablaDeDesglose.Rows)
+            if (identificadorUsuario != "" && identificadorUsuario != null)
             {
-                categorias.Add(
-                new Categoria
+                string consultaBaseDatos = "SELECT * FROM Categoria WHERE Categoria.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+
+                DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
+                foreach (DataRow columna in tablaDeDesglose.Rows)
                 {
-                    Id = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                    Nombre = Convert.ToString(columna["NombreCategoria"]),
-                    UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"])
-                });
+                    categorias.Add(
+                    new Categoria
+                    {
+                        Id = Convert.ToInt32(columna["IdentificadorCategoria"]),
+                        Nombre = Convert.ToString(columna["NombreCategoria"]),
+                        UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"])
+                    });
+                }
             }
             return categorias;
         }
@@ -135,34 +140,38 @@ namespace ToDoList.Handlers
         {
             List<Tarea> tareas = new List<Tarea>();
 
-            string consultaBaseDatos = "SELECT * FROM Tarea WHERE Tarea.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
-
-            using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
+            if (identificadorUsuario != "" && identificadorUsuario != null)
             {
 
+                string consultaBaseDatos = "SELECT * FROM Tarea WHERE Tarea.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
 
-                DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-                foreach (DataRow columna in tablaDeDesglose.Rows)
+                using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
                 {
-                    tareas.Add(
-                    new Tarea
-                    {
-                        Id = Convert.ToString(columna["IdentificadorTarea"]),
-                        Titulo = Convert.ToString(columna["Titulo"]),
-                        Descripcion = Convert.ToString(columna["Descripcion"]),
-                        FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-                        FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-                        Dificultad = Convert.ToInt16(columna["Dificultad"]),
-                        Prioridad = Convert.ToInt16(columna["Prioridad"]),
-                        UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-                        Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                        Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-                    });
-                }
-                return tareas;
-            }
-        }
 
+
+                    DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
+                    foreach (DataRow columna in tablaDeDesglose.Rows)
+                    {
+                        tareas.Add(
+                        new Tarea
+                        {
+                            Id = Convert.ToString(columna["IdentificadorTarea"]),
+                            Titulo = Convert.ToString(columna["Titulo"]),
+                            Descripcion = Convert.ToString(columna["Descripcion"]),
+                            FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
+                            FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
+                            Dificultad = Convert.ToInt16(columna["Dificultad"]),
+                            Prioridad = Convert.ToInt16(columna["Prioridad"]),
+                            UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
+                            Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
+                            Estado = Convert.ToInt32(columna["IdentificadorEstado"])
+                        });
+                    }
+                }
+            }
+            return tareas;
+         }
     }
+
 }
 
