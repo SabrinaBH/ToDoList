@@ -316,6 +316,215 @@ namespace ToDoList.Handlers
 
             return completado;
         }
+
+        public bool ActualizarTarea(Tarea tarea)
+        {
+            bool completado = false;
+
+            string consulta = "ActualizarTarea";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@TituloCambio", tarea.Titulo);
+            comando.Parameters.AddWithValue("@DescripcionCambio", tarea.Descripcion);
+            comando.Parameters.AddWithValue("@FechaInicialCambio", tarea.FechaInicial);
+            comando.Parameters.AddWithValue("@FechaFinalCambio", tarea.FechaFinal);
+            comando.Parameters.AddWithValue("@DificultadCambio", tarea.Dificultad);
+            comando.Parameters.AddWithValue("@PrioridadCambio", tarea.Prioridad);
+            comando.Parameters.AddWithValue("@IdentificadorCreador", tarea.UsuarioCreador);
+            comando.Parameters.AddWithValue("@IdentificadorTarea", tarea.Id);
+            comando.Parameters.AddWithValue("@IdentificadorCategoriaCambio", tarea.Categoria);
+            comando.Parameters.AddWithValue("@IdentificadorEstadoCambio", tarea.Estado);
+            SqlParameter completadoExito = new SqlParameter("@ActualizadoCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+        public bool ActualizarUsuario(Usuario usuario)
+        {
+            bool completado = false;
+
+            string consulta = "ActualizarUsuario";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdentificadorUsuario", usuario.Id);
+            comando.Parameters.AddWithValue("@NombreCambio", usuario.Nombre);
+            comando.Parameters.AddWithValue("@PrimerApellidoCambio", usuario.PrimerApellido);
+            comando.Parameters.AddWithValue("@SegundoApellidoCambio", usuario.SegundoApellido);
+            comando.Parameters.AddWithValue("@EmailCambio", usuario.Email);
+            SqlParameter completadoExito = new SqlParameter("@ActualizadoCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+        public bool BorrarTarea(Tarea tarea)
+        {
+            bool completado = false;
+
+            string consulta = "BorrarTarea";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdentificadorTarea", tarea.Id);
+            comando.Parameters.AddWithValue("@IdentificadorUsuarioCreador", tarea.UsuarioCreador);
+            SqlParameter completadoExito = new SqlParameter("@BorradoCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+
+        public bool BorrarCategoria(Categoria categoria)
+        {
+            bool completado = false;
+
+            string consulta = "BorrarCategoria";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdentificadorCategoria", categoria.Id);
+            comando.Parameters.AddWithValue("@IdentificadorUsuarioCreador", categoria.UsuarioCreador);
+            SqlParameter completadoExito = new SqlParameter("@BorradoCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+        public bool BorrarEstado(Estado estado)
+        {
+            bool completado = false;
+
+            string consulta = "BorrarEstado";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdentificadorEstado", estado.Id);
+            comando.Parameters.AddWithValue("@IdentificadorUsuarioCreador", estado.UsuarioCreador);
+            SqlParameter completadoExito = new SqlParameter("@BorradoCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+        public bool BorrarUsuario(Usuario usuario)
+        {
+            bool completado = false;
+
+            string consulta = "BorrarUsuario";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@IdentificadorUsuario", usuario.Id);
+            SqlParameter completadoExito = new SqlParameter("@BorradoCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
     }
 
 }
