@@ -83,34 +83,43 @@ namespace Diseno.Controllers
 
         public IActionResult Index()
         {
-            int contadorPendientes = 0;
-            int contadorProceso = 0;
-            int contadorTerminado = 0;
-            ViewBag.Tareas = tareas;
-            foreach (Tarea tarea in tareas)
-            {
-                if (tarea.Estado == 1)
-                {
-                    contadorPendientes += 1;
-                }
-                if (tarea.Estado == 2)
-                {
-                    contadorProceso += 1;
-                }
-                if (tarea.Estado == 3)
-                {
-                    contadorTerminado += 1;
-                }
+            var userToken = HttpContext.Session.GetString("_UserToken");
+            if (userToken == null) { // Si no hay un token de usuario
+                return RedirectToAction("Login", "Account");
             }
-            ViewBag.Pendientes = contadorPendientes;
-            ViewBag.Procesos = contadorProceso;
-            ViewBag.Terminados = contadorTerminado;
-            ViewBag.Categorias = categorias;
-            return View();
+            else
+            {
+                ViewData["token"] = userToken;
+                int contadorPendientes = 0;
+                int contadorProceso = 0;
+                int contadorTerminado = 0;
+                ViewBag.Tareas = tareas;
+                foreach (Tarea tarea in tareas)
+                {
+                    if (tarea.Estado == 1)
+                    {
+                        contadorPendientes += 1;
+                    }
+                    if (tarea.Estado == 2)
+                    {
+                        contadorProceso += 1;
+                    }
+                    if (tarea.Estado == 3)
+                    {
+                        contadorTerminado += 1;
+                    }
+                }
+                ViewBag.Pendientes = contadorPendientes;
+                ViewBag.Procesos = contadorProceso;
+                ViewBag.Terminados = contadorTerminado;
+                ViewBag.Categorias = categorias;
+                return View();
+            }
         }
 
         public IActionResult AddTask()
         {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken"); // The view needs the token
             return View();
         }
 

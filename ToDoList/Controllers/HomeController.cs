@@ -7,7 +7,7 @@ namespace ToDoList.Controllers
 {
     public class HomeController : Controller
     {
-        HandlerObtenerDatos handlerObtenerDatos = new HandlerObtenerDatos();
+        HandlerObtenerDatos handlerObtenerDatos = new();
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -18,21 +18,21 @@ namespace ToDoList.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var userToken = HttpContext.Session.GetString("_UserToken");
+            if (userToken == null)
+            { // Si no hay un token de usuario
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                ViewData["token"] = userToken;
+                return View();
+            }
         }
 
         public IActionResult Privacy()
         {
-            return View();
-        }
-
-        public IActionResult SignIn()
-        {
-            return View();
-        }
-
-        public IActionResult SignUp()
-        {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken");
             return View();
         }
 

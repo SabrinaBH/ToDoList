@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var token = ViewData["token"];
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,9 +26,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
-                        </li>
+                        @if (token == null) {
+                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión </a></li>
+                        } else {
+                            <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a></li>
+                        }
                     </ul>
                 </div>
             </div>
