@@ -4,11 +4,7 @@ namespace ToDoList.Models
 {
     public class Tarea
     {
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "Debe ingresar el titulo")]
-        [MinLength(3, ErrorMessage = "Debe ingresar al menos 3 caracteres")]
-        [Display(Name = "Titulo")]
+        public String Id { get; set; }
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar la descripcion")]
@@ -34,10 +30,6 @@ namespace ToDoList.Models
         [Display(Name = "Prioridad")]
         public int Prioridad { get; set; }
         public int UsuarioCreador { get; set; }
-
-        [Required(ErrorMessage = "Debe seleccionar la categoria")]
-        [Range(1, 5)]
-        [Display(Name = "Categoria")]
         public int Categoria { get; set; }
         public int Estado { get; set; }
 
