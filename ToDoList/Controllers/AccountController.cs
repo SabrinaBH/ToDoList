@@ -44,14 +44,20 @@ namespace ToDoList.Controllers
         //saving the token in a session variable
         if (token != null)
         {
-          HttpContext.Session.SetString("_UserToken", token);
+
           var user = new Usuario(model.Name!, model.LastName!, model.SecondLastName!, model.Email!, model.IsAGame);
           var inserted = DBServer.InsertarNuevoUsuario(user);
           if (inserted)
           {
-            var guid = DBServer.ObtenerIDUsuario(model.Email!);
-            HttpContext.Session.SetString("_UserId", guid);
-            return RedirectToAction("Index", "Tarea");
+            var UserExistInDB = SetSession(model.Email!, token);
+            if (UserExistInDB)
+            {
+              return RedirectToAction("Index", "Tarea");
+            }
+            else
+            {
+              // 
+            }
           }
           else
           {
@@ -89,10 +95,11 @@ namespace ToDoList.Controllers
         // save the token to a session variable
         if (token != null)
         {
-          HttpContext.Session.SetString("_UserToken", token);
-          // HttpContext.Session.SetString("_UserEmail", model.Email!);
-
-          return RedirectToAction("Index", "Tarea");
+          var userExistInDB = SetSession(model.Email!, token);
+          if (userExistInDB)
+          {
+            return RedirectToAction("Index", "Tarea");
+          }
         }
 
       }
@@ -110,7 +117,24 @@ namespace ToDoList.Controllers
     public IActionResult Logout()
     {
       HttpContext.Session.Remove("_UserToken");
+      HttpContext.Session.Remove("_UserId");
       return RedirectToAction("Login", "Account");
+    }
+
+    public bool SetSession(string email, string token)
+    {
+      var guid = DBServer.ObtenerIDUsuario(email);
+      HttpContext.Session.SetString("_UserId", guid);
+      HttpContext.Session.SetString("_UserToken", token);
+      bool isValid = Guid.TryParse(guid, out Guid guidOutput); // Guid retornado es valido
+      if (isValid)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
   }
 }
