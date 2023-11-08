@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
+using ToDoList.Handlers;
 using Firebase.Auth;
 using Newtonsoft.Json;
 
@@ -11,6 +12,7 @@ namespace ToDoList.Controllers
     // GET: CuentaLogin
 
     FirebaseAuthProvider auth;
+    HandlerObtenerDatos DBServer = new();
 
     public AccountController()
     {
@@ -43,8 +45,18 @@ namespace ToDoList.Controllers
         if (token != null)
         {
           HttpContext.Session.SetString("_UserToken", token);
-
-          return RedirectToAction("Index", "Tarea");
+          var user = new Usuario(model.Name!, model.LastName!, model.SecondLastName!, model.Email!, model.IsAGame);
+          var inserted = DBServer.InsertarNuevoUsuario(user);
+          if (inserted)
+          {
+            var guid = DBServer.ObtenerIDUsuario(model.Email!);
+            HttpContext.Session.SetString("_UserId", guid);
+            return RedirectToAction("Index", "Tarea");
+          }
+          else
+          {
+            // error inserting user to database
+          }
         }
       }
       catch (FirebaseAuthException ex)
