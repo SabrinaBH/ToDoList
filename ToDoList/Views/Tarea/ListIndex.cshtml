@@ -1,6 +1,4 @@
-﻿@page "/"
-
-@{
+﻿@{
   string uno = "Alta";
   string dos = "Media";
   string tres = "Baja";
@@ -9,22 +7,9 @@
 <html>
 <head>
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
-
-<header>
-  <div class="header-content">
-    <div class="header-user">
-      <img src="/Images/user.png" alt="Foto de usuario" class="user-img">
-      <h4>Juan Perez</h4>
-    </div>
-    <div class="header-logo">
-      <img src="/Images/Logo.png" alt="Logo de la empresa" class="logo-img">
-    </div>
-    <div class="header-logout">
-      <a href="/Account/Login" class="btn btn-close">Cerrar sesión</a>
-    </div>
-  </div>
-</header>
 
 <body>
   <div class="buscar-contenedor">
@@ -40,7 +25,7 @@
         <h2>Pendientes</h2>
         <h4>@ViewBag.Pendientes</h4>
       </div>
-      <ul class="list-group">
+      <ul class="list-group" id="listaPendientes">
         @if (ViewBag.Pendientes == 0)
         {
           <div class="sin-tareas">
@@ -53,7 +38,7 @@
           {
             if (tarea.Estado == 1)
             {
-              <li class="col-item" data-tarea="@tarea.Id">
+              <li class="col-item list1-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-pendiente">
                     <div class="header-task">
@@ -76,23 +61,26 @@
                           <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
                         }
                       </p>
-                        <p class="list-group-item-text prioridad">
-                            @if (tarea.Prioridad == 1)
-                            {
-                              @uno;
-                            }
-                            else
-                            {
-                              if (tarea.Prioridad == 2)
-                              {
-                                @dos;
-                              }
-                              else
-                              {
-                                @tres;
-                              }
-                            }
-                        </p>
+                      <p class="list-group-item-text prioridad">
+                        @if (tarea.Prioridad == 1)
+                        {
+                          @uno
+                          ;
+                        }
+                        else
+                        {
+                          if (tarea.Prioridad == 2)
+                          {
+                            @dos
+                            ;
+                          }
+                          else
+                          {
+                            @tres
+                            ;
+                          }
+                        }
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -107,7 +95,7 @@
         <h2>En Proceso</h2>
         <h4>@ViewBag.Procesos</h4>
       </div>
-      <ul class="list-group">
+      <ul class="list-group" id="listaProceso">
         @if (ViewBag.Procesos == 0)
         {
           <div class="sin-tareas">
@@ -120,7 +108,7 @@
           {
             if (tarea.Estado == 2)
             {
-              <li class="col-item" data-tarea="@tarea.Id">
+              <li class="col-item list2-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-proceso">
                     <div class="header-task">
@@ -130,7 +118,8 @@
                         {
                           if (tarea.Categoria == categoria.Id)
                           {
-                            @categoria.Nombre;
+                            @categoria.Nombre
+                            ;
                           }
                         }
                       </p>
@@ -145,17 +134,20 @@
                       <p class="list-group-item-text prioridad">
                         @if (tarea.Prioridad == 1)
                         {
-                          @uno;
+                          @uno
+                          ;
                         }
                         else
                         {
                           if (tarea.Prioridad == 2)
                           {
-                            @dos;
+                            @dos
+                            ;
                           }
                           else
                           {
-                            @tres;
+                            @tres
+                            ;
                           }
                         }
                       </p>
@@ -173,7 +165,7 @@
         <h2>Terminados</h2>
         <h4>@ViewBag.Terminados</h4>
       </div>
-      <ul class="list-group">
+      <ul class="list-group" id="listaTerminados">
         @if (ViewBag.Terminados == 0)
         {
           <div class="sin-tareas">
@@ -186,7 +178,7 @@
           {
             if (tarea.Estado == 3)
             {
-              <li class="col-item" data-tarea="@tarea.Id">
+              <li class="col-item list3-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-terminado">
                     <div class="header-task">
@@ -196,7 +188,8 @@
                         {
                           if (tarea.Categoria == categoria.Id)
                           {
-                            @categoria.Nombre;
+                            @categoria.Nombre
+                            ;
                           }
                         }
                       </p>
@@ -211,17 +204,20 @@
                       <p class="list-group-item-text prioridad">
                         @if (tarea.Prioridad == 1)
                         {
-                          @uno;
+                          @uno
+                          ;
                         }
                         else
                         {
                           if (tarea.Prioridad == 2)
                           {
-                            @dos;
+                            @dos
+                            ;
                           }
                           else
                           {
-                            @tres;
+                            @tres
+                            ;
                           }
                         }
                       </p>
@@ -235,7 +231,101 @@
       </ul>
     </div>
   </div>
+  <script>
+    $(function () {
+      //Se crean los objetos draggables por cada elementos de las listas
+      //jQuery("#listaPendientes li").draggable({
+      //    revert:true
+      //})
+      //jQuery("#listaProceso li").draggable({
+      //    revert:true
+      //})
+      //jQuery("#listaTerminados li").draggable({
+      //    revert:true
+      //})
+
+      ////Se crea un objeto droppable por cada lista
+      //jQuery("#listaPendientes").droppable({
+      //    accept:".list2-item, .list3-item",
+      //    drop: function(event, ui) {
+      //        ci = jQuery(this).parent().children().index(this);
+      //        ri = jQuery(this).parent().parent().children().index(this.parentNode);
+      //    }
+      //})
+
+      var drag1 = $("#listaPendientes li").draggable({
+        revert: true
+      })
+      var drag2 = $("#listaProceso li").draggable({
+        revert: true
+      })
+      var drag3 = $("#listaTerminados li").draggable({
+        revert: true
+      })
+
+      // Creamos un objeto de la clase Droppable para cada lista
+      var droppable1 = $("#listaPendientes").droppable({
+        accept: $("#listaProceso li, #listaTerminados li")
+      })
+      var droppable2 = $("#listaProceso").droppable({
+        accept: $("#listaPendientes li, #listaTerminados li")
+      })
+      var droppable3 = $("#listaTerminados").droppable({
+        accept: $("#listaPendientes li, #listaProceso li")
+      })
+
+      // Agregamos el elemento arrastrado a la lista correspondiente cuando se suelta
+
+      // HACER QUE EL DROP FUNCIONE...SEGUIR PROBANDO
+
+      drag1.on("dragend", function () {
+        var target = $(this).parent();
+        console.log(this);
+        console.log(target);
+
+        // Si el elemento se suelta en la lista 2
+        if (target.attr("id") === "listaProceso") {
+          $("#listaPendientes").append(this);
+        }
+
+        // Si el elemento se suelta en la lista 3
+        else if (target.attr("id") === "listaTerminados") {
+          $("#listaPendientes").append(this);
+        }
+      });
+
+      drag2.on("dragend", function () {
+        var target = $(this).parent();
+
+        // Si el elemento se suelta en la lista 1
+        if (target.attr("id") === "listaPendientes") {
+          $("#listaProceso").append(this);
+        }
+
+        // Si el elemento se suelta en la lista 3
+        else if (target.attr("id") === "listaTerminados") {
+          $("#listaProceso").append(this);
+        }
+      });
+
+      drag3.on("dragend", function () {
+        var target = $(this).parent();
+
+        // Si el elemento se suelta en la lista 1
+        if (target.attr("id") === "listaPendientes") {
+          $("#listaTerminados").append(this);
+        }
+
+        // Si el elemento se suelta en la lista 2
+        else if (target.attr("id") === "listaProceso") {
+          $("#listaTerminados").append(this);
+        }
+      });
+    })
+  </script>
 </body>
+
+<script src="~/js/site.js" asp-append-version="true"></script>
 </html>
 
 
