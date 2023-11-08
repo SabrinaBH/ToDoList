@@ -151,29 +151,175 @@ namespace ToDoList.Handlers
         {
 
 
-          DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-          foreach (DataRow columna in tablaDeDesglose.Rows)
-          {
-            tareas.Add(
-            new Tarea
+                    DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
+                    foreach (DataRow columna in tablaDeDesglose.Rows)
+                    {
+                        tareas.Add(
+                        new Tarea
+                        {
+                            Id = Convert.ToString(columna["IdentificadorTarea"]),
+                            Titulo = Convert.ToString(columna["Titulo"]),
+                            Descripcion = Convert.ToString(columna["Descripcion"]),
+                            FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
+                            FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
+                            Dificultad = Convert.ToInt16(columna["Dificultad"]),
+                            Prioridad = Convert.ToInt16(columna["Prioridad"]),
+                            UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
+                            Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
+                            Estado = Convert.ToInt32(columna["IdentificadorEstado"])
+                        });
+                    }
+                }
+            }
+            return tareas;
+         }
+
+
+        public bool InsertarNuevoUsuario(Usuario usuario)
+        {
+            bool completado = false;
+
+            string consulta = "InsertarNuevoUsuario";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@NombreNuevo", usuario.Nombre);
+            comando.Parameters.AddWithValue("@PrimerApellidoNuevo", usuario.PrimerApellido);
+            comando.Parameters.AddWithValue("@SegundoApellidoNuevo", usuario.SegundoApellido);
+            comando.Parameters.AddWithValue("@EmailNuevo", usuario.Email);
+            comando.Parameters.AddWithValue("@EsUsuarioDeJuego", usuario.EsUsuarioDeJuego);
+            SqlParameter completadoExito = new SqlParameter("@InsertCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
             {
-              Id = Convert.ToString(columna["IdentificadorTarea"]),
-              Titulo = Convert.ToString(columna["Titulo"]),
-              Descripcion = Convert.ToString(columna["Descripcion"]),
-              FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-              FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-              Dificultad = Convert.ToInt16(columna["Dificultad"]),
-              Prioridad = Convert.ToInt16(columna["Prioridad"]),
-              UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-              Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-              Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-            });
-          }
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
         }
-      }
-      return tareas;
+
+
+        public bool InsertarNuevaCategoria(Categoria categoria)
+        {
+            bool completado = false;
+
+            string consulta = "InsertarNuevaCategoria";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@NombreNuevo", categoria.Nombre);
+            comando.Parameters.AddWithValue("@IdentificadorCreador", categoria.UsuarioCreador);
+
+            SqlParameter completadoExito = new SqlParameter("@InsertCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+        public bool InsertarNuevoEstado(Estado estado)
+        {
+            bool completado = false;
+
+            string consulta = "InsertarNuevoEstado";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@NombreNuevo", estado.Nombre);
+            comando.Parameters.AddWithValue("@IdentificadorCreador", estado.UsuarioCreador);
+
+            SqlParameter completadoExito = new SqlParameter("@InsertCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
+
+        public bool InsertarNuevaTarea(Tarea tarea)
+        {
+            bool completado = false;
+
+            string consulta = "InsertarNuevaTarea";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@TituloNuevo", tarea.Titulo);
+            comando.Parameters.AddWithValue("@DescripcionNueva", tarea.Descripcion);
+            comando.Parameters.AddWithValue("@FechaInicialNueva", tarea.FechaInicial);
+            comando.Parameters.AddWithValue("@FechaFinalNueva", tarea.FechaFinal);
+            comando.Parameters.AddWithValue("@Dificultad", tarea.Dificultad);
+            comando.Parameters.AddWithValue("@Prioridad", tarea.Prioridad);
+            comando.Parameters.AddWithValue("@IdentificadorCreador", tarea.UsuarioCreador);
+            comando.Parameters.AddWithValue("@IdentificadorCategoria", tarea.Categoria);
+            comando.Parameters.AddWithValue("@IdentificadorEstado", tarea.Estado);
+            SqlParameter completadoExito = new SqlParameter("@InsertCompletado", SqlDbType.Bit);
+            completadoExito.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(completadoExito);
+
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (completadoExito.Value != null)
+            {
+                completado = Convert.ToBoolean(completadoExito.Value);
+            }
+
+            return completado;
+        }
     }
-  }
 
 }
 
