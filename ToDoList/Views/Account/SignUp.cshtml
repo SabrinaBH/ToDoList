@@ -26,21 +26,21 @@
                                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-user", placeholder = "Nombre", required = "required" } })
                                         </div>
                                         <div class="form-group py-1">
+                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control form-control-user", placeholder = "Nombre", required = "required" } })
+                                        </div>
+                                        <div class="form-group py-1">
+                                            @Html.EditorFor(model => model.SecondLastName, new { htmlAttributes = new { @class = "form-control form-control-user", placeholder = "Nombre", required = "required" } })
+                                        </div>
+                                        <div class="form-group py-1">
                                             @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", required = "required" } })
                                         </div>
                                         <div class="form-group py-1">
                                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Contraseña", required = "required" } })
                                         </div>
                                         <div class="py-1">
-                                            <input type="checkbox" id="checkBoxEsJuego" onclick="showText()">
+                                            <input type="checkbox" id="checkBoxEsJuego" onclick="isGame() asp-for=model.IsAGame">
                                             <a id="TextEsJuego" style="">Es un juego</a>
-                                            <p><input class="form-control" placeholder="Nombre del juego" type="text" id="textBoxEsJuego" style="display:none"></p>
-                                                <select id="selectGame" class="form-select" aria-label="Default select" style="display:none">
-                                                    <option value="Juego1">Juego1</option>
-                                                    <option value="Juego2">Juego2</option>
-                                                    <option value="Juego3">Juego3</option>
-                                                    <option value="Juego4">Juego4</option>
-                                                </select>
+                                                
                                         </div>
                                         <div class="d-grid gap-2 py-4">
                                             <button type="submit" class="btn btn-secondary text-light p-2">Registrarse</button>
@@ -60,15 +60,15 @@
 
     </div>
     }
-    @* Si se selecciona el checkbox se muestra el cuadro de texto*@
+    @* Si se selecciona el checkbox es verdadero*@
     <script>
-        function showText() {
+        function isGame() {
             var checkBox = document.getElementById("checkBoxEsJuego");
             var text = document.getElementById("selectGame");
             if (checkBox.checked == true) {
-                text.style.display = "block";
+                model.IsAGame = true;)
             } else {
-                text.style.display = "none";
+                model.IsAGame = false;
             }
         }
     </script>

@@ -22,7 +22,7 @@
       EsUsuarioDeJuego = false;
     }
 
-    public Usuario(string id, string nombre, string primerApellido, string segundoApellido, string email, bool esJuego)
+    public Usuario(string nombre, string primerApellido, string segundoApellido, string email, bool esJuego)
     {
       Id = Guid.NewGuid().ToString();
       //Id = id;

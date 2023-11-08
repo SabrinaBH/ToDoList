@@ -78,6 +78,8 @@ namespace ToDoList.Controllers
         if (token != null)
         {
           HttpContext.Session.SetString("_UserToken", token);
+          // HttpContext.Session.SetString("_UserEmail", model.Email!);
+
           return RedirectToAction("Index", "Tarea");
         }
 
