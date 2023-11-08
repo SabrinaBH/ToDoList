@@ -88,9 +88,13 @@ namespace ToDoList.Controllers
             else
             {
                 ViewData["token"] = userToken;
-                return View();
+                return View("~/Shared/TableroBase.cshtml");
             }
         }
+
+        public IActionResult Home() {
+      return View();
+    }
 
         public IActionResult Privacy()
         {

@@ -59,29 +59,29 @@ namespace Diseno.Controllers
             {
                 Id = 1,
                 Nombre = "Alimentacion",
-                UsuarioCreador = 1,
+                UsuarioCreador = "1",
             },
             new Categoria
             {
                 Id = 2,
                 Nombre = "Estudio",
-                UsuarioCreador = 1,
+                UsuarioCreador = "1",
             },
             new Categoria
             {
                 Id = 3,
                 Nombre = "Trabajo",
-                UsuarioCreador = 1,
+                UsuarioCreador = "1",
             },
             new Categoria
             {
                 Id = 4,
                 Nombre = "Entretenimiento",
-                UsuarioCreador = 1,
+                UsuarioCreador = "1",
             },
         };
 
-        public IActionResult Index()
+        public IActionResult ListIndex()
         {
             var userToken = HttpContext.Session.GetString("_UserToken");
             if (userToken == null) { // Si no hay un token de usuario
@@ -116,6 +116,43 @@ namespace Diseno.Controllers
                 return View();
             }
         }
+
+        public IActionResult GameIndex()
+        {
+            var userToken = HttpContext.Session.GetString("_UserToken");
+            if (userToken == null)
+            { // Si no hay un token de usuario
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                ViewData["token"] = userToken;
+                int contadorPendientes = 0;
+                int contadorProceso = 0;
+                int contadorTerminado = 0;
+                ViewBag.Tareas = tareas;
+                foreach (Tarea tarea in tareas)
+                {
+                    if (tarea.Estado == 1)
+                    {
+                        contadorPendientes += 1;
+                    }
+                    if (tarea.Estado == 2)
+                    {
+                        contadorProceso += 1;
+                    }
+                    if (tarea.Estado == 3)
+                    {
+                        contadorTerminado += 1;
+                    }
+                }
+                ViewBag.Pendientes = contadorPendientes;
+                ViewBag.Procesos = contadorProceso;
+                ViewBag.Terminados = contadorTerminado;
+                ViewBag.Categorias = categorias;
+                return View();
+            }
+    }
 
         public IActionResult AddTask()
         {
