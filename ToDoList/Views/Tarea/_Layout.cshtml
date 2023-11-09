@@ -1,0 +1,50 @@
+﻿@{
+  var token = ViewData["token"];
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - ToDoList</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/ToDoList.styles.css" asp-append-version="true" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content container">
+      <div class="header-user">
+        <img src="/Images/user.png" alt="Foto de usuario" class="user-img">
+        <h4>Juan Perez</h4>
+      </div>
+      <div class="header-logo">
+        <img src="/Images/Logo.png" alt="Logo de la empresa" class="logo-img">
+      </div>
+      <div class="header-logout">
+        <a class="btn btn-close" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <main role="main" class="pb-3">
+      @RenderBody()
+    </main>
+  </div>
+
+  <footer class="border-top footer text-muted">
+    <div class="container">
+      &copy; 2023 - ToDoList - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+  </footer>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

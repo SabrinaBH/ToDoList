@@ -1,0 +1,55 @@
+﻿@model ToDoList.Models.LoginModel
+
+<body class="bg-gradient-primary">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="container">
+
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+
+                <div class="col-xl-10 col-lg-12 col-md-9">
+
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-3 d-none d-lg-block"></div>
+                                <div class="col-lg-6">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Bienvenido</h1>
+                                        </div>
+                                        @Html.ValidationSummary(true, "Datos inválidos", new { @class = "text-danger" })
+                                        <form class="py-2" asp-controller="Account" asp-action="Login" method="post">
+                                            <div class="form-group py-1">
+                                                <input asp-for="Email" id="Email" class="form-control" placeholder="Email" autocomplete="email" aria-required="true" />
+                                                <span asp-validation-for="Email" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group py-1">
+                                                <input asp-for="Password" id="Contrasena" class="form-control" placeholder="Contraseña" autocomplete="contraseña" aria-required="true" />
+                                                <span asp-validation-for="Password" class="text-danger"></span>
+                                            </div>
+                                            <div class="d-grid gap-2 py-4">
+                                                <button type="submit" class="btn btn-secondary text-light p-2">Iniciar Sesión</button>
+                                            </div>
+                                        </form>
+                                        <hr>
+                                        <div class="text-center text-primary py-4">
+                                            @Html.ActionLink("No tiene cuenta? Registrarse!", "SignUp", "Account")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+</body>

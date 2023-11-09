@@ -1,0 +1,13 @@
+$theme-colors: (    "primary": #0C8CE9, 
+                    "secondary":#33B864, 
+                    "success":#33B864, 
+                    "info":#F94B0A, 
+                    "warning":#F61313, 
+                    "danger": #F61313, 
+                    "light":#fffff0, 
+                    "dark": #00000f );
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+// instalar bootstrap, node-sass
+// node-sass --watch custom.scss custom.css
+
