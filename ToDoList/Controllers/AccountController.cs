@@ -12,7 +12,7 @@ namespace ToDoList.Controllers
     // GET: CuentaLogin
 
     FirebaseAuthProvider auth;
-    HandlerObtenerDatos DBServer = new();
+    HandlerObtenerDatos DBServer = new HandlerObtenerDatos();
 
     public AccountController()
     {
@@ -50,9 +50,10 @@ namespace ToDoList.Controllers
           if (inserted)
           {
             var UserExistInDB = SetSession(model.Email!, token);
+            System.Diagnostics.Debug.WriteLine(UserExistInDB);
             if (UserExistInDB)
             {
-              return RedirectToAction("Index", "Tarea");
+              return RedirectToAction("ListIndex", "Tarea");
             }
             else
             {
@@ -98,7 +99,12 @@ namespace ToDoList.Controllers
           var userExistInDB = SetSession(model.Email!, token);
           if (userExistInDB)
           {
-            return RedirectToAction("Index", "Tarea");
+            return RedirectToAction("ListIndex", "Tarea");
+          }
+          else
+          {
+            //Que devuelva al registrarse
+            return RedirectToAction("GameIndex", "Tarea");
           }
         }
 

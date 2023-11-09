@@ -1,33 +1,13 @@
 ﻿@page "/"
 
 @{
+  Layout = "~/Views/Tarea/_Layout.cshtml";
   string uno = "Alta";
   string dos = "Media";
   string tres = "Baja";
 }
 
 <html>
-<head>
-  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-</head>
-
-<header>
-  <div class="header-content">
-    <div class="header-user">
-      <img src="/Images/user.png" alt="Foto de usuario" class="user-img">
-      <h4>Juan Perez</h4>
-    </div>
-    <div class="header-logo">
-      <img src="/Images/Logo.png" alt="Logo de la empresa" class="logo-img">
-    </div>
-    <div class="header-logout">
-      <a href="/Account/Login" class="btn btn-close">Cerrar sesión</a>
-    </div>
-  </div>
-</header>
-
 <body>
   <div class="buscar-contenedor">
     <a href="/Tarea/AddTask" class="btn-agregar">Nueva Tarea</a>
@@ -286,7 +266,6 @@
 
         drag1.on("dragend", function () {
             var target = $(this).parent();
-            console.log(this);
             console.log(target);
 
             // Si el elemento se suelta en la lista 2
