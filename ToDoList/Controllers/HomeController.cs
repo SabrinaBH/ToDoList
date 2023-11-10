@@ -14,6 +14,8 @@ namespace ToDoList.Controllers
 
         public HomeController(ILogger<HomeController> logger)
         {
+
+            //bool resultado = handlerObtenerDatos.ObtenerEsJuego("pablo.rodrigueznavarro@ucr.ac.cr");
             //string id = handlerObtenerDatos.ObtenerIDUsuarioAdmin();
             //handlerObtenerDatos.ObtenerCategoriasUsuario(id);
             //handlerObtenerDatos.ObtenerEstadosUsuario(id);
