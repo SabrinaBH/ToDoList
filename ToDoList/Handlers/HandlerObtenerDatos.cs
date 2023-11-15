@@ -96,26 +96,21 @@ namespace ToDoList.Handlers
             return resultado;
         }
 
-        public List<Usuario> ObtenerUsuario(String identificadorUsuario)
+        public Usuario ObtenerUsuario(String identificadorUsuario)
         {
-            List<Usuario> usuario = new List<Usuario>();
-
             string consultaBaseDatos = "SELECT * FROM Usuario WHERE Usuario.IdentificadorUsuario = '" + identificadorUsuario + "';";
 
             DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-            foreach (DataRow columna in tablaDeDesglose.Rows)
+            DataRow columna = tablaDeDesglose.Rows[0];
+            Usuario usuario = new Usuario
             {
-                usuario.Add(
-                new Usuario
-                {
-                    Id = Convert.ToString(columna["IdentificadorUsuario"]),
-                    Nombre = Convert.ToString(columna["Nombre"]),
-                    PrimerApellido = Convert.ToString(columna["PrimerApellido"]),
-                    SegundoApellido = Convert.ToString(columna["SegundoApellido"]),
-                    Email = Convert.ToString(columna["Email"]),
-                    EsUsuarioDeJuego = Convert.ToBoolean(columna["EsUsuarioDeJuego"])
-                });
-            }
+                Id = Convert.ToString(columna["IdentificadorUsuario"]),
+                Nombre = Convert.ToString(columna["Nombre"]),
+                PrimerApellido = Convert.ToString(columna["PrimerApellido"]),
+                SegundoApellido = Convert.ToString(columna["SegundoApellido"]),
+                Email = Convert.ToString(columna["Email"]),
+                EsUsuarioDeJuego = Convert.ToBoolean(columna["EsUsuarioDeJuego"])
+            };
             return usuario;
         }
 
