@@ -53,7 +53,7 @@ namespace ToDoList.Models
             Dificultad = 1;
         }
 
-        public Tarea(string titulo, string descripcion, DateTime inicial, DateTime final, int estado, int categoria, int prioridad, int dificultad)
+        public Tarea(string titulo, string descripcion, DateTime inicial, DateTime final, int estado, int categoria, int prioridad, int dificultad, string usuario)
         {
             Id = Guid.NewGuid().ToString();
             Titulo = titulo;
@@ -64,6 +64,7 @@ namespace ToDoList.Models
             Categoria = categoria;
             Prioridad = prioridad;
             Dificultad = dificultad;
+            UsuarioCreador = usuario;
         }
 
     }
