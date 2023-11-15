@@ -8,6 +8,7 @@ namespace ToDoList.Controllers
 {
   public class AccountController : Controller
   {
+    private Usuario Usuario { get; set; }
     private static readonly string apiKEY = "AIzaSyAhfcu4Po8oWj-5IvUGivpeXsRpA0P_2fI";
     // GET: CuentaLogin
 
@@ -19,10 +20,6 @@ namespace ToDoList.Controllers
       auth = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
     }
 
-    public IActionResult Index()
-    {
-      return View();
-    }
     [HttpGet]
     public IActionResult SignUp()
     {
@@ -50,14 +47,21 @@ namespace ToDoList.Controllers
           if (inserted)
           {
             var UserExistInDB = SetSession(model.Email!, token);
-            System.Diagnostics.Debug.WriteLine(UserExistInDB);
             if (UserExistInDB)
             {
-              return RedirectToAction("ListIndex", "Tarea");
+              ViewData["username"] = model.Name! + " " + model.LastName!;
+              if (DBServer.ObtenerEsJuego(model.Email!))
+              {
+                return RedirectToAction("GameIndex", "Tarea");
+              }
+              else
+              {
+                return RedirectToAction("ListIndex", "Tarea");
+              }
             }
             else
             {
-              // 
+              // Poner que el usuario no existe
             }
           }
           else
@@ -99,12 +103,20 @@ namespace ToDoList.Controllers
           var userExistInDB = SetSession(model.Email!, token);
           if (userExistInDB)
           {
-            return RedirectToAction("ListIndex", "Tarea");
+            Usuario usuario = DBServer.ObtenerUsuario(DBServer.ObtenerIDUsuario(model.Email!));
+            TempData["username"] = usuario.Nombre + " " + usuario.PrimerApellido;
+            if (DBServer.ObtenerEsJuego(model.Email!))
+            {
+              return RedirectToAction("GameIndex", "Tarea");
+            }
+            else
+            {
+              return RedirectToAction("ListIndex", "Tarea");
+            }
           }
           else
           {
             //Que devuelva al registrarse
-            return RedirectToAction("GameIndex", "Tarea");
           }
         }
 
@@ -122,14 +134,21 @@ namespace ToDoList.Controllers
     [HttpGet]
     public IActionResult Logout()
     {
+      Usuario = new Usuario();
       HttpContext.Session.Remove("_UserToken");
       HttpContext.Session.Remove("_UserId");
       return RedirectToAction("Login", "Account");
     }
 
+    public Usuario ObtenerUsuario(string id) 
+     {
+        return DBServer.ObtenerUsuario(id);
+     }
+
     public bool SetSession(string email, string token)
     {
       var guid = DBServer.ObtenerIDUsuario(email);
+      Usuario = DBServer.ObtenerUsuario(guid);
       HttpContext.Session.SetString("_UserId", guid);
       HttpContext.Session.SetString("_UserToken", token);
       bool isValid = Guid.TryParse(guid, out Guid guidOutput); // Guid retornado es valido
