@@ -53,11 +53,12 @@ namespace ToDoList.Controllers
             System.Diagnostics.Debug.WriteLine(UserExistInDB);
             if (UserExistInDB)
             {
+              //Buscar si es juego o no y enviar la vista correspondiente
               return RedirectToAction("ListIndex", "Tarea");
             }
             else
             {
-              // 
+              // Poner que el usuario no existe
             }
           }
           else
