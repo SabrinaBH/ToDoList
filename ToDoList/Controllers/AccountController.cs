@@ -103,9 +103,8 @@ namespace ToDoList.Controllers
           var userExistInDB = SetSession(model.Email!, token);
           if (userExistInDB)
           {
-            List<Usuario> usuarios = DBServer.ObtenerUsuario(DBServer.ObtenerIDUsuario(model.Email!));
-            Usuario user = usuarios[0];
-            TempData["username"] = user.Nombre + " " + user.PrimerApellido;
+            Usuario usuario = DBServer.ObtenerUsuario(DBServer.ObtenerIDUsuario(model.Email!));
+            TempData["username"] = usuario.Nombre + " " + usuario.PrimerApellido;
             if (DBServer.ObtenerEsJuego(model.Email!))
             {
               return RedirectToAction("GameIndex", "Tarea");
