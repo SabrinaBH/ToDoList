@@ -12,11 +12,11 @@ namespace ToDoList.Models
     public string? Name { get; set; }
 
     [Required]
-    [Display(Name = "Name")]
+    [Display(Name = "LastName")]
     public string? LastName { get; set; }
 
     [Required]
-    [Display(Name = "Name")]
+    [Display(Name = "SecondLastName")]
     public string? SecondLastName { get; set; }
 
     [Required]

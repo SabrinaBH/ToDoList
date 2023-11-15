@@ -1,5 +1,6 @@
 ﻿using ToDoList.Models;
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Handlers;
 
 namespace Diseno.Controllers
 {
@@ -89,6 +90,10 @@ namespace Diseno.Controllers
             }
             else
             {
+                var userId = HttpContext.Session.GetString("_UserId");
+                HandlerObtenerDatos handler = new();
+                Usuario user = handler.ObtenerUsuario(userId);
+                ViewData["usuario"] = user;
                 ViewData["token"] = userToken;
                 int contadorPendientes = 0;
                 int contadorProceso = 0;
