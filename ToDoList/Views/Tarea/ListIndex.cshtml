@@ -22,7 +22,8 @@
         <h2>Pendientes</h2>
         <h4>@ViewBag.Pendientes</h4>
       </div>
-      <ul class="list-group" id="listaPendientes">
+      <div class="">
+        <ul class="list-group sortable" id="listaPendientes">
           @if (ViewBag.Pendientes == 0)
           {
             <div class="sin-tareas">
@@ -46,7 +47,6 @@
                             if (tarea.Categoria == categoria.Id)
                             {
                               @categoria.Nombre
-                            ;
                             }
                           }
                         </p>
@@ -61,17 +61,17 @@
                         <p class="list-group-item-text prioridad">
                           @if (tarea.Prioridad == 1)
                           {
-                              @uno;
+                            @uno
                           }
                           else
                           {
                             if (tarea.Prioridad == 2)
                             {
-                                @dos;
+                              @dos
                             }
                             else
                             {
-                                @tres;
+                              @tres
                             }
                           }
                         </p>
@@ -91,7 +91,8 @@
         <h2>En Proceso</h2>
         <h4>@ViewBag.Procesos</h4>
       </div>
-      <ul class="list-group" id="listaProceso">
+      <div class="">
+        <ul class="list-group sortable" id="listaProceso">
           @if (ViewBag.Procesos == 0)
           {
             <div class="sin-tareas">
@@ -114,7 +115,7 @@
                           {
                             if (tarea.Categoria == categoria.Id)
                             {
-                            @categoria.Nombre;
+                              @categoria.Nombre
                             }
                           }
                         </p>
@@ -129,17 +130,17 @@
                         <p class="list-group-item-text prioridad">
                           @if (tarea.Prioridad == 1)
                           {
-                          @uno;
+                            @uno
                           }
                           else
                           {
                             if (tarea.Prioridad == 2)
                             {
-                            @dos;
+                              @dos
                             }
                             else
                             {
-                            @tres;
+                              @tres
                             }
                           }
                         </p>
@@ -158,7 +159,8 @@
         <h2>Terminados</h2>
         <h4>@ViewBag.Terminados</h4>
       </div>
-      <ul class="list-group" id="listaTerminados">
+      <div class="">
+        <ul class="list-group sortable" id="listaTerminados">
           @if (ViewBag.Terminados == 0)
           {
             <div class="sin-tareas">
@@ -181,7 +183,7 @@
                           {
                             if (tarea.Categoria == categoria.Id)
                             {
-                            @categoria.Nombre;
+                              @categoria.Nombre
                             }
                           }
                         </p>
@@ -196,17 +198,17 @@
                         <p class="list-group-item-text prioridad">
                           @if (tarea.Prioridad == 1)
                           {
-                          @uno;
+                            @uno
                           }
                           else
                           {
                             if (tarea.Prioridad == 2)
                             {
-                            @dos;
+                              @dos
                             }
                             else
                             {
-                            @tres;
+                              @tres
                             }
                           }
                         </p>
@@ -221,101 +223,7 @@
       </div>
     </div>
   </div>
-  <script>
-      $(function() {
-          //Se crean los objetos draggables por cada elementos de las listas
-          //jQuery("#listaPendientes li").draggable({
-          //    revert:true
-          //})
-          //jQuery("#listaProceso li").draggable({
-          //    revert:true
-          //})
-          //jQuery("#listaTerminados li").draggable({
-          //    revert:true
-          //})
-
-          ////Se crea un objeto droppable por cada lista
-          //jQuery("#listaPendientes").droppable({
-          //    accept:".list2-item, .list3-item",
-          //    drop: function(event, ui) {
-          //        ci = jQuery(this).parent().children().index(this);
-          //        ri = jQuery(this).parent().parent().children().index(this.parentNode);
-          //    }
-          //})
-          
-          var drag1 = $("#listaPendientes li").draggable({
-              revert: true
-          })
-          var drag2 = $("#listaProceso li").draggable({
-              revert: true
-          })
-          var drag3 = $("#listaTerminados li").draggable({
-              revert: true
-          })
-
-        // Creamos un objeto de la clase Droppable para cada lista
-        var droppable1 = $("#listaPendientes").droppable({
-            accept: $("#listaProceso li, #listaTerminados li")
-        })
-        var droppable2 = $("#listaProceso").droppable({
-            accept: $("#listaPendientes li, #listaTerminados li")
-        })
-        var droppable3 = $("#listaTerminados").droppable({
-            accept: $("#listaPendientes li, #listaProceso li")
-        })
-
-        // Agregamos el elemento arrastrado a la lista correspondiente cuando se suelta
-        
-        // HACER QUE EL DROP FUNCIONE...SEGUIR PROBANDO
-
-        drag1.on("dragend", function () {
-            var target = $(this).parent();
-            console.log(target);
-
-            // Si el elemento se suelta en la lista 2
-            if (target.attr("id") === "listaProceso") {
-              $("#listaPendientes").append(this);
-            }
-
-            // Si el elemento se suelta en la lista 3
-            else if (target.attr("id") === "listaTerminados") {
-              $("#listaPendientes").append(this);
-            }
-          });
-
-        drag2.on("dragend", function () {
-            var target = $(this).parent();
-
-            // Si el elemento se suelta en la lista 1
-            if (target.attr("id") === "listaPendientes") {
-                $("#listaProceso").append(this);
-            }
-
-            // Si el elemento se suelta en la lista 3
-            else if (target.attr("id") === "listaTerminados") {
-                $("#listaProceso").append(this);
-            }
-          });
-
-        drag3.on("dragend", function () {
-            var target = $(this).parent();
-
-                // Si el elemento se suelta en la lista 1
-            if (target.attr("id") === "listaPendientes") {
-                $("#listaTerminados").append(this);
-            }
-
-            // Si el elemento se suelta en la lista 2
-            else if (target.attr("id") === "listaProceso") {
-                $("#listaTerminados").append(this);
-              }
-          }).disableSelection();
-        });
-      })
-  </script>
 </body>
-
-<script src="~/js/site.js" asp-append-version="true"></script>
 </html>
 
 

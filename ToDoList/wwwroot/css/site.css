@@ -92,6 +92,10 @@ body {
     padding: 10px;
 }
 
+.sortable {
+    min-height: 70px;
+}
+
 .game {
     display: flex;
     justify-content: space-around;

@@ -20,10 +20,6 @@ namespace ToDoList.Controllers
       auth = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
     }
 
-    public IActionResult Index()
-    {
-      return View();
-    }
     [HttpGet]
     public IActionResult SignUp()
     {
@@ -51,11 +47,17 @@ namespace ToDoList.Controllers
           if (inserted)
           {
             var UserExistInDB = SetSession(model.Email!, token);
-            System.Diagnostics.Debug.WriteLine(UserExistInDB);
             if (UserExistInDB)
             {
-              //Buscar si es juego o no y enviar la vista correspondiente
-              return RedirectToAction("ListIndex", "Tarea");
+              ViewData["username"] = model.Name! + " " + model.LastName!;
+              if (DBServer.ObtenerEsJuego(model.Email!))
+              {
+                return RedirectToAction("GameIndex", "Tarea");
+              }
+              else
+              {
+                return RedirectToAction("ListIndex", "Tarea");
+              }
             }
             else
             {
@@ -101,12 +103,21 @@ namespace ToDoList.Controllers
           var userExistInDB = SetSession(model.Email!, token);
           if (userExistInDB)
           {
-            return RedirectToAction("ListIndex", "Tarea");
+            List<Usuario> usuarios = DBServer.ObtenerUsuario(DBServer.ObtenerIDUsuario(model.Email!));
+            Usuario user = usuarios[0];
+            TempData["username"] = user.Nombre + " " + user.PrimerApellido;
+            if (DBServer.ObtenerEsJuego(model.Email!))
+            {
+              return RedirectToAction("GameIndex", "Tarea");
+            }
+            else
+            {
+              return RedirectToAction("ListIndex", "Tarea");
+            }
           }
           else
           {
             //Que devuelva al registrarse
-            return RedirectToAction("GameIndex", "Tarea");
           }
         }
 
