@@ -66,6 +66,36 @@ namespace ToDoList.Handlers
             return resultado;
         }
 
+
+        public bool ObtenerEsJuego(string email)
+        {
+            string consulta = "ObtenerEsJuego";
+            bool resultado = false;
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.Parameters.AddWithValue("@EmailUsuario", email);
+            SqlParameter esJuego = new SqlParameter("@EsJuego", SqlDbType.Bit);
+            esJuego.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(esJuego);
+            if (conexion.State == System.Data.ConnectionState.Open)
+            {
+                comando.ExecuteNonQuery();
+            }
+            else
+            {
+                conexion.Open();
+                comando.ExecuteNonQuery();
+                conexion.Close();
+            }
+
+            if (esJuego.Value != null)
+            {
+                resultado = Convert.ToBoolean(esJuego.Value);
+            }
+
+            return resultado;
+        }
+
         public List<Usuario> ObtenerUsuario(String identificadorUsuario)
         {
             List<Usuario> usuario = new List<Usuario>();
