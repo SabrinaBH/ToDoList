@@ -98,7 +98,8 @@ namespace ToDoList.Handlers
 
         public Usuario ObtenerUsuario(String identificadorUsuario)
         {
-            string consultaBaseDatos = "SELECT * FROM Usuario WHERE Usuario.IdentificadorUsuario = '" + identificadorUsuario + "';";
+            //string consultaBaseDatos = "SELECT * FROM Usuario WHERE Usuario.IdentificadorUsuario = '" + identificadorUsuario + "';";
+            string consultaBaseDatos = "EXEC ObtenerInformacionUsuario @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
             DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
             DataRow columna = tablaDeDesglose.Rows[0];
@@ -121,7 +122,8 @@ namespace ToDoList.Handlers
             if (identificadorUsuario != "" && identificadorUsuario != null)
             {
 
-                string consultaBaseDatos = "SELECT * FROM Estado WHERE Estado.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+                //string consultaBaseDatos = "SELECT * FROM Estado WHERE Estado.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+                string consultaBaseDatos = "EXEC ObtenerEstadosUsuario @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
                 DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
                 foreach (DataRow columna in tablaDeDesglose.Rows)
@@ -143,7 +145,9 @@ namespace ToDoList.Handlers
             List<Categoria> categorias = new List<Categoria>();
             if (identificadorUsuario != "" && identificadorUsuario != null)
             {
-                string consultaBaseDatos = "SELECT * FROM Categoria WHERE Categoria.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+                //string consultaBaseDatos = "SELECT * FROM Categoria WHERE Categoria.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+
+                string consultaBaseDatos = "EXEC ObtenerCategoriasUsuario @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
                 DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
                 foreach (DataRow columna in tablaDeDesglose.Rows)
@@ -167,7 +171,9 @@ namespace ToDoList.Handlers
             if (identificadorUsuario != "" && identificadorUsuario != null)
             {
 
-                string consultaBaseDatos = "SELECT * FROM Tarea WHERE Tarea.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+                //string consultaBaseDatos = "SELECT * FROM Tarea WHERE Tarea.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+
+                string consultaBaseDatos = "EXEC ObtenerTareas @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
                 using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
                 {

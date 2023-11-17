@@ -16,12 +16,12 @@ namespace ToDoList.Controllers
         {
 
             //bool resultado = handlerObtenerDatos.ObtenerEsJuego("pablo.rodrigueznavarro@ucr.ac.cr");
-            //string id = handlerObtenerDatos.ObtenerIDUsuarioAdmin();
-            //handlerObtenerDatos.ObtenerCategoriasUsuario(id);
-            //handlerObtenerDatos.ObtenerEstadosUsuario(id);
-            //string resultado = handlerObtenerDatos.ObtenerIDUsuario("sabry.brenes@outlook.es");
-            //handlerObtenerDatos.ObtenerTareasUsuario(resultado);
-            //handlerObtenerDatos.ObtenerEstadosUsuario(resultado);
+            string id = handlerObtenerDatos.ObtenerIDUsuarioAdmin();
+            handlerObtenerDatos.ObtenerCategoriasUsuario(id);
+            handlerObtenerDatos.ObtenerEstadosUsuario(id);
+            string resultado = handlerObtenerDatos.ObtenerIDUsuario("sabry.brenes@outlook.es");
+            handlerObtenerDatos.ObtenerTareasUsuario(resultado);
+            handlerObtenerDatos.ObtenerEstadosUsuario(resultado);
 
             //Usuario usuario = new Usuario();
             //usuario.Id = " ";
