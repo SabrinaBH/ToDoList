@@ -1,10 +1,18 @@
 ﻿using ToDoList.Models;
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Controllers;
+using ToDoList.Handlers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diseno.Controllers
 {
     public class TareaController : Controller
     {
+        public HandlerObtenerDatos _handlerObtenerDatos;
+        public TareaController() { 
+            _handlerObtenerDatos = new HandlerObtenerDatos();
+        }
         Tarea[] tareas = new Tarea[]
         {
             new Tarea
@@ -89,11 +97,14 @@ namespace Diseno.Controllers
             }
             else
             {
+                var userId = HttpContext.Session.GetString("_UserId");
                 ViewData["token"] = userToken;
+
+                List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId);
                 int contadorPendientes = 0;
                 int contadorProceso = 0;
                 int contadorTerminado = 0;
-                ViewBag.Tareas = tareas;
+                ViewBag.Tareas = listaTareas;
                 foreach (Tarea tarea in tareas)
                 {
                     if (tarea.Estado == 1)
@@ -150,13 +161,15 @@ namespace Diseno.Controllers
                 ViewBag.Procesos = contadorProceso;
                 ViewBag.Terminados = contadorTerminado;
                 ViewBag.Categorias = categorias;
+
                 return View();
             }
     }
-
+        [HttpGet]
         public IActionResult AddTask()
         {
             ViewData["token"] = HttpContext.Session.GetString("_UserToken"); // The view needs the token
+            ViewData["userId"] = HttpContext.Session.GetString("_UserId");
             return View();
         }
 
@@ -167,6 +180,18 @@ namespace Diseno.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var task = new Tarea(
+                        tarea.Titulo,
+                        tarea.Descripcion,
+                        tarea.FechaInicial,
+                        tarea.FechaFinal,
+                        tarea.Estado!,
+                        tarea.Categoria!,
+                        tarea.Prioridad,
+                        tarea.Dificultad,
+                        tarea.UsuarioCreador!
+                    );
+                    bool insertado = _handlerObtenerDatos.InsertarNuevaTarea(task);
                     ViewBag.Message = "Se agrego la tarea!";
                     ModelState.Clear();
                 }
@@ -176,7 +201,7 @@ namespace Diseno.Controllers
             {
                 ViewBag.Message = "Algo salio mal y no fue posible crear la tarea!";
             }
-            return RedirectToAction("Index", "Tarea");
+            return RedirectToAction("ListIndex", "Tarea");
         }
     }
 }

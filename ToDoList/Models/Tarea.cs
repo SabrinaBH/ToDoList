@@ -41,7 +41,31 @@ namespace ToDoList.Models
         public int Categoria { get; set; }
         public int Estado { get; set; }
 
+        public Tarea() {
+            Id = Guid.NewGuid().ToString();
+            Titulo = "";
+            Descripcion = "";
+            FechaInicial = DateTime.Now;
+            FechaFinal = DateTime.Now.AddDays(1);
+            Estado = 1;
+            Categoria = 1;
+            Prioridad = 1;
+            Dificultad = 1;
+        }
 
+        public Tarea(string titulo, string descripcion, DateTime inicial, DateTime final, int estado, int categoria, int prioridad, int dificultad, string usuario)
+        {
+            Id = Guid.NewGuid().ToString();
+            Titulo = titulo;
+            Descripcion = descripcion;
+            FechaInicial = inicial;
+            FechaFinal = final;
+            Estado = estado;
+            Categoria = categoria;
+            Prioridad = prioridad;
+            Dificultad = dificultad;
+            UsuarioCreador = usuario;
+        }
 
     }
 }
