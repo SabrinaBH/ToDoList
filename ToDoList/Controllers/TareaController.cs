@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+﻿using ToDoList.Models;
+using Microsoft.AspNetCore.Mvc;
+using ToDoList.Handlers;
 
-namespace ToDoList.Controllers
+namespace Diseno.Controllers
 {
     public class TareaController : Controller
     {
@@ -15,7 +16,7 @@ namespace ToDoList.Controllers
                 FechaFinal = DateTime.Now.AddDays(5),
                 Estado = 1,
                 Categoria = 2,
-                Prioridad = 3,
+                Prioridad = 1,
                 Dificultad = 3,
             },
             new Tarea
@@ -26,8 +27,19 @@ namespace ToDoList.Controllers
                 FechaFinal = DateTime.Now.AddDays(3),
                 Estado = 2,
                 Categoria = 1,
-                Prioridad = 4,
+                Prioridad = 1,
                 Dificultad = 4,
+            },
+            new Tarea
+            {
+                Titulo = "Asistencia",
+                Descripcion = "Completar las horas semanales",
+                FechaInicial = DateTime.Now,
+                FechaFinal = DateTime.Now.AddDays(2),
+                Estado = 2,
+                Categoria = 4,
+                Prioridad = 2,
+                Dificultad = 1,
             },
             new Tarea
             {
@@ -37,26 +49,139 @@ namespace ToDoList.Controllers
                 FechaFinal = DateTime.Now.AddDays(2),
                 Estado = 1,
                 Categoria = 4,
-                Prioridad = 4,
-                Dificultad = 1,
-            },
-            new Tarea
-            {
-                Titulo = "Asistencia",
-                Descripcion = "Completar las horas semanales",
-                FechaInicial = DateTime.Now,
-                FechaFinal = DateTime.Now.AddDays(2),
-                Estado = 3,
-                Categoria = 4,
-                Prioridad = 4,
+                Prioridad = 3,
                 Dificultad = 1,
             },
         };
 
-        public IActionResult Index()
+        Categoria[] categorias = new Categoria[]
         {
-            ViewBag.Tareas = tareas;
+            new Categoria
+            {
+                Id = 1,
+                Nombre = "Alimentacion",
+                UsuarioCreador = "1",
+            },
+            new Categoria
+            {
+                Id = 2,
+                Nombre = "Estudio",
+                UsuarioCreador = "1",
+            },
+            new Categoria
+            {
+                Id = 3,
+                Nombre = "Trabajo",
+                UsuarioCreador = "1",
+            },
+            new Categoria
+            {
+                Id = 4,
+                Nombre = "Entretenimiento",
+                UsuarioCreador = "1",
+            },
+        };
+
+        public IActionResult ListIndex()
+        {
+            var userToken = HttpContext.Session.GetString("_UserToken");
+            if (userToken == null) { // Si no hay un token de usuario
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                var userId = HttpContext.Session.GetString("_UserId");
+                HandlerObtenerDatos handler = new();
+                Usuario user = handler.ObtenerUsuario(userId);
+                ViewData["usuario"] = user;
+                ViewData["token"] = userToken;
+                int contadorPendientes = 0;
+                int contadorProceso = 0;
+                int contadorTerminado = 0;
+                ViewBag.Tareas = tareas;
+                foreach (Tarea tarea in tareas)
+                {
+                    if (tarea.Estado == 1)
+                    {
+                        contadorPendientes += 1;
+                    }
+                    if (tarea.Estado == 2)
+                    {
+                        contadorProceso += 1;
+                    }
+                    if (tarea.Estado == 3)
+                    {
+                        contadorTerminado += 1;
+                    }
+                }
+                ViewBag.Pendientes = contadorPendientes;
+                ViewBag.Procesos = contadorProceso;
+                ViewBag.Terminados = contadorTerminado;
+                ViewBag.Categorias = categorias;
+                return View();
+            }
+        }
+
+        public IActionResult GameIndex()
+        {
+            var userToken = HttpContext.Session.GetString("_UserToken");
+            if (userToken == null)
+            { // Si no hay un token de usuario
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                ViewData["token"] = userToken;
+                int contadorPendientes = 0;
+                int contadorProceso = 0;
+                int contadorTerminado = 0;
+                ViewBag.Tareas = tareas;
+                foreach (Tarea tarea in tareas)
+                {
+                    if (tarea.Estado == 1)
+                    {
+                        contadorPendientes += 1;
+                    }
+                    if (tarea.Estado == 2)
+                    {
+                        contadorProceso += 1;
+                    }
+                    if (tarea.Estado == 3)
+                    {
+                        contadorTerminado += 1;
+                    }
+                }
+                ViewBag.Pendientes = contadorPendientes;
+                ViewBag.Procesos = contadorProceso;
+                ViewBag.Terminados = contadorTerminado;
+                ViewBag.Categorias = categorias;
+                return View();
+            }
+    }
+
+        public IActionResult AddTask()
+        {
+            ViewData["token"] = HttpContext.Session.GetString("_UserToken"); // The view needs the token
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddTask(Tarea tarea)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ViewBag.Message = "Se agrego la tarea!";
+                    ModelState.Clear();
+                }
+
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salio mal y no fue posible crear la tarea!";
+            }
+            return RedirectToAction("Index", "Tarea");
         }
     }
 }

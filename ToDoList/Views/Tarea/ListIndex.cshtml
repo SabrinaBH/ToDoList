@@ -223,43 +223,7 @@
       </div>
     </div>
   </div>
-  <script>
-      $(function() {
-          //Se crean los objetos draggables por cada elementos de las listas
-          var drag1 = $("#listaPendientes ul li").draggable({
-              revert: true,
-              distance: 10
-          });
-          var drag2 = $("#listaProceso ul li").draggable({
-              revert: true,
-              distance: 10
-          });
-          var drag3 = $("#listaTerminados ul li").draggable({
-              revert: true,
-              distance: 10
-          });
-          //$(".sortable").sortable({
-          //    connectWith: ".sortable",
-          //    placeHolder: "ui-state-highlight",
-          //    update: function(event, ui) {
-          //        var elementos = ui.item.children();
-          //        var updatedList = $(this).sortable('toArray');
-          //        console.log("Lista: ", updatedList);
-          //        $("#" + ui.item.parent().attr('id')).sortable("refresh");
-          //    }
-          //}).disableSelection();
-          $(".sortable").sortable({
-              connectWith: ".sortable",
-              dropOnEmpty: true,
-              update: function(event, ui) {
-                  var elementos = ui.item.children();
-              }
-          }).disableSelection();
-        });
-  </script>
 </body>
-
-<script src="~/js/site.js" asp-append-version="true"></script>
 </html>
 
 

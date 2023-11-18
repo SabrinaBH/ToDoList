@@ -18,7 +18,6 @@ body {
 }
 
 .header {
-    background-color: #ffffff;
     height: 100px;
 }
 
@@ -27,18 +26,79 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    margin-top: 20px;
 }
 
 .header-user {
     width: 200px;
 }
 
+.user-img {
+    width: 40px;
+    height: 40px;
+    align-self: center;
+}
+
 .header-logo {
     width: 100px;
 }
 
+.logo-img {
+    width: 130px;
+    height: 80px;
+}
+
 .header-logout {
     width: 100px;
+}
+
+.star-img {
+    width: 20px;
+    height: 20px;
+}
+
+.buscar-contenedor {
+    margin: 2rem 0rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.barra-buscar {
+    width: 60%;
+    margin: 0rem 2rem;
+    padding: 5px;
+}
+
+.btn-agregar {
+    display: inline-block;
+    width: 32%;
+    padding: 10px;
+    background-color: rgba(0,128,0,.80);
+    border: 1px solid rgba(0,128,0,.80);
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.sortable {
+    min-height: 70px;
+}
+
+.game {
+    display: flex;
+    justify-content: space-around;
 }
 
 .columna {
@@ -47,7 +107,6 @@ body {
     margin-right: 4px;
     background-color: rgba(194, 194, 194, .125);
     border-radius: 8px;
-    margin-top: 5px;
     margin-bottom: 12px;
 }
 
@@ -84,4 +143,114 @@ body {
     border: 1px solid rgba(0,255,0,.125);
     border-radius: 8px;
     text-decoration: none;
+}
+
+.sin-tareas {
+    position: relative;
+    display: block;
+    text-align: center;
+    color: white;
+    background-color: rgba(0,0,0,.5);
+    padding: 1rem 1rem;
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.header-task {
+    display: flex;
+}
+
+.titulo-task {
+    width: 80%;
+}
+
+.category-task {
+    text-align: center;
+    width: 35%;
+    padding: 4px;
+    border: 1px solid rgba(249,75,10,.8);
+    border-radius: 8px;
+    background-color: rgba(249,75,10,.8);
+    color: white;
+}
+
+.task-details {
+    display: flex;
+}
+
+.dificultad {
+    width: 80%;
+}
+
+.prioridad {
+    text-align: center;
+    width: 35%;
+    padding: 4px;
+    border: 1px solid #0C8CE9;
+    border-radius: 8px;
+    background-color: #0C8CE9;
+    color: white;
+}
+
+.contenedor-form {
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+.col-lg-6-1 {
+    flex: 0 0 auto;
+    width: 65%;
+}
+
+.area {
+    height: 150px;
+}
+
+.formLabel {
+    width: 100%;
+    padding: 0px 4px;
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+}
+
+.row-own {
+    justify-content: center;
+}
+
+.contenedor-fechas {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.fechas {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contenedor-listas {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.textCategoria {
+    text-align: center;
+    background-color: rgba(249,75,10,.8);
+    font-weight: bold;
+}
+
+.textPrioridad {
+    text-align: center;
+    background-color: #0C8CE9;
+    font-weight: bold;
+}
+
+.textDificultad {
+    text-align: center;
+    background-color: rgba(246,19,19,.8);
+    font-weight: bold;
 }
