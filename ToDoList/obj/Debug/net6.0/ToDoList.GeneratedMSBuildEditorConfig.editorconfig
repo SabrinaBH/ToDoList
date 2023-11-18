@@ -9,69 +9,69 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ToDoList
 build_property.RootNamespace = ToDoList
-build_property.ProjectDir = C:\Users\sabry\Source\Repos\ToDoList\ToDoList\
+build_property.ProjectDir = C:\Users\Pablo\source\repos\ToDoList\ToDoList\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\sabry\Source\Repos\ToDoList\ToDoList
+build_property.MSBuildProjectDirectory = C:\Users\Pablo\source\repos\ToDoList\ToDoList
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Account/Login.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Account/SignUp.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Account/SignUp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxTaWduVXAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Home/Home.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Home/Home.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxIb21lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Home/Index.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Home/Privacy.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Shared/Error.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Shared/TableroBase.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Shared/TableroBase.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFRhYmxlcm9CYXNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Tarea/AddTask.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Tarea/AddTask.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcQWRkVGFzay5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Tarea/GameIndex.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Tarea/GameIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcR2FtZUluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Tarea/ListIndex.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Tarea/ListIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTGlzdEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Tarea/_Layout.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Tarea/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/_ViewImports.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/_ViewStart.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sabry/Source/Repos/ToDoList/ToDoList/Views/Shared/_Layout.cshtml]
+[C:/Users/Pablo/source/repos/ToDoList/ToDoList/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-dt7ithozdg
