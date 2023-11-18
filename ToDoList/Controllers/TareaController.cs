@@ -4,6 +4,7 @@ using ToDoList.Controllers;
 using ToDoList.Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Firebase.Auth;
 
 namespace Diseno.Controllers
 {
@@ -13,81 +14,6 @@ namespace Diseno.Controllers
         public TareaController() { 
             _handlerObtenerDatos = new HandlerObtenerDatos();
         }
-        Tarea[] tareas = new Tarea[]
-        {
-            new Tarea
-            {
-                Titulo = "Bases II",
-                Descripcion = "Quiz de bases",
-                FechaInicial = DateTime.Now,
-                FechaFinal = DateTime.Now.AddDays(5),
-                Estado = 1,
-                Categoria = 2,
-                Prioridad = 1,
-                Dificultad = 3,
-            },
-            new Tarea
-            {
-                Titulo = "Diseno Proyecto",
-                Descripcion = "Entrega de interfaces sin funcionalidad",
-                FechaInicial = DateTime.Now,
-                FechaFinal = DateTime.Now.AddDays(3),
-                Estado = 2,
-                Categoria = 1,
-                Prioridad = 1,
-                Dificultad = 4,
-            },
-            new Tarea
-            {
-                Titulo = "Asistencia",
-                Descripcion = "Completar las horas semanales",
-                FechaInicial = DateTime.Now,
-                FechaFinal = DateTime.Now.AddDays(2),
-                Estado = 2,
-                Categoria = 4,
-                Prioridad = 2,
-                Dificultad = 1,
-            },
-            new Tarea
-            {
-                Titulo = "Asistencia",
-                Descripcion = "Completar las horas semanales",
-                FechaInicial = DateTime.Now,
-                FechaFinal = DateTime.Now.AddDays(2),
-                Estado = 1,
-                Categoria = 4,
-                Prioridad = 3,
-                Dificultad = 1,
-            },
-        };
-
-        Categoria[] categorias = new Categoria[]
-        {
-            new Categoria
-            {
-                Id = 1,
-                Nombre = "Alimentacion",
-                UsuarioCreador = "1",
-            },
-            new Categoria
-            {
-                Id = 2,
-                Nombre = "Estudio",
-                UsuarioCreador = "1",
-            },
-            new Categoria
-            {
-                Id = 3,
-                Nombre = "Trabajo",
-                UsuarioCreador = "1",
-            },
-            new Categoria
-            {
-                Id = 4,
-                Nombre = "Entretenimiento",
-                UsuarioCreador = "1",
-            },
-        };
 
         public IActionResult ListIndex()
         {
@@ -100,12 +26,14 @@ namespace Diseno.Controllers
                 var userId = HttpContext.Session.GetString("_UserId");
                 ViewData["token"] = userToken;
 
-                List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId);
+                List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
+                List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
                 int contadorPendientes = 0;
                 int contadorProceso = 0;
                 int contadorTerminado = 0;
+                ViewBag.Categorias = categorias;
                 ViewBag.Tareas = listaTareas;
-                foreach (Tarea tarea in tareas)
+                foreach (Tarea tarea in listaTareas)
                 {
                     if (tarea.Estado == 1)
                     {
@@ -123,7 +51,6 @@ namespace Diseno.Controllers
                 ViewBag.Pendientes = contadorPendientes;
                 ViewBag.Procesos = contadorProceso;
                 ViewBag.Terminados = contadorTerminado;
-                ViewBag.Categorias = categorias;
                 return View();
             }
         }
@@ -137,20 +64,19 @@ namespace Diseno.Controllers
             }
             else
             {
+                var userId = HttpContext.Session.GetString("_UserId");
                 ViewData["token"] = userToken;
-                int contadorPendientes = 0;
-                int contadorProceso = 0;
+                List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
+                List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+        int contadorPendientes = 0;
                 int contadorTerminado = 0;
-                ViewBag.Tareas = tareas;
-                foreach (Tarea tarea in tareas)
+                ViewBag.Categorias = categorias;
+                ViewBag.Tareas = listaTareas;
+                foreach (Tarea tarea in listaTareas)
                 {
                     if (tarea.Estado == 1)
                     {
                         contadorPendientes += 1;
-                    }
-                    if (tarea.Estado == 2)
-                    {
-                        contadorProceso += 1;
                     }
                     if (tarea.Estado == 3)
                     {
@@ -158,9 +84,7 @@ namespace Diseno.Controllers
                     }
                 }
                 ViewBag.Pendientes = contadorPendientes;
-                ViewBag.Procesos = contadorProceso;
                 ViewBag.Terminados = contadorTerminado;
-                ViewBag.Categorias = categorias;
 
                 return View();
             }
@@ -170,6 +94,8 @@ namespace Diseno.Controllers
         {
             ViewData["token"] = HttpContext.Session.GetString("_UserToken"); // The view needs the token
             ViewData["userId"] = HttpContext.Session.GetString("_UserId");
+            List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+            ViewBag.Categorias = categorias;
             return View();
         }
 

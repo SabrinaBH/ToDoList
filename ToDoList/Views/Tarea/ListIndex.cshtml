@@ -20,13 +20,13 @@
     <div class="columna">
       <div class="encabezado">
         <h2>Pendientes</h2>
-        <h4>@ViewBag.Pendientes</h4>
+        <h4 id="cantidadPendientes">@ViewBag.Pendientes</h4>
       </div>
       <div class="">
         <ul class="list-group sortable" id="listaPendientes">
           @if (ViewBag.Pendientes == 0)
           {
-            <div class="sin-tareas">
+            <div class="sin-tareas" id="sinPendientes">
               <h5>No hay tareas pendientes</h5>
             </div>
           }
@@ -89,13 +89,13 @@
     <div class="columna">
       <div class="encabezado">
         <h2>En Proceso</h2>
-        <h4>@ViewBag.Procesos</h4>
+        <h4 id="cantidadProcesos">@ViewBag.Procesos</h4>
       </div>
       <div class="">
         <ul class="list-group sortable" id="listaProceso">
           @if (ViewBag.Procesos == 0)
           {
-            <div class="sin-tareas">
+            <div class="sin-tareas" id="sinProcesos">
               <h5>No hay tareas en proceso</h5>
             </div>
           }
@@ -157,13 +157,13 @@
     <div class="columna">
       <div class="encabezado">
         <h2>Terminados</h2>
-        <h4>@ViewBag.Terminados</h4>
+        <h4 id="cantidadTerminados">@ViewBag.Terminados</h4>
       </div>
       <div class="">
         <ul class="list-group sortable" id="listaTerminados">
           @if (ViewBag.Terminados == 0)
           {
-            <div class="sin-tareas">
+            <div class="sin-tareas" id="sinTerminados">
               <h5>No hay tareas terminadas</h5>
             </div>
           }
