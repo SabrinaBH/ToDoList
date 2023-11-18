@@ -16,17 +16,17 @@ namespace ToDoList.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
 
-            //bool resultado = handlerObtenerDatos.ObtenerEsJuego("pablo.rodrigueznavarro@ucr.ac.cr");
-            string id = handlerObtenerDatos.ObtenerIDUsuarioAdmin();
-            handlerObtenerDatos.ObtenerCategoriasUsuario(id);
-            handlerObtenerDatos.ObtenerEstadosUsuario(id);
-            string resultado = handlerObtenerDatos.ObtenerIDUsuario("sabry.brenes@outlook.es");
-            handlerObtenerDatos.ObtenerTareasUsuario(resultado);
-            handlerObtenerDatos.ObtenerEstadosUsuario(resultado);
+            //bool resultado1 = handlerObtenerDatos.ObtenerEsJuego("pablo.rodrigueznavarro@ucr.ac.cr");
+            //string id = handlerObtenerDatos.ObtenerIDUsuarioAdmin();
+            //handlerObtenerDatos.ObtenerCategoriasUsuario(id);
+            //handlerObtenerDatos.ObtenerEstadosUsuario(id);
+            //string resultado = handlerObtenerDatos.ObtenerIDUsuario("sabry.brenes@outlook.es");
+            //handlerObtenerDatos.ObtenerTareasUsuario(resultado);
+            //handlerObtenerDatos.ObtenerEstadosUsuario(resultado);
 
-            handlerFiltros.FiltroPorCategoria("1C7F47AA-7A43-4A80-BC85-BF91621A7E65", 1);
-            handlerFiltros.FiltroPorDificultad("D156E9CE-405A-41E3-BBD7-A21FA5E5FE53", 5);
-            handlerFiltros.FiltroPorCategoriaDificultad("1C7F47AA-7A43-4A80-BC85-BF91621A7E65", 1, 4);
+            //handlerFiltros.FiltroPorCategoria("1C7F47AA-7A43-4A80-BC85-BF91621A7E65", 1);
+            //handlerFiltros.FiltroPorDificultad("D156E9CE-405A-41E3-BBD7-A21FA5E5FE53", 5);
+            //handlerFiltros.FiltroPorCategoriaDificultad("1C7F47AA-7A43-4A80-BC85-BF91621A7E65", 1, 4);
 
             //Usuario usuario = new Usuario();
             //usuario.Id = " ";
@@ -59,6 +59,7 @@ namespace ToDoList.Controllers
             //tarea.Estado = 2;
 
             //bool completado = handlerObtenerDatos.InsertarNuevoUsuario(usuario);
+            //bool completado;
             //completado = handlerObtenerDatos.InsertarNuevaCategoria(categoria);
             //completado = handlerObtenerDatos.InsertarNuevoEstado(estado);   
             //completado = handlerObtenerDatos.InsertarNuevaTarea(tarea);

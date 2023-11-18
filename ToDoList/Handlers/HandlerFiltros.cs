@@ -25,23 +25,7 @@ namespace ToDoList.Handlers
 
 
                     DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-                    foreach (DataRow columna in tablaDeDesglose.Rows)
-                    {
-                        tareas.Add(
-                        new Tarea
-                        {
-                            Id = Convert.ToString(columna["IdentificadorTarea"]),
-                            Titulo = Convert.ToString(columna["Titulo"]),
-                            Descripcion = Convert.ToString(columna["Descripcion"]),
-                            FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-                            FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-                            Dificultad = Convert.ToInt16(columna["Dificultad"]),
-                            Prioridad = Convert.ToInt16(columna["Prioridad"]),
-                            UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-                            Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                            Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-                        });
-                    }
+                    tareas = LlenarListaTareas(tablaDeDesglose);
                 }
             }
             return tareas;
@@ -60,23 +44,7 @@ namespace ToDoList.Handlers
                 {
 
                     DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-                    foreach (DataRow columna in tablaDeDesglose.Rows)
-                    {
-                        tareas.Add(
-                        new Tarea
-                        {
-                            Id = Convert.ToString(columna["IdentificadorTarea"]),
-                            Titulo = Convert.ToString(columna["Titulo"]),
-                            Descripcion = Convert.ToString(columna["Descripcion"]),
-                            FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-                            FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-                            Dificultad = Convert.ToInt16(columna["Dificultad"]),
-                            Prioridad = Convert.ToInt16(columna["Prioridad"]),
-                            UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-                            Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                            Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-                        });
-                    }
+                    tareas = LlenarListaTareas(tablaDeDesglose);
                 }
             }
             return tareas;
@@ -96,23 +64,7 @@ namespace ToDoList.Handlers
                 {
 
                     DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-                    foreach (DataRow columna in tablaDeDesglose.Rows)
-                    {
-                        tareas.Add(
-                        new Tarea
-                        {
-                            Id = Convert.ToString(columna["IdentificadorTarea"]),
-                            Titulo = Convert.ToString(columna["Titulo"]),
-                            Descripcion = Convert.ToString(columna["Descripcion"]),
-                            FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-                            FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-                            Dificultad = Convert.ToInt16(columna["Dificultad"]),
-                            Prioridad = Convert.ToInt16(columna["Prioridad"]),
-                            UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-                            Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                            Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-                        });
-                    }
+                    tareas = LlenarListaTareas(tablaDeDesglose);
                 }
             }
             return tareas;
