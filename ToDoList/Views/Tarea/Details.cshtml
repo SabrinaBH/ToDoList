@@ -83,7 +83,6 @@
                                                 </div>
                                             </div>
 
-
                                             <input type="hidden" asp-for="UsuarioCreador" class="form-control" value="@userId" />
                                             <input type="hidden" asp-for="Estado" class="form-control" />
                                             <hr />
@@ -92,13 +91,18 @@
                                                     <button type="submit" class="btn btn-secondary text-light" id="btnGuardar" style="width: 60%; text-align:center;">Guardar Tarea</button>
                                                 </div>
                                                  <div class="col-md-6">
-                                                    <button type="button" onclick="location.href='@Url.Action("ListIndex", "Tarea")'" class="btn btn-warning text-light" style="width: 60%">Volver</button>
+                                                    <button type="button" onclick="cancelEditing()" class="btn btn-warning text-light" style="width: 60%">Cancelar</button>
                                                 </div>
                                             </div>
                                         </form>
                                         <div class="container" id="taskDetails">
-                                            <div>
-                                                <h3 asp-for="Titulo">@Model.Titulo</h3>
+                                            <div class="row justify-content-between">
+                                                <div class="col-md-8">
+                                                    <h3 asp-for="Titulo">@Model.Titulo</h3>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" onclick="location.href='@Url.Action("ListIndex", "Tarea")'" class="btn btn-warning text-light" style="width: 60%">Eliminar</button>
+                                                </div>
                                             </div>
                                             <div class="table-group-divider">
                                                 <div class="list-group-item">
@@ -135,7 +139,7 @@
                                                 </div>
                                             </div>
                                             <div class="table-group-divider m-2">
-                                                <div class="row m-2">
+                                                <div class="row justify-content-between m-2">
                                                     <div class="col-md-6">
                                                         <button type="submit" onclick="isEditing()" class="btn btn-secondary text-light" id="btnEditar" style="width: 60%">Editar Tarea</button>
                                                     </div>
