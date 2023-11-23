@@ -133,7 +133,7 @@ namespace Diseno.Controllers
         [Route("/Tarea/{id}/Details")]
         public IActionResult Details(string id)
         {
-            Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(GetUserId()).Where(l => l.Id == id).First();
+            Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(GetUserId()).Where(l => l.Id == id).FirstOrDefault();
             List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
             ViewBag.Categorias = categorias;
             return View("Details", task);
