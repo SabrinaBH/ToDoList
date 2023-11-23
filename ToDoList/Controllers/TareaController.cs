@@ -140,5 +140,18 @@ namespace Diseno.Controllers
         }
 
         public string GetUserId() => HttpContext.Session.GetString("_UserId");
+
+        [Route("/Tarea/{id}/Delete")]
+        public IActionResult Delete(string id)
+        {
+             var user = GetUserId();
+            var tarea = _handlerObtenerDatos.ObtenerTareasUsuario(user).Where(t => t.Id == id).FirstOrDefault();
+            if (tarea != null)
+            {
+                _handlerObtenerDatos.BorrarTarea(tarea);
+            }
+
+            return RedirectToAction("ListIndex", "Tarea");
+        }
     }
 }

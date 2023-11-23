@@ -101,7 +101,7 @@
                                                     <h3 asp-for="Titulo">@Model.Titulo</h3>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <button type="button" onclick="location.href='@Url.Action("ListIndex", "Tarea")'" class="btn btn-warning text-light" style="width: 60%">Eliminar</button>
+                                                    <button type="submit" onclick="location.href='@Url.Action("Delete", "Tarea", new {id = @Model.Id})'" class="btn btn-warning text-light" style="width: 60%">Eliminar</button>
                                                 </div>
                                             </div>
                                             <div class="table-group-divider">

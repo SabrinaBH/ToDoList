@@ -36,7 +36,7 @@
             {
               if (tarea.Estado == 1)
               {
-                <form data-bs-toggle="modal" data-bs-target="#taskDetails" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
+                <form type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list1-item" id="@tarea.Id">
                   <div class="row">
                     <div class="col-item-pendiente">
