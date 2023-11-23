@@ -129,5 +129,16 @@ namespace Diseno.Controllers
             }
             return RedirectToAction("ListIndex", "Tarea");
         }
+
+        [Route("/Tarea/{id}/Details")]
+        public IActionResult Details(string id)
+        {
+            Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(GetUserId()).Where(l => l.Id == id).First();
+            List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+            ViewBag.Categorias = categorias;
+            return View("Details", task);
+        }
+
+        public string GetUserId() => HttpContext.Session.GetString("_UserId");
     }
 }

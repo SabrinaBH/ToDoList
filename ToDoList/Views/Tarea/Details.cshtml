@@ -1,0 +1,182 @@
+﻿@model Tarea
+@{
+    var userId = ViewData["userId"];
+    List<SelectListItem> categorias = new List<SelectListItem>();
+    List<SelectListItem> prioridades = new List<SelectListItem>();
+    List<SelectListItem> dificultad = new List<SelectListItem>();
+    foreach (var categoria in ViewBag.Categorias)
+    {
+        categorias.Add(new SelectListItem { Text = categoria.Nombre, Value = categoria.Id.ToString() });
+    }
+
+    prioridades.Add(new SelectListItem { Text = "Baja", Value = "1" });
+    prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
+    prioridades.Add(new SelectListItem { Text = "Alta", Value = "3" });
+
+    dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
+    dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
+    dificultad.Add(new SelectListItem { Text = "3", Value = "3" });
+    dificultad.Add(new SelectListItem { Text = "4", Value = "4" });
+    dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-gradient-primary">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <div class="row row-own">
+                                <div class="col-lg-6-1">
+                                    <div class="p-5">
+                                    
+                                            @Html.ValidationSummary(true, "text", new {@class="text-danger"})
+                                            <form hidden="true" id="formEdit" asp-action="EditTask" asp-controller="Tarea" class="py-2">
+                                                @*Html.HiddenFor(model => model.Id)*@
+                                                <div class="contenedor-form">
+                                                    @Html.LabelFor(model => model.Titulo, new {@class="formLabel"})
+                                                    @Html.TextBoxFor(model => Model.Titulo, new {@class="form-control"})
+                                                    @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
+                                                </div>
+
+                                                <div class="contenedor-form">
+                                                    @Html.LabelFor(model => model.Descripcion, new {@class="formLabel"})
+                                                    @Html.TextAreaFor(model => Model.Descripcion, new {@class="form-control area"})
+                                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new {@class = "text-danger"})
+                                                </div>
+
+                                                <div class="contenedor-fechas contenedor-form">
+                                                    <div class="fechas">
+                                                        <label class="formLabel" asp-for="FechaInicial"></label>
+                                                        <input asp-for="FechaInicial" type="date"></>
+                                                        @Html.ValidationMessageFor(model => model.FechaInicial, "", new {@class = "text-danger"})
+                                                    </div>
+
+                                                    <div class="fechas">
+                                                        <label class="formLabel" asp-for="FechaFinal"></label>
+                                                        <input asp-for="FechaFinal" type="date"></>
+                                                        @Html.ValidationMessageFor(model => model.FechaFinal, "", new {@class = "text-danger"})
+                                                    </div>
+                                                </div>
+
+                                                <div class="contenedor-listas contenedor-form">
+                                                    <div class="">
+                                                        @Html.LabelFor(model => model.Categoria, new {@class="formLabel"})
+                                                        @Html.DropDownListFor(model => model.Categoria, categorias, "-Sin seleccion-", new {@class="form-control textCategoria"})
+                                                        @Html.ValidationMessageFor(model => model.Categoria, "", new {@class="text-danger"})
+                                                    </div>
+
+                                                    <div class="">
+                                                        @Html.LabelFor(model => model.Prioridad, new {@class="formLabel"})
+                                                        @Html.DropDownListFor(model => model.Prioridad, prioridades, "-Sin seleccion-", new {@class="form-control textPrioridad"})
+                                                        @Html.ValidationMessageFor(model => model.Prioridad, "", new {@class="text-danger"})
+                                                    </div>
+
+                                                    <div class="">
+                                                        @Html.LabelFor(model => model.Dificultad, new {@class="formLabel"})
+                                                        @Html.DropDownListFor(model => model.Dificultad, dificultad, "-Sin seleccion-", new {@class="form-control textDificultad"})
+                                                        @Html.ValidationMessageFor(model => model.Dificultad, "", new {@class="text-danger"})
+                                                    </div>
+                                                </div>
+
+
+                                                <input type="hidden" asp-for="UsuarioCreador" class="form-control" value="@userId" />
+                                                <input type="hidden" asp-for="Estado" class="form-control" />
+
+                                                <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                                    <button type="submit" class="btn btn-secondary text-light" id="btnGuardar" style="width: 60%; text-align:center;">Guardar Tarea</button>
+                                                </div>
+                                            </form>
+                                            <div id="taskDetails">
+                                                <div>
+                                                    <h3 asp-for="Titulo">@Model.Titulo</h3>
+                                                </div>
+                                                <div class="table-group-divider">
+                                                    <div class="list-group-item">
+                                                        @*<label class="form-check-label" asp-for="Descripcion">Descripción:</label>*@
+                                                        <p asp-for="Descripcion" class="align-self-center">@Model.Descripcion</p>
+                                                    </div>
+                                                    <div class="contenedor-listas">
+                                                        <label asp-for="FechaInicial"></label>
+                                                        <button asp-for="FechaInicial" class="btn btn-outline-primary">@Model.FechaInicial.ToShortDateString()</button>
+
+                                                        <label asp-for="FechaFinal"></label>
+                                                        <button asp-for="FechaFinal" class="btn btn-outline-primary">@Model.FechaFinal.ToShortDateString()</button>
+                                                    </div>
+                                                    <div class="list-group-item align-content-lg-center">
+                                                        <label  asp-for="Estado">Estado</label>
+                                                        <text asp-for="Estado" class="btn btn-outline-primary">@Model.Estado</text>
+                                                    </div>
+                                                    <div class="contenedor-listas">
+                                                        <div>
+                                                            <label asp-for="Categoria">Categoria</label>
+                                                            <text asp-for="Categoria" class="form-control textCategoria"> @categorias.ElementAt(@Model.Categoria-1).Text</text>
+                                                        </div>
+                                                        <div>
+                                                            <label asp-for="Prioridad">Prioridad</label>
+                                                            <text asp-for="Prioridad" class="form-control textPrioridad">@prioridades.ElementAt(@Model.Prioridad-1).Text</text>
+                                                        </div>
+                                                        <div>
+                                                            <label asp-for="Dificultad">Dificultad</label>
+                                                            <text asp-for="Dificultad" class="form-control textDificultad">@dificultad.ElementAt(@Model.Dificultad-1).Text</text>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                            <button type="submit" onclick="isEditing()" class="btn btn-secondary text-light" id="btnEditar" style="width: 60%; text-align:center; ">Editar Tarea</button>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Asegúrate de incluir jQuery -->
+
+<script>
+    $(document).ready(function () {
+        // Función para verificar si el formulario está completo
+        $('#btnGuardar').prop('disabled', true); // Disable button by default
+
+        function checkFormCompletion() {
+            var isComplete = true;
+            $('input, select, textarea').each(function () {
+                if ($(this).is(':visible')) {
+                    if ($(this).val() === '') {
+                        isComplete = false;
+                        return false; // Sale del bucle si encuentra un campo vacío
+                    }
+                }
+            });
+
+            // Actualiza el estado del botón
+            if (isComplete) {
+                $('#btnGuardar').prop('disabled', false);
+            } else {
+                $('#btnGuardar').prop('disabled', true);
+            }
+        }
+
+        // Verificar el estado del formulario en cada cambio de campo
+        $('input, select, textarea').on('input change', function () {
+            checkFormCompletion();
+        });
+    });
+</script>
+
+<script>
+    function isEditing() {
+        $('#formEdit').prop('hidden', false);
+        $('#taskDetails').prop('hidden', true);
+    }
+</script>
