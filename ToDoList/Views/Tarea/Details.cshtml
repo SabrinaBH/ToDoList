@@ -35,8 +35,8 @@
                                     <div class="p-5">
                                     
                                         @Html.ValidationSummary(true, "text", new {@class="text-danger"})
-                                        <form hidden="true" id="formEdit" asp-action="EditTask" asp-controller="Tarea" class="py-2">
-                                            @*Html.HiddenFor(model => model.Id)*@
+                                        <form hidden="true" id="formEdit" asp-action="Edit" asp-controller="Tarea" class="py-2">
+                                            @Html.HiddenFor(model => model.Id)
                                             <div class="contenedor-form">
                                                 @Html.LabelFor(model => model.Titulo, new {@class="formLabel"})
                                                 @Html.TextBoxFor(model => Model.Titulo, new {@class="form-control"})

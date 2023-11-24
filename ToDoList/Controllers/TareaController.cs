@@ -5,6 +5,7 @@ using ToDoList.Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Firebase.Auth;
+using System.Threading;
 
 namespace Diseno.Controllers
 {
@@ -17,13 +18,13 @@ namespace Diseno.Controllers
 
         public IActionResult ListIndex()
         {
-            var userToken = HttpContext.Session.GetString("_UserToken");
+            var userToken = GetUserToken();
             if (userToken == null) { // Si no hay un token de usuario
                 return RedirectToAction("Login", "Account");
             }
             else
             {
-                var userId = HttpContext.Session.GetString("_UserId");
+                var userId = GetUserId();
                 ViewData["token"] = userToken;
 
                 List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
@@ -57,14 +58,14 @@ namespace Diseno.Controllers
 
         public IActionResult GameIndex()
         {
-            var userToken = HttpContext.Session.GetString("_UserToken");
+            var userToken = GetUserToken();
             if (userToken == null)
             { // Si no hay un token de usuario
                 return RedirectToAction("Login", "Account");
             }
             else
             {
-                var userId = HttpContext.Session.GetString("_UserId");
+                var userId = GetUserId();
                 ViewData["token"] = userToken;
                 List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
                 List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
@@ -92,8 +93,8 @@ namespace Diseno.Controllers
         [HttpGet]
         public IActionResult AddTask()
         {
-            ViewData["token"] = HttpContext.Session.GetString("_UserToken"); // The view needs the token
-            ViewData["userId"] = HttpContext.Session.GetString("_UserId");
+            ViewData["token"] = GetUserToken(); // The view needs the token
+            ViewData["userId"] = GetUserId();
             List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
             ViewBag.Categorias = categorias;
             return View();
@@ -133,18 +134,21 @@ namespace Diseno.Controllers
         [Route("/Tarea/{id}/Details")]
         public IActionResult Details(string id)
         {
-            Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(GetUserId()).Where(l => l.Id == id).FirstOrDefault();
+            ViewData["token"] = GetUserToken();
+            var userId = GetUserId();
+            Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(userId).FirstOrDefault(l => l.Id == id);
             List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
             ViewBag.Categorias = categorias;
             return View("Details", task);
         }
 
         public string GetUserId() => HttpContext.Session.GetString("_UserId");
+        public string GetUserToken() => HttpContext.Session.GetString("_UserToken");
 
         [Route("/Tarea/{id}/Delete")]
         public IActionResult Delete(string id)
         {
-             var user = GetUserId();
+            var user = GetUserId();
             var tarea = _handlerObtenerDatos.ObtenerTareasUsuario(user).Where(t => t.Id == id).FirstOrDefault();
             if (tarea != null)
             {
@@ -152,6 +156,40 @@ namespace Diseno.Controllers
             }
 
             return RedirectToAction("ListIndex", "Tarea");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Tarea tarea)
+        {
+            tarea.UsuarioCreador = GetUserId();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _handlerObtenerDatos.ActualizarTarea(tarea);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TaskExists(tarea.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("ListIndex", "Tarea");
+            }
+            return View(tarea);
+        }
+
+        private bool TaskExists(string id)
+        {
+            var user = GetUserId();
+            var tareaBD = _handlerObtenerDatos.ObtenerTareasUsuario(user).Where(t => t.Id == id).FirstOrDefault();
+            if (tareaBD == null) { return false; }
+            return true;
         }
     }
 }

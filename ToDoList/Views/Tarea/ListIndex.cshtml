@@ -36,7 +36,7 @@
             {
               if (tarea.Estado == 1)
               {
-                <form type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
+                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list1-item" id="@tarea.Id">
                   <div class="row">
                     <div class="col-item-pendiente">
@@ -106,26 +106,26 @@
             @foreach (var tarea in ViewBag.Tareas)
             {
                             
-                            <div class="modal fade" id="taskDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4>Detalles tarea.Titulo</h4>
-                                            <button type="button" class="close" data-dismiss="modal">x</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="Details">
-                                                <div class="form-group">
-                                                    <label>tarea.Descripcion</label>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="modal fade" id="taskDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Detalles tarea.Titulo</h4>
+                                <button type="button" class="close" data-dismiss="modal">x</button>
                             </div>
+                            <div class="modal-body">
+                                <form action="Details">
+                                    <div class="form-group">
+                                        <label>tarea.Descripcion</label>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               if (tarea.Estado == 2)
               {
                 <li class="col-item list2-item" data-tarea="@tarea.Id">
