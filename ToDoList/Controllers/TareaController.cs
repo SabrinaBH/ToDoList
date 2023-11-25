@@ -31,11 +31,13 @@ namespace Diseno.Controllers
 
         List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
         List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+        List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
         int contadorPendientes = 0;
         int contadorProceso = 0;
         int contadorTerminado = 0;
         ViewBag.Categorias = categorias;
         ViewBag.Tareas = listaTareas;
+        ViewBag.Estados = estados;
         foreach (Tarea tarea in listaTareas)
         {
           if (tarea.Estado == 0)
@@ -140,7 +142,9 @@ namespace Diseno.Controllers
       var userId = GetUserId();
       Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(userId).FirstOrDefault(l => l.Id == id);
       List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+      List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
       ViewBag.Categorias = categorias;
+      ViewBag.Estados = estados;
       return View("Details", task);
     }
 

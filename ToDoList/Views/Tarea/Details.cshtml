@@ -4,9 +4,14 @@
   List<SelectListItem> categorias = new List<SelectListItem>();
   List<SelectListItem> prioridades = new List<SelectListItem>();
   List<SelectListItem> dificultad = new List<SelectListItem>();
+  List<SelectListItem> estados = new List<SelectListItem>();
   foreach (var categoria in ViewBag.Categorias)
   {
     categorias.Add(new SelectListItem { Text = categoria.Nombre, Value = categoria.Id.ToString() });
+  }
+  foreach (var estado in ViewBag.Estados)
+  {
+    estados.Add(new SelectListItem { Text = estado.Nombre, Value = estado.Id.ToString() });
   }
 
   prioridades.Add(new SelectListItem { Text = "Baja", Value = "3" });
@@ -61,6 +66,12 @@
                         <input asp-for="FechaFinal" type="date"></>
                         @Html.ValidationMessageFor(model => model.FechaFinal, "", new {@class = "text-danger"})
                       </div>
+                    </div>
+
+                    <div>
+                      @Html.LabelFor(model => model.Estado, new {@class="formLabel"})
+                      @Html.DropDownListFor(model => model.Estado, estados, "-Sin seleccion-", new {@class="form-control"})
+                      @Html.ValidationMessageFor(model => model.Estado, "", new {@class="text-danger"})
                     </div>
 
                     <div class="contenedor-listas contenedor-form">
@@ -121,7 +132,7 @@
                       </div>
                       <div class="list-group-item">
                         <label asp-for="Estado">Estado</label>
-                        <text asp-for="Estado" class="btn btn-outline-dark">@Model.Estado</text>
+                        <text asp-for="Estado" class="btn btn-outline-dark">@estados.Where(c => c.Value == @Model.Estado.ToString()).First().Text</text>
                       </div>
                       <div class="row">
                         <div class="col-md-4">
