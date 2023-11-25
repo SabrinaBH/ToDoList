@@ -17,6 +17,7 @@ namespace ToDoList.Controllers
 
     public AccountController()
     {
+      Usuario = new Usuario();
       auth = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
     }
 

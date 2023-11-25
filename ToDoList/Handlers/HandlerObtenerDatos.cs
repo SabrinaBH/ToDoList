@@ -11,15 +11,9 @@ namespace ToDoList.Handlers
 
         public HandlerObtenerDatos() { }
 
-        public String ObtenerIDUsuarioAdmin()
-        {
-            string consulta = "ObtenerIDUsuarioAdmin";
-            string resultado = " ";
-            SqlCommand comando = new SqlCommand(consulta, conexion);
-            comando.CommandType = CommandType.StoredProcedure;
-            SqlParameter id = new SqlParameter("@IDAdmin", SqlDbType.UniqueIdentifier);
-            id.Direction = ParameterDirection.Output;
-            comando.Parameters.Add(id);
+
+        public void EjecutarComandoSQL(SqlCommand comando) {
+
             if (conexion.State == System.Data.ConnectionState.Open)
             {
                 comando.ExecuteNonQuery();
@@ -30,6 +24,21 @@ namespace ToDoList.Handlers
                 comando.ExecuteNonQuery();
                 conexion.Close();
             }
+
+        }
+
+
+        public String ObtenerIDUsuarioAdmin()
+        {
+            string consulta = "ObtenerIDUsuarioAdmin";
+            string resultado = " ";
+            SqlCommand comando = new SqlCommand(consulta, conexion);
+            comando.CommandType = CommandType.StoredProcedure;
+            SqlParameter id = new SqlParameter("@IDAdmin", SqlDbType.UniqueIdentifier);
+            id.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(id);
+
+            EjecutarComandoSQL(comando);
 
             if (id.Value != null){
                 resultado = id.Value.ToString();
@@ -48,18 +57,10 @@ namespace ToDoList.Handlers
             SqlParameter id = new SqlParameter("@IDUsuario", SqlDbType.UniqueIdentifier);
             id.Direction = ParameterDirection.Output;
             comando.Parameters.Add(id);
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
 
-            if(id.Value != null) {
+            EjecutarComandoSQL(comando);
+
+            if (id.Value != null) {
                 resultado = id.Value.ToString();
             }
 
@@ -77,16 +78,8 @@ namespace ToDoList.Handlers
             SqlParameter esJuego = new SqlParameter("@EsJuego", SqlDbType.Bit);
             esJuego.Direction = ParameterDirection.Output;
             comando.Parameters.Add(esJuego);
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+
+            EjecutarComandoSQL(comando);
 
             if (esJuego.Value != null)
             {
@@ -98,7 +91,7 @@ namespace ToDoList.Handlers
 
         public Usuario ObtenerUsuario(String identificadorUsuario)
         {
-            string consultaBaseDatos = "SELECT * FROM Usuario WHERE Usuario.IdentificadorUsuario = '" + identificadorUsuario + "';";
+            string consultaBaseDatos = "EXEC ObtenerInformacionUsuario @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
             DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
             DataRow columna = tablaDeDesglose.Rows[0];
@@ -121,7 +114,7 @@ namespace ToDoList.Handlers
             if (identificadorUsuario != "" && identificadorUsuario != null)
             {
 
-                string consultaBaseDatos = "SELECT * FROM Estado WHERE Estado.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+                string consultaBaseDatos = "EXEC ObtenerEstadosUsuario @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
                 DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
                 foreach (DataRow columna in tablaDeDesglose.Rows)
@@ -143,7 +136,8 @@ namespace ToDoList.Handlers
             List<Categoria> categorias = new List<Categoria>();
             if (identificadorUsuario != "" && identificadorUsuario != null)
             {
-                string consultaBaseDatos = "SELECT * FROM Categoria WHERE Categoria.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+
+                string consultaBaseDatos = "EXEC ObtenerCategoriasUsuario @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
                 DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
                 foreach (DataRow columna in tablaDeDesglose.Rows)
@@ -167,30 +161,32 @@ namespace ToDoList.Handlers
             if (identificadorUsuario != "" && identificadorUsuario != null)
             {
 
-                string consultaBaseDatos = "SELECT * FROM Tarea WHERE Tarea.IdentificadorUsuarioCreador = '" + identificadorUsuario + "';";
+                string consultaBaseDatos = "EXEC ObtenerTareas @IdentificadorUsuario = '" + identificadorUsuario + "';";
 
                 using (SqlCommand command = new SqlCommand(consultaBaseDatos, conexion))
                 {
 
 
                     DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-                    foreach (DataRow columna in tablaDeDesglose.Rows)
-                    {
-                        tareas.Add(
-                        new Tarea
-                        {
-                            Id = Convert.ToString(columna["IdentificadorTarea"]),
-                            Titulo = Convert.ToString(columna["Titulo"]),
-                            Descripcion = Convert.ToString(columna["Descripcion"]),
-                            FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-                            FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-                            Dificultad = Convert.ToInt16(columna["Dificultad"]),
-                            Prioridad = Convert.ToInt16(columna["Prioridad"]),
-                            UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-                            Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-                            Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-                        });
-                    }
+
+                    tareas = LlenarListaTareas(tablaDeDesglose);
+                    //foreach (DataRow columna in tablaDeDesglose.Rows)
+                    //{
+                    //    tareas.Add(
+                    //    new Tarea
+                    //    {
+                    //        Id = Convert.ToString(columna["IdentificadorTarea"]),
+                    //        Titulo = Convert.ToString(columna["Titulo"]),
+                    //        Descripcion = Convert.ToString(columna["Descripcion"]),
+                    //        FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
+                    //        FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
+                    //        Dificultad = Convert.ToInt16(columna["Dificultad"]),
+                    //        Prioridad = Convert.ToInt16(columna["Prioridad"]),
+                    //        UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
+                    //        Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
+                    //        Estado = Convert.ToInt32(columna["IdentificadorEstado"])
+                    //    });
+                    //}
                 }
             }
             return tareas;
@@ -214,16 +210,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -249,16 +236,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -283,16 +261,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -323,16 +292,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -364,17 +324,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
-
+            EjecutarComandoSQL(comando);
             if (completadoExito.Value != null)
             {
                 completado = Convert.ToBoolean(completadoExito.Value);
@@ -400,16 +350,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -433,16 +374,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -467,16 +399,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -500,16 +423,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {
@@ -532,16 +446,7 @@ namespace ToDoList.Handlers
             completadoExito.Direction = ParameterDirection.Output;
             comando.Parameters.Add(completadoExito);
 
-            if (conexion.State == System.Data.ConnectionState.Open)
-            {
-                comando.ExecuteNonQuery();
-            }
-            else
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-                conexion.Close();
-            }
+            EjecutarComandoSQL(comando);
 
             if (completadoExito.Value != null)
             {

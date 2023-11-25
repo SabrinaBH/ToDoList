@@ -20,13 +20,13 @@
     <div class="columna">
       <div class="encabezado">
         <h2>Pendientes</h2>
-        <h4>@ViewBag.Pendientes</h4>
+        <h4 id="cantidadPendientes">@ViewBag.Pendientes</h4>
       </div>
       <div class="">
         <ul class="list-group sortable" id="listaPendientes">
           @if (ViewBag.Pendientes == 0)
           {
-            <div class="sin-tareas">
+            <div class="sin-tareas" id="sinPendientes">
               <h5>No hay tareas pendientes</h5>
             </div>
           }
@@ -34,68 +34,70 @@
           {
             @foreach (var tarea in ViewBag.Tareas)
             {
-              if (tarea.Estado == 1)
+              if (tarea.Estado == 0)
               {
-                <li class="col-item list1-item" data-tarea="@tarea.Id">
+                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
+                <li class="col-item list1-item" id="@tarea.Id">
                   <div class="row">
                     <div class="col-item-pendiente">
                       <div class="header-task">
                         <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                         <p class="list-group-item-text category-task">
-                          @foreach (var categoria in ViewBag.Categorias)
-                          {
-                            if (tarea.Categoria == categoria.Id)
+                            @foreach (var categoria in ViewBag.Categorias)
                             {
-                              @categoria.Nombre
+                              if (tarea.Categoria == categoria.Id)
+                              {
+                                @categoria.Nombre
+                              }
                             }
-                          }
                         </p>
                       </div>
                       <div class="task-details">
                         <p class="list-group-item-text dificultad">
-                          @for (int i = 0; i < tarea.Dificultad; ++i)
-                          {
+                            @for (int i = 0; i < tarea.Dificultad; ++i)
+                            {
                             <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
-                          }
+                            }
                         </p>
                         <p class="list-group-item-text prioridad">
-                          @if (tarea.Prioridad == 1)
-                          {
-                            @uno
-                          }
-                          else
-                          {
-                            if (tarea.Prioridad == 2)
+                            @if (tarea.Prioridad == 1)
                             {
-                              @dos
+                              @uno
                             }
                             else
                             {
-                              @tres
+                              if (tarea.Prioridad == 2)
+                              {
+                                @dos
+                              }
+                              else
+                              {
+                                @tres
+                              }
                             }
-                          }
                         </p>
                       </div>
                     </div>
                   </div>
                 </li>
+                </form>
               }
             }
           }
         </ul>
       </div>
-     
+
     </div>
     <div class="columna">
       <div class="encabezado">
         <h2>En Proceso</h2>
-        <h4>@ViewBag.Procesos</h4>
+        <h4 id="cantidadProcesos">@ViewBag.Procesos</h4>
       </div>
       <div class="">
         <ul class="list-group sortable" id="listaProceso">
           @if (ViewBag.Procesos == 0)
           {
-            <div class="sin-tareas">
+            <div class="sin-tareas" id="sinProcesos">
               <h5>No hay tareas en proceso</h5>
             </div>
           }
@@ -103,51 +105,54 @@
           {
             @foreach (var tarea in ViewBag.Tareas)
             {
-              if (tarea.Estado == 2)
+
+              if (tarea.Estado == 1)
               {
+                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list2-item" data-tarea="@tarea.Id">
                   <div class="row">
                     <div class="col-item-proceso">
                       <div class="header-task">
                         <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                         <p class="list-group-item-text category-task">
-                          @foreach (var categoria in ViewBag.Categorias)
-                          {
-                            if (tarea.Categoria == categoria.Id)
+                            @foreach (var categoria in ViewBag.Categorias)
                             {
-                              @categoria.Nombre
+                              if (tarea.Categoria == categoria.Id)
+                              {
+                                @categoria.Nombre
+                              }
                             }
-                          }
                         </p>
                       </div>
                       <div class="task-details">
                         <p class="list-group-item-text dificultad">
-                          @for (int i = 0; i < tarea.Dificultad; ++i)
-                          {
+                            @for (int i = 0; i < tarea.Dificultad; ++i)
+                            {
                             <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
-                          }
+                            }
                         </p>
                         <p class="list-group-item-text prioridad">
-                          @if (tarea.Prioridad == 1)
-                          {
-                            @uno
-                          }
-                          else
-                          {
-                            if (tarea.Prioridad == 2)
+                            @if (tarea.Prioridad == 1)
                             {
-                              @dos
+                              @uno
                             }
                             else
                             {
-                              @tres
+                              if (tarea.Prioridad == 2)
+                              {
+                                @dos
+                              }
+                              else
+                              {
+                                @tres
+                              }
                             }
-                          }
                         </p>
                       </div>
                     </div>
                   </div>
                 </li>
+                </form>
               }
             }
           }
@@ -157,13 +162,13 @@
     <div class="columna">
       <div class="encabezado">
         <h2>Terminados</h2>
-        <h4>@ViewBag.Terminados</h4>
+        <h4 id="cantidadTerminados">@ViewBag.Terminados</h4>
       </div>
       <div class="">
         <ul class="list-group sortable" id="listaTerminados">
           @if (ViewBag.Terminados == 0)
           {
-            <div class="sin-tareas">
+            <div class="sin-tareas" id="sinTerminados">
               <h5>No hay tareas terminadas</h5>
             </div>
           }
@@ -171,51 +176,53 @@
           {
             @foreach (var tarea in ViewBag.Tareas)
             {
-              if (tarea.Estado == 3)
+              if (tarea.Estado == 2)
               {
+                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list3-item" data-tarea="@tarea.Id">
                   <div class="row">
                     <div class="col-item-terminado">
                       <div class="header-task">
                         <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                         <p class="list-group-item-text category-task">
-                          @foreach (var categoria in ViewBag.Categorias)
-                          {
-                            if (tarea.Categoria == categoria.Id)
+                            @foreach (var categoria in ViewBag.Categorias)
                             {
-                              @categoria.Nombre
+                              if (tarea.Categoria == categoria.Id)
+                              {
+                                @categoria.Nombre
+                              }
                             }
-                          }
                         </p>
                       </div>
                       <div class="task-details">
                         <p class="list-group-item-text dificultad">
-                          @for (int i = 0; i < tarea.Dificultad; ++i)
-                          {
+                            @for (int i = 0; i < tarea.Dificultad; ++i)
+                            {
                             <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
-                          }
+                            }
                         </p>
                         <p class="list-group-item-text prioridad">
-                          @if (tarea.Prioridad == 1)
-                          {
-                            @uno
-                          }
-                          else
-                          {
-                            if (tarea.Prioridad == 2)
+                            @if (tarea.Prioridad == 1)
                             {
-                              @dos
+                              @uno
                             }
                             else
                             {
-                              @tres
+                              if (tarea.Prioridad == 2)
+                              {
+                                @dos
+                              }
+                              else
+                              {
+                                @tres
+                              }
                             }
-                          }
                         </p>
                       </div>
                     </div>
                   </div>
                 </li>
+                </form>
               }
             }
           }
@@ -226,4 +233,12 @@
 </body>
 </html>
 
+<script>
+  var myModal = document.getElementById('taskDetails')
+  var myInput = document.getElementById('myInput')
 
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+
+</script>
