@@ -38,15 +38,15 @@ namespace Diseno.Controllers
         ViewBag.Tareas = listaTareas;
         foreach (Tarea tarea in listaTareas)
         {
-          if (tarea.Estado == 1)
+          if (tarea.Estado == 0)
           {
             contadorPendientes += 1;
           }
-          if (tarea.Estado == 2)
+          if (tarea.Estado == 1)
           {
             contadorProceso += 1;
           }
-          if (tarea.Estado == 3)
+          if (tarea.Estado == 2)
           {
             contadorTerminado += 1;
           }
@@ -77,11 +77,11 @@ namespace Diseno.Controllers
         ViewBag.Tareas = listaTareas;
         foreach (Tarea tarea in listaTareas)
         {
-          if (tarea.Estado == 1)
+          if (tarea.Estado == 0)
           {
             contadorPendientes += 1;
           }
-          if (tarea.Estado == 3)
+          if (tarea.Estado == 2)
           {
             contadorTerminado += 1;
           }

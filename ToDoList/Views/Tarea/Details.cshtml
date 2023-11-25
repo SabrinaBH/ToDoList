@@ -126,15 +126,15 @@
                       <div class="row">
                         <div class="col-md-4">
                           <label asp-for="Categoria">Categoria</label>
-                          <text asp-for="Categoria" class="form-control textCategoria"> @categorias.ElementAt(@Model.Categoria-1).Text</text>
+                          <text asp-for="Categoria" class="form-control textCategoria"> @categorias.ElementAt(@Model.Categoria).Text</text>
                         </div>
                         <div class="col-md-4">
                           <label asp-for="Prioridad">Prioridad</label>
-                          <text asp-for="Prioridad" class="form-control textPrioridad">@prioridades.ElementAt(@Model.Prioridad-1).Text</text>
+                          <text asp-for="Prioridad" class="form-control textPrioridad">@prioridades.ElementAt(@Model.Prioridad).Text</text>
                         </div>
                         <div class="col-md-4">
                           <label asp-for="Dificultad">Dificultad</label>
-                          <text asp-for="Dificultad" class="form-control textDificultad">@dificultad.ElementAt(@Model.Dificultad-1).Text</text>
+                          <text asp-for="Dificultad" class="form-control textDificultad">@dificultad.ElementAt(@Model.Dificultad).Text</text>
                         </div>
                       </div>
                     </div>
