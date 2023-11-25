@@ -9,9 +9,9 @@
     categorias.Add(new SelectListItem { Text = categoria.Nombre, Value = categoria.Id.ToString() });
   }
 
-  prioridades.Add(new SelectListItem { Text = "Baja", Value = "1" });
+  prioridades.Add(new SelectListItem { Text = "Baja", Value = "3" });
   prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
-  prioridades.Add(new SelectListItem { Text = "Alta", Value = "3" });
+  prioridades.Add(new SelectListItem { Text = "Alta", Value = "1" });
 
   dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
   dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
@@ -87,7 +87,6 @@
                           @Html.ValidationMessageFor(model => model.Dificultad, "", new {@class="text-danger"})
                         </div>
                       </div>
-
 
                       <input type="hidden" asp-for="UsuarioCreador" class="form-control" value="@userId" />
                       <input type="hidden" asp-for="Estado" class="form-control" value="0" />

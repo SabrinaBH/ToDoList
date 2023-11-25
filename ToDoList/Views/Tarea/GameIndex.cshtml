@@ -28,49 +28,51 @@
           {
             if (tarea.Estado == 0)
             {
+              <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
               <li class="col-item list1-item" data-tarea="@tarea.Id">
                 <div class="row">
                   <div class="col-item-pendiente">
                     <div class="header-task">
                       <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                       <p class="list-group-item-text category-task">
-                        @foreach (var categoria in ViewBag.Categorias)
-                        {
-                          if (tarea.Categoria == categoria.Id)
+                          @foreach (var categoria in ViewBag.Categorias)
                           {
-                            @categoria.Nombre
+                            if (tarea.Categoria == categoria.Id)
+                            {
+                              @categoria.Nombre
+                            }
                           }
-                        }
                       </p>
                     </div>
                     <div class="task-details">
                       <p class="list-group-item-text dificultad">
-                        @for (int i = 0; i < tarea.Dificultad; ++i)
-                        {
+                          @for (int i = 0; i < tarea.Dificultad; ++i)
+                          {
                           <img src="/Images/red-star.png" alt="Foto de usuario" class="star-img">
-                        }
+                          }
                       </p>
                       <p class="list-group-item-text prioridad">
-                        @if (tarea.Prioridad == 1)
-                        {
-                          @uno
-                        }
-                        else
-                        {
-                          if (tarea.Prioridad == 2)
+                          @if (tarea.Prioridad == 1)
                           {
-                            @dos
+                            @uno
                           }
                           else
                           {
-                            @tres
+                            if (tarea.Prioridad == 2)
+                            {
+                              @dos
+                            }
+                            else
+                            {
+                              @tres
+                            }
                           }
-                        }
                       </p>
                     </div>
                   </div>
                 </div>
               </li>
+              </form>
             }
           }
         }
