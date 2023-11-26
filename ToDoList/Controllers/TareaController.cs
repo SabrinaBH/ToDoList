@@ -138,6 +138,7 @@ namespace Diseno.Controllers
     [Route("/Tarea/{id}/Details")]
     public IActionResult Details(string id)
     {
+      ViewData["isGame"] = GetIsGame();
       ViewData["token"] = GetUserToken();
       var userId = GetUserId();
       Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(userId).FirstOrDefault(l => l.Id == id);
@@ -150,6 +151,7 @@ namespace Diseno.Controllers
 
     public string GetUserId() => HttpContext.Session.GetString("_UserId");
     public string GetUserToken() => HttpContext.Session.GetString("_UserToken");
+    public string GetIsGame() => HttpContext.Session.GetString("_IsGame");
 
     [Route("/Tarea/{id}/Delete")]
     public IActionResult Delete(string id)

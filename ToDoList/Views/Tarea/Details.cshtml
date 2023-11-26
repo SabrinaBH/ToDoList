@@ -1,6 +1,7 @@
 ﻿@model Tarea
 @{
   var userId = ViewData["userId"];
+  var isGame = ViewData["isGame"] as string;
   List<SelectListItem> categorias = new List<SelectListItem>();
   List<SelectListItem> prioridades = new List<SelectListItem>();
   List<SelectListItem> dificultad = new List<SelectListItem>();
@@ -111,9 +112,12 @@
                       <div class="col-md-8">
                         <h3 asp-for="Titulo">@Model.Titulo</h3>
                       </div>
-                      <div class="col-md-4">
-                        <button type="submit" onclick="location.href='@Url.Action("Delete", "Tarea", new {id = @Model.Id})'" class="btn btn-warning text-light" style="width: 60%">Eliminar</button>
-                      </div>
+                      @if (isGame == "0")
+                      {
+                        <div class="col-md-4">
+                          <button type="submit" onclick="location.href='@Url.Action("Delete", "Tarea", new {id = @Model.Id})'" class="btn btn-warning text-light" style="width: 60%">Eliminar</button>
+                        </div>
+                      }
                     </div>
                     <div class="table-group-divider">
                       <div class="list-group-item">
@@ -130,7 +134,7 @@
                           <button asp-for="FechaFinal" class="btn btn-outline-dark">@Model.FechaFinal.ToShortDateString()</button>
                         </div>
                       </div>
-                      <div class="list-group-item">
+                      <div class="list-group-item my-2">
                         <label asp-for="Estado">Estado</label>
                         <text asp-for="Estado" class="btn btn-outline-dark">@estados.Where(c => c.Value == @Model.Estado.ToString()).First().Text</text>
                       </div>
@@ -151,12 +155,24 @@
                     </div>
                     <div class="table-group-divider m-2">
                       <div class="row justify-content-between m-2">
-                        <div class="col-md-6">
-                          <button type="submit" onclick="isEditing()" class="btn btn-secondary text-light" id="btnEditar" style="width: 60%">Editar Tarea</button>
-                        </div>
-                        <div class="col-md-6">
-                          <button type="button" onclick="location.href='@Url.Action("ListIndex", "Tarea")'" class="btn btn-warning text-light" style="width: 60%">Volver</button>
-                        </div>
+                        @if (isGame == "0")
+                        {
+                          <div class="col-md-6">
+                            <button type="submit" onclick="isEditing()" class="btn btn-secondary text-light" id="btnEditar" style="width: 60%">Editar Tarea</button>
+                          </div>
+                        }
+                        @if (isGame == "0")
+                        {
+                          <div class="col-md-6">
+                            <button type="button" onclick="location.href='@Url.Action("ListIndex", "Tarea")'" class="btn btn-warning text-light" style="width: 60%">Volver</button>
+                          </div>
+                        }
+                        else
+                        {
+                          <div class="col-md-6">
+                            <button type="button" onclick="location.href='@Url.Action("GameIndex", "Tarea")'" class="btn btn-warning text-light" style="width: 60%">Volver</button>
+                          </div>
+                        }
                       </div>
                     </div>
                   </div>
