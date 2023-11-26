@@ -6,15 +6,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Firebase.Auth;
 using System.Threading;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Diseno.Controllers
 {
   public class TareaController : Controller
   {
-    public HandlerObtenerDatos _handlerObtenerDatos;
+    public HandlerObtenerDatos _handlerObtenerDatos = new();
+    public List<SelectListItem> prioridades = new();
+    public List<SelectListItem> dificultad = new();
+
     public TareaController()
     {
-      _handlerObtenerDatos = new HandlerObtenerDatos();
+      prioridades.Add(new SelectListItem { Text = "Baja", Value = "3" });
+      prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
+      prioridades.Add(new SelectListItem { Text = "Alta", Value = "1" });
+
+      dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
+      dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
+      dificultad.Add(new SelectListItem { Text = "3", Value = "3" });
+      dificultad.Add(new SelectListItem { Text = "4", Value = "4" });
+      dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
     }
 
     public IActionResult ListIndex()
@@ -101,6 +113,8 @@ namespace Diseno.Controllers
       ViewData["userId"] = GetUserId();
       List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
       ViewBag.Categorias = categorias;
+      ViewBag.Prioridades = prioridades;
+      ViewBag.Dificultad = dificultad;
       return View();
     }
 
@@ -146,6 +160,8 @@ namespace Diseno.Controllers
       List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
       ViewBag.Categorias = categorias;
       ViewBag.Estados = estados;
+      ViewBag.Prioridades = prioridades;
+      ViewBag.Dificultad = dificultad;
       return View("Details", task);
     }
 

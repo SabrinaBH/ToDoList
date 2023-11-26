@@ -3,8 +3,8 @@
   var userId = ViewData["userId"];
   var isGame = ViewData["isGame"] as string;
   List<SelectListItem> categorias = new List<SelectListItem>();
-  List<SelectListItem> prioridades = new List<SelectListItem>();
-  List<SelectListItem> dificultad = new List<SelectListItem>();
+  List<SelectListItem> prioridades = ViewBag.Prioridades;
+  List<SelectListItem> dificultad = ViewBag.Dificultad;
   List<SelectListItem> estados = new List<SelectListItem>();
   foreach (var categoria in ViewBag.Categorias)
   {
@@ -14,16 +14,6 @@
   {
     estados.Add(new SelectListItem { Text = estado.Nombre, Value = estado.Id.ToString() });
   }
-
-  prioridades.Add(new SelectListItem { Text = "Baja", Value = "3" });
-  prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
-  prioridades.Add(new SelectListItem { Text = "Alta", Value = "1" });
-
-  dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
-  dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
-  dificultad.Add(new SelectListItem { Text = "3", Value = "3" });
-  dificultad.Add(new SelectListItem { Text = "4", Value = "4" });
-  dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
 }
 
 <html>
