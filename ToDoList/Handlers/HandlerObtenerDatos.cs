@@ -168,28 +168,8 @@ namespace ToDoList.Handlers
 
         using (SqlCommand command = new(consultaBaseDatos, conexion))
         {
-
-
           DataTable tablaDeDesglose = CrearTablaConsulta(consultaBaseDatos);
-
           tareas = LlenarListaTareas(tablaDeDesglose);
-          //foreach (DataRow columna in tablaDeDesglose.Rows)
-          //{
-          //    tareas.Add(
-          //    new Tarea
-          //    {
-          //        Id = Convert.ToString(columna["IdentificadorTarea"]),
-          //        Titulo = Convert.ToString(columna["Titulo"]),
-          //        Descripcion = Convert.ToString(columna["Descripcion"]),
-          //        FechaInicial = Convert.ToDateTime(columna["FechaInicial"]),
-          //        FechaFinal = Convert.ToDateTime(columna["FechaFinal"]),
-          //        Dificultad = Convert.ToInt16(columna["Dificultad"]),
-          //        Prioridad = Convert.ToInt16(columna["Prioridad"]),
-          //        UsuarioCreador = Convert.ToString(columna["IdentificadorUsuarioCreador"]),
-          //        Categoria = Convert.ToInt32(columna["IdentificadorCategoria"]),
-          //        Estado = Convert.ToInt32(columna["IdentificadorEstado"])
-          //    });
-          //}
         }
       }
       return tareas;
@@ -350,6 +330,30 @@ namespace ToDoList.Handlers
       comando.Parameters.AddWithValue("@SegundoApellidoCambio", usuario.SegundoApellido);
       comando.Parameters.AddWithValue("@EmailCambio", usuario.Email);
       SqlParameter completadoExito = new("@ActualizadoCompletado", SqlDbType.Bit);
+      completadoExito.Direction = ParameterDirection.Output;
+      comando.Parameters.Add(completadoExito);
+
+      EjecutarComandoSQL(comando);
+
+      if (completadoExito.Value != null)
+      {
+        completado = Convert.ToBoolean(completadoExito.Value);
+      }
+
+      return completado;
+    }
+
+    public bool ActualizarEstado(string idTarea, int nuevoEstado)
+    {
+      bool completado = false;
+
+      string consulta = "ActualizarEstado";
+      SqlCommand comando = new(consulta, conexion);
+      comando.CommandType = CommandType.StoredProcedure;
+
+      comando.Parameters.AddWithValue("@IdTarea", idTarea);
+      comando.Parameters.AddWithValue("@NuevoEstado", nuevoEstado);
+      SqlParameter completadoExito = new("@ActualizarCompletado", SqlDbType.Bit);
       completadoExito.Direction = ParameterDirection.Output;
       comando.Parameters.Add(completadoExito);
 

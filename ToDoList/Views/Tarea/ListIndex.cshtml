@@ -39,7 +39,7 @@
                 <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list1-item" id="@tarea.Id">
                   <div class="row">
-                    <div class="col-item-pendiente">
+                    <div class="col-item-pendiente" id="@tarea.Id">
                       <div class="header-task">
                         <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                         <p class="list-group-item-text category-task">
@@ -111,7 +111,7 @@
                 <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list2-item" data-tarea="@tarea.Id">
                   <div class="row">
-                    <div class="col-item-proceso">
+                    <div class="col-item-proceso" id="@tarea.Id">
                       <div class="header-task">
                         <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                         <p class="list-group-item-text category-task">
@@ -181,7 +181,7 @@
                 <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list3-item" data-tarea="@tarea.Id">
                   <div class="row">
-                    <div class="col-item-terminado">
+                    <div class="col-item-terminado" id="@tarea.Id">
                       <div class="header-task">
                         <h5 class="list-group-item-heading titulo-task">@tarea.Titulo</h5>
                         <p class="list-group-item-text category-task">
