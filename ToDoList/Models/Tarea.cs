@@ -12,7 +12,7 @@ namespace ToDoList.Models
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar la descripcion")]
-        [MinLength(5, ErrorMessage = "Debe ingresar al menos 5 caracteres")]
+        [MinLength(3, ErrorMessage = "Debe ingresar al menos 3 caracteres")]
         [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
 
@@ -36,7 +36,6 @@ namespace ToDoList.Models
         public string? UsuarioCreador { get; set; }
 
         [Required(ErrorMessage = "Debe seleccionar la categoria")]
-        [Range(1, 5)]
         [Display(Name = "Categoria")]
         public int Categoria { get; set; }
         public int Estado { get; set; }

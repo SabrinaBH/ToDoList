@@ -1,146 +1,130 @@
 ﻿@model ToDoList.Views.ViewModels.TareaModel
 @{
-    var userId = ViewData["userId"];
+  var userId = ViewData["userId"];
   List<SelectListItem> categorias = new List<SelectListItem>();
-  List<SelectListItem> prioridades = new List<SelectListItem>();
-  List<SelectListItem> dificultad = new List<SelectListItem>();
-  categorias.Add(new SelectListItem { Text = "Alimentacion", Value="1" });
-  categorias.Add(new SelectListItem { Text = "Entretenimiento", Value="2" });
-  categorias.Add(new SelectListItem { Text = "Estudio", Value = "3" });
-  categorias.Add(new SelectListItem { Text = "Trabajo", Value = "4" });
-
-  prioridades.Add(new SelectListItem { Text = "Baja", Value = "1" });
-  prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
-  prioridades.Add(new SelectListItem { Text = "Alta", Value = "3" });
-
-  dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
-  dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
-  dificultad.Add(new SelectListItem { Text = "3", Value = "3" });
-  dificultad.Add(new SelectListItem { Text = "4", Value = "4" });
-  dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
+  List<SelectListItem> prioridades = ViewBag.Prioridades;
+  List<SelectListItem> dificultad = ViewBag.Dificultad;
+  foreach (var categoria in ViewBag.Categorias)
+  {
+    categorias.Add(new SelectListItem { Text = categoria.Nombre, Value = categoria.Id.ToString() });
+  }
 }
 
 <html>
-    <head>
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    </head>
-    <body class="bg-gradient-primary">
+<head>
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-gradient-primary">
   @using (Html.BeginForm("AddTask", "Tarea", FormMethod.Post, new { enctype = "multipart/form-data" }))
   {
-    
+
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <div class="row row-own">
-                            <div class="col-lg-6-1">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-black mb-4">Nueva Tarea</h1>
-                                    </div>
-                                    @Html.ValidationSummary(true, "text", new {@class="text-danger"})
-                                        <form asp-action="AddTask" asp-controller="Tarea" class="py-2">
-                                        @*Html.HiddenFor(model => model.Id)*@
-                                        <div class="contenedor-form">
-                                            @Html.LabelFor(model => model.Titulo, new {@class="formLabel"})
-                                            @Html.TextBoxFor(model => Model.Titulo, new {@class="form-control"})
-                                            @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
-                                        </div>
-
-                                        <div class="contenedor-form">
-                                            @Html.LabelFor(model => model.Descripcion, new {@class="formLabel"})
-                                            @Html.TextAreaFor(model => Model.Descripcion, new {@class="form-control area"})
-                                            @Html.ValidationMessageFor(model => model.Descripcion, "", new {@class = "text-danger"})
-                                        </div>
-
-                                        <div class="contenedor-fechas contenedor-form">
-                                            <div class="fechas">
-                                                @Html.LabelFor(model => model.FechaInicial, new {@class="formLabel"})
-                                                @Html.TextBoxFor(model => Model.FechaInicial, new {@type="date"})
-                                                @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
-                                            </div>
-
-                                            <div class="fechas">
-                                                @Html.LabelFor(model => model.FechaFinal, new {@class="formLabel"})
-                                                @Html.TextBoxFor(model => Model.FechaFinal, new {@type="date"})
-                                                @Html.ValidationMessageFor(model => model.FechaFinal, "", new {@class = "text-danger"})
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="contenedor-listas contenedor-form">
-                                            <div class="">
-                                                @Html.LabelFor(model => model.Categoria, new {@class="formLabel"})
-                                                @Html.DropDownListFor(model => model.Categoria, categorias, "-Sin seleccion-", new {@class="form-control textCategoria"})
-                                                @Html.ValidationMessageFor(model => model.Categoria, "", new {@class="text-danger"})
-                                            </div>
-
-                                            <div class="">
-                                                @Html.LabelFor(model => model.Prioridad, new {@class="formLabel"})
-                                                @Html.DropDownListFor(model => model.Prioridad, prioridades, "-Sin seleccion-", new {@class="form-control textPrioridad"})
-                                                @Html.ValidationMessageFor(model => model.Prioridad, "", new {@class="text-danger"})
-                                            </div>
-
-                                            <div class="">
-                                                @Html.LabelFor(model => model.Dificultad, new {@class="formLabel"})
-                                                @Html.DropDownListFor(model => model.Dificultad, dificultad, "-Sin seleccion-", new {@class="form-control textDificultad"})
-                                                @Html.ValidationMessageFor(model => model.Dificultad, "", new {@class="text-danger"})
-                                            </div>
-                                        </div>
-                                        
-
-                                        <input type="hidden" asp-for="UsuarioCreador" class="form-control" value="@userId" />
-                                        <input type="hidden" asp-for="Estado" class="form-control" value="1" />
-
-                                        <div style="display: flex; justify-content: center; margin-top: 20px;">
-                                            <button type="submit" class="btn btn-secondary text-light" id="btnGuardar" style="width: 60%; text-align:center;">Agregar Tarea</button>
-                                            @*<a href="~/../Views/Tarea/Index.cshtml" style="display: flex; justify-content: center;">
-                                                <input type="submit" class="btn-agregar"
-                                                       style="margin-top: 20px; width: 60%; text-align:center; align-self:center;"
-                                                       value="Agregar Tarea" />
-                                            </a>*@
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+      <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+          <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+              <div class="row row-own">
+                <div class="col-lg-6-1">
+                  <div class="p-5">
+                    <div class="text-center">
+                      <h1 class="h4 text-black mb-4">Nueva Tarea</h1>
                     </div>
+                    @Html.ValidationSummary(true, "text", new {@class="text-danger"})
+                    <form asp-action="AddTask" asp-controller="Tarea" class="py-2">
+                      @*Html.HiddenFor(model => model.Id)*@
+                      <div class="contenedor-form">
+                        @Html.LabelFor(model => model.Titulo, new {@class="formLabel"})
+                        @Html.TextBoxFor(model => Model.Titulo, new {@class="form-control"})
+                        @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
+                      </div>
+
+                      <div class="contenedor-form">
+                        @Html.LabelFor(model => model.Descripcion, new {@class="formLabel"})
+                        @Html.TextAreaFor(model => Model.Descripcion, new {@class="form-control area"})
+                        @Html.ValidationMessageFor(model => model.Descripcion, "", new {@class = "text-danger"})
+                      </div>
+
+                      <div class="contenedor-fechas contenedor-form">
+                        <div class="fechas">
+                          @Html.LabelFor(model => model.FechaInicial, new {@class="formLabel"})
+                          @Html.TextBoxFor(model => Model.FechaInicial, new {@type="date"})
+                          @Html.ValidationMessageFor(model => model.Titulo, "", new {@class = "text-danger"})
+                        </div>
+
+                        <div class="fechas">
+                          @Html.LabelFor(model => model.FechaFinal, new {@class="formLabel"})
+                          @Html.TextBoxFor(model => Model.FechaFinal, new {@type="date"})
+                          @Html.ValidationMessageFor(model => model.FechaFinal, "", new {@class = "text-danger"})
+                        </div>
+                      </div>
+
+                      <div class="contenedor-listas contenedor-form">
+                        <div class="">
+                          @Html.LabelFor(model => model.Categoria, new {@class="formLabel"})
+                          @Html.DropDownListFor(model => model.Categoria, categorias, "-Sin seleccion-", new {@class="form-control textCategoria"})
+                          @Html.ValidationMessageFor(model => model.Categoria, "", new {@class="text-danger"})
+                        </div>
+
+                        <div class="">
+                          @Html.LabelFor(model => model.Prioridad, new {@class="formLabel"})
+                          @Html.DropDownListFor(model => model.Prioridad, prioridades, "-Sin seleccion-", new {@class="form-control textPrioridad"})
+                          @Html.ValidationMessageFor(model => model.Prioridad, "", new {@class="text-danger"})
+                        </div>
+
+                        <div class="">
+                          @Html.LabelFor(model => model.Dificultad, new {@class="formLabel"})
+                          @Html.DropDownListFor(model => model.Dificultad, dificultad, "-Sin seleccion-", new {@class="form-control textDificultad"})
+                          @Html.ValidationMessageFor(model => model.Dificultad, "", new {@class="text-danger"})
+                        </div>
+                      </div>
+
+                      <input type="hidden" asp-for="UsuarioCreador" class="form-control" value="@userId" />
+                      <input type="hidden" asp-for="Estado" class="form-control" value="0" />
+
+                      <div style="display: flex; justify-content: center; margin-top: 20px;">
+                        <button type="submit" class="btn btn-secondary text-light" id="btnGuardar" style="width: 60%; text-align:center;">Agregar Tarea</button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
   }
-    </body>
+</body>
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Asegúrate de incluir jQuery -->
 
 <script>
-    $(document).ready(function () {
-        // Función para verificar si el formulario está completo
-        $('#btnGuardar').prop('disabled', true); // Disable button by default
+  $(document).ready(function () {
+    // Función para verificar si el formulario está completo
+    $('#btnGuardar').prop('disabled', true); // Disable button by default
 
-        function checkFormCompletion() {
-            var isComplete = true;
-            $('input, select, textarea').each(function () {
-                if ($(this).is(':visible')) {
-                    if ($(this).val() === '') {
-                        isComplete = false;
-                        return false; // Sale del bucle si encuentra un campo vacío
-                    }
-                }
-            });
-
-            // Actualiza el estado del botón
-            if (isComplete) {
-                $('#btnGuardar').prop('disabled', false);
-            } else {
-                $('#btnGuardar').prop('disabled', true);
-            }
+    function checkFormCompletion() {
+      var isComplete = true;
+      $('input, select, textarea').each(function () {
+        if ($(this).is(':visible')) {
+          if ($(this).val() === '') {
+            isComplete = false;
+            return false; // Sale del bucle si encuentra un campo vacío
+          }
         }
+      });
 
-        // Verificar el estado del formulario en cada cambio de campo
-        $('input, select, textarea').on('input change', function () {
-            checkFormCompletion();
-        });
+      // Actualiza el estado del botón
+      if (isComplete) {
+        $('#btnGuardar').prop('disabled', false);
+      } else {
+        $('#btnGuardar').prop('disabled', true);
+      }
+    }
+
+    // Verificar el estado del formulario en cada cambio de campo
+    $('input, select, textarea').on('input change', function () {
+      checkFormCompletion();
     });
+  });
 </script>

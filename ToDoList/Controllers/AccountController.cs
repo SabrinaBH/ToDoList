@@ -13,7 +13,7 @@ namespace ToDoList.Controllers
     // GET: CuentaLogin
 
     FirebaseAuthProvider auth;
-    HandlerObtenerDatos DBServer = new HandlerObtenerDatos();
+    HandlerObtenerDatos DBServer = new();
 
     public AccountController()
     {
@@ -138,21 +138,24 @@ namespace ToDoList.Controllers
       Usuario = new Usuario();
       HttpContext.Session.Remove("_UserToken");
       HttpContext.Session.Remove("_UserId");
+      HttpContext.Session.Remove("_IsGame");
       return RedirectToAction("Login", "Account");
     }
 
-    public Usuario ObtenerUsuario(string id) 
-     {
-        return DBServer.ObtenerUsuario(id);
-     }
+    public Usuario ObtenerUsuario(string id)
+    {
+      return DBServer.ObtenerUsuario(id);
+    }
 
     public bool SetSession(string email, string token)
     {
       var guid = DBServer.ObtenerIDUsuario(email);
       Usuario = DBServer.ObtenerUsuario(guid);
+      var isGame = Usuario.EsUsuarioDeJuego;
       HttpContext.Session.SetString("_UserId", guid);
       HttpContext.Session.SetString("_UserToken", token);
-      bool isValid = Guid.TryParse(guid, out Guid guidOutput); // Guid retornado es valido
+      HttpContext.Session.SetString("_IsGame", isGame ? "1" : "0");
+      bool isValid = Guid.TryParse(guid, out _); // Guid retornado es valido
       if (isValid)
       {
         return true;
