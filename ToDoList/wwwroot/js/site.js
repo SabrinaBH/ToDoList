@@ -4,28 +4,16 @@
 // Write your JavaScript code.
 
 jQuery(document).ready(function () {
-    //Se crean los objetos draggables por cada elementos de las listas
-    var drag1 = $("#listaPendientes ul li").draggable({
-        revert: true,
-        distance: 10
-    });
-    var drag2 = $("#listaProceso ul li").draggable({
-        revert: true,
-        distance: 10
-    });
-    var drag3 = $("#listaTerminados ul li").draggable({
-        revert: true,
-        distance: 10
-    });
     //Se hacen los elementos de la lista sortables para que acepten el drop
     $(".sortable").sortable({
         connectWith: ".sortable",
         dropOnEmpty: true,
         update: function (event, ui) {
-            var tarea = ui.item.children().children();
+            var tarea = ui.item.children().children().children();
             // Se actualiza el estilo
             var claseActual = tarea.attr("class"); //Se obtiene la clase actual de la tarea
             tarea.removeClass(claseActual); //Se elimina la clase actual
+            var nuevoEstado = '';
             //Se pregunta en cual columna se paso y aplica el estilo correspondiente
             if (ui.item.parent().attr("id") == "listaPendientes") {
                 //Se revisa si la columna esta vacia y se quita el de no elementos
@@ -37,6 +25,7 @@ jQuery(document).ready(function () {
                     }
                 }
                 tarea.addClass("col-item-pendiente");
+                nuevoEstado = '0';
             }
             if (ui.item.parent().attr("id") == "listaProceso") {
                 var children = ui.item.parent().children();
@@ -47,6 +36,7 @@ jQuery(document).ready(function () {
                     }
                 }
                 tarea.addClass("col-item-proceso");
+                nuevoEstado = '1';
             }
             if (ui.item.parent().attr("id") == "listaTerminados") {
                 var children = ui.item.parent().children();
@@ -57,6 +47,7 @@ jQuery(document).ready(function () {
                     }
                 }
                 tarea.addClass("col-item-terminado");
+                nuevoEstado = '2';
             }
             // *** Se actualizan las cantidades de las columnas ***
             //Se obtiene las columnas
@@ -145,10 +136,15 @@ jQuery(document).ready(function () {
                 }
             }
             //Hacer codigo para actualizar a db
+            var data = tarea.attr("id");
+            data += "|" + nuevoEstado;
+            $.post({
+                url: '/Tarea/UpdateState',
+                data: 'data=' + data,
+                success: function (data) {
+                    console.log(data);
+                }
+            })
         }
     }).disableSelection();
 });
-
-function actualizarCantidades() {
-    
-}

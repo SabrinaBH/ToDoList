@@ -15,7 +15,7 @@
         <h2>Pendientes</h2>
         <h4>@ViewBag.Pendientes</h4>
       </div>
-      <ul class="list-group sortable" id="listaPendientes">
+      <ul class="list-group" id="listaPendientes">
         @if (ViewBag.Pendientes == 0)
         {
           <div class="sin-tareas">
@@ -83,7 +83,7 @@
         <h2>Terminados</h2>
         <h4>@ViewBag.Terminados</h4>
       </div>
-      <ul class="list-group sortable" id="listaTerminados">
+      <ul class="list-group" id="listaTerminados">
         @if (ViewBag.Terminados == 0)
         {
           <div class="sin-tareas">

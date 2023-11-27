@@ -208,6 +208,27 @@ namespace Diseno.Controllers
       return View(tarea);
     }
 
+    [HttpPost]
+    public string UpdateState(string data)
+    {
+      string[] datos = data.Split('|');
+      try
+      {
+        if (_handlerObtenerDatos.ActualizarEstado(datos[0], Int32.Parse(datos[1])))
+        {
+          return "Actualizado";
+        }
+        else
+        {
+          return "Nel";
+        }
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        return "Nel";
+      }
+    }
+
     private bool TaskExists(string id)
     {
       var user = GetUserId();
