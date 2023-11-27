@@ -6,15 +6,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Firebase.Auth;
 using System.Threading;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Diseno.Controllers
 {
   public class TareaController : Controller
   {
-    public HandlerObtenerDatos _handlerObtenerDatos;
+    public HandlerObtenerDatos _handlerObtenerDatos = new();
+    public List<SelectListItem> prioridades = new();
+    public List<SelectListItem> dificultad = new();
+
     public TareaController()
     {
-      _handlerObtenerDatos = new HandlerObtenerDatos();
+      prioridades.Add(new SelectListItem { Text = "Baja", Value = "3" });
+      prioridades.Add(new SelectListItem { Text = "Media", Value = "2" });
+      prioridades.Add(new SelectListItem { Text = "Alta", Value = "1" });
+
+      dificultad.Add(new SelectListItem { Text = "1", Value = "1" });
+      dificultad.Add(new SelectListItem { Text = "2", Value = "2" });
+      dificultad.Add(new SelectListItem { Text = "3", Value = "3" });
+      dificultad.Add(new SelectListItem { Text = "4", Value = "4" });
+      dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
     }
 
     public IActionResult ListIndex()
@@ -31,11 +43,13 @@ namespace Diseno.Controllers
 
         List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
         List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+        List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
         int contadorPendientes = 0;
         int contadorProceso = 0;
         int contadorTerminado = 0;
         ViewBag.Categorias = categorias;
         ViewBag.Tareas = listaTareas;
+        ViewBag.Estados = estados;
         foreach (Tarea tarea in listaTareas)
         {
           if (tarea.Estado == 0)
@@ -99,6 +113,8 @@ namespace Diseno.Controllers
       ViewData["userId"] = GetUserId();
       List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
       ViewBag.Categorias = categorias;
+      ViewBag.Prioridades = prioridades;
+      ViewBag.Dificultad = dificultad;
       return View();
     }
 
@@ -136,16 +152,22 @@ namespace Diseno.Controllers
     [Route("/Tarea/{id}/Details")]
     public IActionResult Details(string id)
     {
+      ViewData["isGame"] = GetIsGame();
       ViewData["token"] = GetUserToken();
       var userId = GetUserId();
       Tarea task = _handlerObtenerDatos.ObtenerTareasUsuario(userId).FirstOrDefault(l => l.Id == id);
       List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+      List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
       ViewBag.Categorias = categorias;
+      ViewBag.Estados = estados;
+      ViewBag.Prioridades = prioridades;
+      ViewBag.Dificultad = dificultad;
       return View("Details", task);
     }
 
     public string GetUserId() => HttpContext.Session.GetString("_UserId");
     public string GetUserToken() => HttpContext.Session.GetString("_UserToken");
+    public string GetIsGame() => HttpContext.Session.GetString("_IsGame");
 
     [Route("/Tarea/{id}/Delete")]
     public IActionResult Delete(string id)
