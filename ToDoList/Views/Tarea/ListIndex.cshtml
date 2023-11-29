@@ -14,6 +14,25 @@
     <div class="barra-buscar">
       <input type="text" class="form-control" id="buscar" placeholder="Buscar">
     </div>
+    <div class="filter-container btn-group">
+      Filtros:
+      <select id="category-filter" class="btn btn-outline-primary m-1">
+        <option value="">Todas las categorías</option>
+        @foreach (var categoria in ViewBag.Categorias)
+        {
+          <option value="">@categoria.Nombre</option>
+        }
+      </select>
+
+      <select id="difficulty-filter" class="btn btn-outline-warning m-1">
+        <option value="">Todas las dificultades</option>
+        @foreach (var dificultad in ViewBag.Dificultades)
+        {
+          <option value="">@dificultad.Value</option>
+        }
+      </select>
+    </div>
+
   </div>
 
   <div class="row">

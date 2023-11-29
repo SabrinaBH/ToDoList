@@ -50,6 +50,7 @@ namespace Diseno.Controllers
         ViewBag.Categorias = categorias;
         ViewBag.Tareas = listaTareas;
         ViewBag.Estados = estados;
+        ViewBag.Dificultades = dificultad;
         foreach (Tarea tarea in listaTareas)
         {
           if (tarea.Estado == 0)
