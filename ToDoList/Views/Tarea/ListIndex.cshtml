@@ -5,14 +5,49 @@
   string uno = "Alta";
   string dos = "Media";
   string tres = "Baja";
+  var tareasSeleccionadas = ViewBag.Tareas;
 }
 
 <html>
 <body>
+  @{
+    string? categoriaSeleccionada = ViewBag.NombreCategoriaSeleccionada;
+    string categoriaActual = categoriaSeleccionada ?? "todas";
+    var dificultadActual = "todas";
+  }
   <div class="buscar-contenedor">
     <a href="/Tarea/AddTask" class="btn-agregar">Nueva Tarea</a>
     <div class="barra-buscar">
       <input type="text" class="form-control" id="buscar" placeholder="Buscar">
+    </div>
+    <div class="filter-container btn-group">
+      Filtros:
+      <select id="category-filter" class="btn btn-outline-primary m-1" onchange="updateTasks()">
+        <option value="todas"
+                selected="@(categoriaActual == "todas")">
+          Todas las categorías
+        </option>
+        @foreach (var categoria in ViewBag.Categorias)
+        {
+          <option value="@categoria.Nombre"
+                  selected="@(categoria.Nombre == categoriaActual)">
+            @categoria.Nombre
+          </option>
+        }
+      </select>
+
+      <select id="difficulty-filter" class="btn btn-outline-warning m-1" onchange="updateTasks()">
+        <option value="" selected="@(ViewBag.DificultadSeleccionada == null)">
+          Todas las dificultades
+        </option>
+        @foreach (var dificultad in ViewBag.Dificultades)
+        {
+          <option value="@dificultad.Value"
+                  selected="@(dificultad.Value == ViewBag.DificultadSeleccionada)">
+            @dificultad.Value
+          </option>
+        }
+      </select>
     </div>
   </div>
 
@@ -32,11 +67,13 @@
           }
           else
           {
-            @foreach (var tarea in ViewBag.Tareas)
+            @foreach (var tarea in tareasSeleccionadas)
             {
               if (tarea.Estado == 0)
               {
-                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
+                <form title="Doble click para ver detalles"
+                      type="submit"
+                      ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list1-item" id="@tarea.Id">
                   <div class="row">
                     <div class="col-item-pendiente" id="@tarea.Id">
@@ -103,12 +140,14 @@
           }
           else
           {
-            @foreach (var tarea in ViewBag.Tareas)
+            @foreach (var tarea in tareasSeleccionadas)
             {
 
               if (tarea.Estado == 1)
               {
-                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
+                <form title="Doble click para ver detalles"
+                      type="submit"
+                      ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list2-item" data-tarea="@tarea.Id">
                   <div class="row">
                     <div class="col-item-proceso" id="@tarea.Id">
@@ -174,11 +213,13 @@
           }
           else
           {
-            @foreach (var tarea in ViewBag.Tareas)
+            @foreach (var tarea in tareasSeleccionadas)
             {
               if (tarea.Estado == 2)
               {
-                <form title="Doble click para ver detalles" type="submit" ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
+                <form title="Doble click para ver detalles"
+                      type="submit"
+                      ondblclick="location.href='@Url.Action("Details", "Tarea", new {id = @tarea.Id})'">
                 <li class="col-item list3-item" data-tarea="@tarea.Id">
                   <div class="row">
                     <div class="col-item-terminado" id="@tarea.Id">
@@ -230,15 +271,28 @@
       </div>
     </div>
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Asegúrate de incluir jQuery -->
+  <script>
+    function updateTasks() {
+      const categoryFilter = $("#category-filter");
+      const difficultyFilter = $("#difficulty-filter");
+      categoriaActual = categoryFilter.val();
+      dificultadActual = difficultyFilter.val();
+      const url = new URL(window.location.href);
+      url.searchParams.set("categoria", categoriaActual);
+
+      if (!dificultadActual) {
+        url.searchParams.delete("dificultad");
+      } else {
+        url.searchParams.set("dificultad", dificultadActual);
+      }
+
+      window.location.search = url.search;
+    }
+  </script>
 </body>
 </html>
 
-<script>
-  var myModal = document.getElementById('taskDetails')
-  var myInput = document.getElementById('myInput')
 
-  myModal.addEventListener('shown.bs.modal', function () {
-    myInput.focus()
-  })
 
-</script>

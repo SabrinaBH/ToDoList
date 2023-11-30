@@ -29,7 +29,11 @@ namespace Diseno.Controllers
       dificultad.Add(new SelectListItem { Text = "5", Value = "5" });
     }
 
-    public IActionResult ListIndex()
+    [Route("/Tareas")]
+    public IActionResult ListIndex(
+      [FromQuery(Name = "categoria")] string? nombreCategoriaSeleccionada,
+      [FromQuery(Name = "dificultad")] string? dificultadSeleccionada
+    )
     {
       var userToken = GetUserToken();
       if (userToken == null)
@@ -41,8 +45,18 @@ namespace Diseno.Controllers
         var userId = GetUserId();
         ViewData["token"] = userToken;
 
-        List<Tarea> listaTareas = _handlerObtenerDatos.ObtenerTareasUsuario(userId.ToUpper());
-        List<Categoria> categorias = _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+        List<Categoria> categorias =
+          _handlerObtenerDatos.ObtenerCategoriasUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
+        var categoriaSeleccionada =
+          nombreCategoriaSeleccionada == null ? null : categorias.Find(c => c.Nombre == nombreCategoriaSeleccionada);
+
+        List<Tarea> todasLasTareas =
+          _handlerObtenerDatos
+            .ObtenerTareasUsuario(userId.ToUpper());
+        var listaTareas =
+          todasLasTareas
+          .FindAll(t => categoriaSeleccionada == null || t.Categoria == categoriaSeleccionada.Id)
+          .FindAll(t => dificultadSeleccionada == null || t.Dificultad.ToString() == dificultadSeleccionada);
         List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
         int contadorPendientes = 0;
         int contadorProceso = 0;
@@ -50,6 +64,9 @@ namespace Diseno.Controllers
         ViewBag.Categorias = categorias;
         ViewBag.Tareas = listaTareas;
         ViewBag.Estados = estados;
+        ViewBag.Dificultades = dificultad;
+        ViewBag.NombreCategoriaSeleccionada = nombreCategoriaSeleccionada;
+        ViewBag.DificultadSeleccionada = dificultadSeleccionada;
         foreach (Tarea tarea in listaTareas)
         {
           if (tarea.Estado == 0)
