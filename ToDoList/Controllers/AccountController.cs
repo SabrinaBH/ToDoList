@@ -50,7 +50,7 @@ namespace ToDoList.Controllers
             var UserExistInDB = SetSession(model.Email!, token);
             if (UserExistInDB)
             {
-              ViewData["username"] = model.Name! + " " + model.LastName!;
+              TempData["username"] = model.Name!+ " " + model.LastName!;
               if (DBServer.ObtenerEsJuego(model.Email!))
               {
                 return RedirectToAction("GameIndex", "Tarea");
