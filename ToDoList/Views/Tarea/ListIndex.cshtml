@@ -24,7 +24,9 @@
       Filtros:
       <select id="category-filter" class="btn btn-outline-primary m-1" onchange="updateTasks()">
         <option value="todas"
-                selected="@(categoriaActual == "todas")">Todas las categorías</option>
+                selected="@(categoriaActual == "todas")">
+          Todas las categorías
+        </option>
         @foreach (var categoria in ViewBag.Categorias)
         {
           <option value="@categoria.Nombre"
@@ -34,11 +36,16 @@
         }
       </select>
 
-      <select id="difficulty-filter" class="btn btn-outline-warning m-1">
-        <option value="todas">Todas las dificultades</option>
+      <select id="difficulty-filter" class="btn btn-outline-warning m-1" onchange="updateTasks()">
+        <option value="" selected="@(ViewBag.DificultadSeleccionada == null)">
+          Todas las dificultades
+        </option>
         @foreach (var dificultad in ViewBag.Dificultades)
         {
-          <option value="@dificultad.Value">@dificultad.Value</option>
+          <option value="@dificultad.Value"
+                  selected="@(dificultad.Value == ViewBag.DificultadSeleccionada)">
+            @dificultad.Value
+          </option>
         }
       </select>
     </div>
@@ -268,12 +275,20 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Asegúrate de incluir jQuery -->
   <script>
     function updateTasks() {
-      const $categoryFilter = $("#category-filter");
-      const $difficultyFilter = $("#difficulty-filter");
-      categoriaActual = $categoryFilter.val();
-      dificultadActual = $difficultyFilter.val();
+      const categoryFilter = $("#category-filter");
+      const difficultyFilter = $("#difficulty-filter");
+      categoriaActual = categoryFilter.val();
+      dificultadActual = difficultyFilter.val();
+      const url = new URL(window.location.href);
+      url.searchParams.set("categoria", categoriaActual);
 
-      window.location.search = '?categoria=' + categoriaActual;
+      if (!dificultadActual) {
+        url.searchParams.delete("dificultad");
+      } else {
+        url.searchParams.set("dificultad", dificultadActual);
+      }
+
+      window.location.search = url.search;
     }
   </script>
 </body>

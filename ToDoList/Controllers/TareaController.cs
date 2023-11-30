@@ -30,7 +30,10 @@ namespace Diseno.Controllers
     }
 
     [Route("/Tareas")]
-    public IActionResult ListIndex([FromQuery(Name = "categoria")] string? nombreCategoriaSeleccionada)
+    public IActionResult ListIndex(
+      [FromQuery(Name = "categoria")] string? nombreCategoriaSeleccionada,
+      [FromQuery(Name = "dificultad")] string? dificultadSeleccionada
+    )
     {
       var userToken = GetUserToken();
       if (userToken == null)
@@ -50,10 +53,10 @@ namespace Diseno.Controllers
         List<Tarea> todasLasTareas =
           _handlerObtenerDatos
             .ObtenerTareasUsuario(userId.ToUpper());
-        List<Tarea> listaTareas =
-          categoriaSeleccionada == null
-            ? todasLasTareas
-            : todasLasTareas.FindAll(t => t.Categoria == categoriaSeleccionada.Id);
+        var listaTareas =
+          todasLasTareas
+          .FindAll(t => categoriaSeleccionada == null || t.Categoria == categoriaSeleccionada.Id)
+          .FindAll(t => dificultadSeleccionada == null || t.Dificultad.ToString() == dificultadSeleccionada);
         List<Estado> estados = _handlerObtenerDatos.ObtenerEstadosUsuario(_handlerObtenerDatos.ObtenerIDUsuarioAdmin());
         int contadorPendientes = 0;
         int contadorProceso = 0;
@@ -63,6 +66,7 @@ namespace Diseno.Controllers
         ViewBag.Estados = estados;
         ViewBag.Dificultades = dificultad;
         ViewBag.NombreCategoriaSeleccionada = nombreCategoriaSeleccionada;
+        ViewBag.DificultadSeleccionada = dificultadSeleccionada;
         foreach (Tarea tarea in listaTareas)
         {
           if (tarea.Estado == 0)
